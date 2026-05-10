@@ -1,95 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 
-// ─── LOGIN ────────────────────────────────────────────────────────────────────
-const ACCESS_PASSWORD = "Ray@1997"; // Troque para sua senha
-
-function LoginScreen({ onLogin }) {
-  const [pwd, setPwd] = useState("");
-  const [error, setError] = useState("");
-  const [shake, setShake] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-  const [blocked, setBlocked] = useState(false);
-  const inputRef = useRef(null);
-  useEffect(() => { inputRef.current?.focus(); }, []);
-
-  const handleLogin = () => {
-    if (blocked) return;
-    if (pwd === ACCESS_PASSWORD) {
-      sessionStorage.setItem("squad_auth", "1");
-      onLogin();
-    } else {
-      const next = attempts + 1;
-      setAttempts(next);
-      setError(next >= 5 ? "Muitas tentativas. Aguarde 30s." : "Acesso negado. Senha incorreta.");
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
-      setPwd("");
-      if (next >= 5) {
-        setBlocked(true);
-        setTimeout(() => { setBlocked(false); setAttempts(0); setError(""); }, 30000);
-      }
-    }
-  };
-
-  return (
-    <div style={{
-      height:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
-      background:"#050508",fontFamily:"'Share Tech Mono','Courier New',monospace",
-      position:"relative",overflow:"hidden",
-    }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
-        @keyframes scanmove{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
-        @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-        @keyframes fadein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes glow{0%,100%{opacity:1}50%{opacity:0.3}}
-        .lbox{animation:fadein 0.6s ease}
-        .shake{animation:shake 0.4s ease}
-      `}</style>
-      <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:"linear-gradient(#00ff88 1px,transparent 1px),linear-gradient(90deg,#00ff88 1px,transparent 1px)",backgroundSize:"40px 40px"}}/>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg,transparent,#00ff8844,transparent)",animation:"scanmove 4s linear infinite",pointerEvents:"none"}}/>
-      <div className={`lbox${shake?" shake":""}`} style={{
-        width:380,padding:"40px 36px",background:"#08080e",
-        border:"1px solid #00ff8830",borderRadius:12,
-        boxShadow:"0 0 60px #00ff8810,0 0 120px #00ff8806",position:"relative",
-      }}>
-        <div style={{position:"absolute",top:0,left:20,right:20,height:1,background:"linear-gradient(90deg,transparent,#00ff8866,transparent)"}}/>
-        <div style={{textAlign:"center",marginBottom:32}}>
-          <div style={{width:56,height:56,borderRadius:14,margin:"0 auto 16px",background:"linear-gradient(135deg,#00ff8820,#0088ff20)",border:"1px solid #00ff8840",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,boxShadow:"0 0 30px #00ff8820"}}>⚡</div>
-          <div style={{fontSize:16,fontWeight:900,color:"#00ff88",letterSpacing:4,fontFamily:"'Orbitron',monospace",marginBottom:4}}>PENTEST SQUAD</div>
-          <div style={{fontSize:9,color:"#334433",letterSpacing:3}}>ACESSO RESTRITO • AUTORIZADO APENAS</div>
-        </div>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:24,padding:"8px 12px",background:"#0a1a0a",borderRadius:6,border:"1px solid #0a2a0a"}}>
-          <div style={{width:6,height:6,borderRadius:"50%",background:"#00ff88",boxShadow:"0 0 6px #00ff88",animation:"glow 2s infinite"}}/>
-          <span style={{fontSize:10,color:"#334433",letterSpacing:1}}>SISTEMA OPERACIONAL • AGUARDANDO AUTENTICAÇÃO</span>
-        </div>
-        <div style={{marginBottom:16}}>
-          <div style={{fontSize:9,color:"#334433",letterSpacing:2,marginBottom:8}}>SENHA DE ACESSO</div>
-          <input
-            ref={inputRef} type="password" value={pwd}
-            onChange={e=>{setPwd(e.target.value);setError("");}}
-            onKeyDown={e=>e.key==="Enter"&&handleLogin()}
-            placeholder="••••••••" disabled={blocked}
-            style={{width:"100%",background:"#050508",border:`1px solid ${error?"#ff444440":"#0a2a0a"}`,borderRadius:8,padding:"12px 14px",color:"#aaccaa",fontSize:14,fontFamily:"inherit",outline:"none",boxSizing:"border-box",letterSpacing:4,opacity:blocked?0.5:1}}
-          />
-        </div>
-        {error&&<div style={{fontSize:10,color:"#ff4444",background:"#ff000010",border:"1px solid #ff444420",borderRadius:6,padding:"8px 12px",marginBottom:16,letterSpacing:1}}>⚠ {error}</div>}
-        <button onClick={handleLogin} disabled={blocked||!pwd} style={{
-          width:"100%",padding:"13px",borderRadius:8,border:"1px solid #00ff8840",
-          background:(blocked||!pwd)?"#08080e":"linear-gradient(135deg,#001a00,#0a2a0a)",
-          color:(blocked||!pwd)?"#334433":"#00ff88",
-          cursor:(blocked||!pwd)?"not-allowed":"pointer",
-          fontSize:12,fontFamily:"'Orbitron',monospace",fontWeight:"bold",letterSpacing:3,
-          boxShadow:(blocked||!pwd)?"none":"0 0 20px #00ff8815",transition:"all 0.2s",
-        }}>{blocked?"AGUARDE...":"AUTENTICAR"}</button>
-        <div style={{marginTop:24,textAlign:"center",fontSize:9,color:"#1a2a1a",letterSpacing:1}}>EZEQUIEL CYBER SQUAD v3.0 • USO EXCLUSIVO DO OPERADOR</div>
-      </div>
-    </div>
-  );
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 const AGENTS = [
   { id: "dispatch", name: "NEXUS", role: "Mission Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto. Coordena handoffs e conversas entre agentes." },
   { id: "commander", name: "Rex", role: "Squad Commander", team: "red", icon: "⚔️", color: "#ff4444", specialty: "Estratégia ofensiva, metodologias PTES/OWASP/OSSTMM, coordenação de operações complexas de pentest." },
@@ -126,6 +36,7 @@ const REPOS = {
 const AGENT_MAP = AGENTS.reduce((acc, a) => { acc[a.id] = a; return acc; }, {});
 
 async function callClaude(messages, systemPrompt) {
+  // Usa o proxy do Cloudflare Pages Functions — a API key fica segura no servidor
   const res = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -193,77 +104,7 @@ REGRAS:
 - Ética: apenas ambientes autorizados, CTFs e labs
 - Para GitHub: gere conteúdo markdown profissional pronto para copiar`;
 
-// ── Renderizador de Markdown simples ─────────────────────────────────────────
-function renderMarkdown(text) {
-  if (!text) return null;
-  const lines = text.split("\n");
-  const elements = [];
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    // Bloco de código ```
-    if (line.trim().startsWith("```")) {
-      const lang = line.trim().slice(3).trim();
-      const codeLines = [];
-      i++;
-      while (i < lines.length && !lines[i].trim().startsWith("```")) {
-        codeLines.push(lines[i]);
-        i++;
-      }
-      elements.push(
-        <div key={i} style={{ position: "relative", margin: "10px 0" }}>
-          {lang && <div style={{ fontSize: 9, color: "#00ff8888", background: "#0a1a0a", padding: "3px 10px", borderRadius: "6px 6px 0 0", borderTop: "1px solid #1a3a1a", borderLeft: "1px solid #1a3a1a", borderRight: "1px solid #1a3a1a", fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{lang}</div>}
-          <pre style={{ margin: 0, borderRadius: lang ? "0 0 6px 6px" : "6px" }}>{codeLines.join("\n")}</pre>
-        </div>
-      );
-    }
-    // Título ##
-    else if (line.startsWith("## ")) {
-      elements.push(<div key={i} style={{ fontSize: 13, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(3)}</div>);
-    }
-    else if (line.startsWith("# ")) {
-      elements.push(<div key={i} style={{ fontSize: 14, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(2)}</div>);
-    }
-    // Linha horizontal ---
-    else if (line.trim() === "---") {
-      elements.push(<div key={i} style={{ height: 1, background: "#0a2a0a", margin: "10px 0" }} />);
-    }
-    // Item de lista - ou *
-    else if (line.match(/^[\-\*] /)) {
-      elements.push(
-        <div key={i} style={{ display: "flex", gap: 8, marginBottom: 3 }}>
-          <span style={{ color: "#00ff88", flexShrink: 0 }}>▸</span>
-          <span>{inlineFormat(line.slice(2))}</span>
-        </div>
-      );
-    }
-    // Linha vazia
-    else if (line.trim() === "") {
-      elements.push(<div key={i} style={{ height: 6 }} />);
-    }
-    // Texto normal
-    else {
-      elements.push(<div key={i} style={{ marginBottom: 2 }}>{inlineFormat(line)}</div>);
-    }
-    i++;
-  }
-  return elements;
-}
-
-function inlineFormat(text) {
-  // **bold** e `code` inline
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
-  return parts.map((part, i) => {
-    if (part.startsWith("`") && part.endsWith("`"))
-      return <code key={i}>{part.slice(1, -1)}</code>;
-    if (part.startsWith("**") && part.endsWith("**"))
-      return <strong key={i} style={{ color: "#00ff88" }}>{part.slice(2, -2)}</strong>;
-    return part;
-  });
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
-function Squad() {
+export default function App() {
   const [messages, setMessages] = useState([{
     type: "system",
     content: "NEXUS online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
@@ -273,7 +114,6 @@ function Squad() {
   const [sidebarTab, setSidebarTab] = useState("agents");
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
   const [search, setSearch] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -380,28 +220,6 @@ function Squad() {
         code { background: #0a0f0a; color: #00ff88; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
         .quick-btn:hover { background: #001a00 !important; color: #00ff88 !important; border-color: #00ff8844 !important; }
         .agent-card:hover { border-color: inherit !important; background: rgba(255,255,255,0.03) !important; }
-        /* ── MOBILE ── */
-        * { -webkit-tap-highlight-color: transparent; }
-        textarea { font-size: 16px !important; } /* evita zoom no iOS */
-        .mob-input { font-size: 16px !important; }
-        .sidebar-overlay { position:fixed;inset:0;background:#000000aa;z-index:40; }
-        .sidebar-drawer {
-          position:fixed;top:0;left:0;bottom:0;width:260px;z-index:50;
-          background:#030306;border-right:1px solid #0a2a0a;
-          transform:translateX(-100%);transition:transform 0.25s ease;
-        }
-        .sidebar-drawer.open { transform:translateX(0); }
-        @media (max-width: 640px) {
-          .desktop-sidebar { display: none !important; }
-          .header-agents { display: none !important; }
-          .header-status { display: none !important; }
-          .quick-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 641px) {
-          .mob-sidebar-btn { display: none !important; }
-          .sidebar-drawer { display: none !important; }
-          .sidebar-overlay { display: none !important; }
-        }
       `}</style>
 
       {/* Header */}
@@ -431,8 +249,7 @@ function Squad() {
           </div>
         </div>
 
-        {/* Agentes ativos — esconde no mobile */}
-        <div className="header-agents" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {activeAgents.slice(0, 4).map(a => (
             <div key={a.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: a.color, boxShadow: `0 0 6px ${a.color}` }} className="pulse" />
@@ -442,25 +259,14 @@ function Squad() {
           {activeAgents.length > 4 && <span style={{ fontSize: 10, color: "#334" }}>+{activeAgents.length - 4}</span>}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div className="header-status" style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>
-            🟢 SISTEMA OPERACIONAL
-          </div>
-          {/* Botão hamburger — só mobile */}
-          <button className="mob-sidebar-btn" onClick={() => setSidebarOpen(true)} style={{
-            background: "#0a1a0a", border: "1px solid #0a2a0a", borderRadius: 6,
-            color: "#00ff88", padding: "6px 10px", cursor: "pointer", fontSize: 16,
-            display: "flex", alignItems: "center",
-          }}>☰</button>
+        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>
+          🟢 SISTEMA OPERACIONAL
         </div>
       </div>
 
-      {/* Sidebar mobile drawer overlay */}
-      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
-
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        {/* Sidebar desktop */}
-        <div className="desktop-sidebar" style={{
+        {/* Sidebar */}
+        <div style={{
           width: 220, background: "#030306",
           borderRight: "1px solid #0a1a0a",
           display: "flex", flexDirection: "column", flexShrink: 0,
@@ -571,73 +377,6 @@ function Squad() {
           )}
         </div>
 
-        {/* Sidebar mobile drawer */}
-        <div className={`sidebar-drawer${sidebarOpen ? " open" : ""}`}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 12px 8px", borderBottom: "1px solid #0a1a0a" }}>
-            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: 2, fontFamily: "'Orbitron',monospace" }}>AGENTES</span>
-            <button onClick={() => setSidebarOpen(false)} style={{ background: "none", border: "none", color: "#334433", fontSize: 18, cursor: "pointer", lineHeight: 1 }}>✕</button>
-          </div>
-          <div style={{ display: "flex", borderBottom: "1px solid #0a1a0a" }}>
-            {["agents", "repos"].map(tab => (
-              <button key={tab} onClick={() => setSidebarTab(tab)} style={{
-                flex: 1, padding: "10px 0", border: "none", cursor: "pointer",
-                background: sidebarTab === tab ? "#0a1a0a" : "transparent",
-                color: sidebarTab === tab ? "#00ff88" : "#334",
-                fontSize: 10, letterSpacing: 1, textTransform: "uppercase",
-                borderBottom: sidebarTab === tab ? "2px solid #00ff88" : "2px solid transparent",
-                transition: "all 0.2s", fontFamily: "inherit",
-              }}>{tab}</button>
-            ))}
-          </div>
-          <div style={{ flex: 1, overflowY: "auto", height: "calc(100vh - 100px)" }}>
-            {sidebarTab === "agents" && (
-              <div style={{ padding: "8px" }}>
-                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="buscar agente..."
-                  style={{ width: "100%", background: "#0a0a0f", border: "1px solid #0a2a0a", borderRadius: 4, padding: "5px 8px", color: "#668866", fontSize: 10, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
-                {["core","red","specialist","blue"].map(team => {
-                  const agents = filteredAgents.filter(a => a.team === team);
-                  const tColors = { core: "#00ff88", red: "#ff4444", specialist: "#ffaa00", blue: "#0088ff" };
-                  const tLabels = { core: "◆ CORE", red: "◆ RED TEAM", specialist: "◆ SPECIALISTS", blue: "◆ BLUE TEAM" };
-                  if (!agents.length) return null;
-                  return (
-                    <div key={team}>
-                      <div style={{ padding: "8px 10px 4px", fontSize: 8, color: tColors[team], letterSpacing: 2, opacity: 0.7 }}>{tLabels[team]}</div>
-                      {agents.map(agent => {
-                        const isActive = activeAgents.some(a => a.id === agent.id);
-                        return (
-                          <div key={agent.id} onClick={() => setSidebarOpen(false)} style={{
-                            display: "flex", alignItems: "center", gap: 8, padding: "8px 10px",
-                            background: isActive ? agent.color + "10" : "transparent",
-                            borderLeft: isActive ? `2px solid ${agent.color}` : "2px solid transparent",
-                          }}>
-                            <div style={{ width: 24, height: 24, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>{agent.icon}</div>
-                            <div>
-                              <div style={{ fontSize: 12, color: isActive ? agent.color : "#667766", fontWeight: "bold" }}>{agent.name}</div>
-                              <div style={{ fontSize: 9, color: "#334433" }}>{agent.role}</div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            {sidebarTab === "repos" && (
-              <div style={{ padding: 10 }}>
-                <div style={{ fontSize: 9, color: "#8844ee", letterSpacing: 2, marginBottom: 12 }}>◆ GITHUB REPOS</div>
-                {Object.values({ scripts: { name: "ezequielpentest/scripts", url: "https://github.com/ezequielpentest/scripts", desc: "Scripts de pentest" }, htb: { name: "ezequielpentest/htb-writeups", url: "https://github.com/ezequielpentest/htb-writeups", desc: "Writeups HTB" }, notas: { name: "ezequielpentest/pentest-notas", url: "https://github.com/ezequielpentest/pentest-notas", desc: "Notas de pentest" } }).map(repo => (
-                  <div key={repo.name} style={{ background: "#0a0a14", border: "1px solid #1a1a3a", borderRadius: 8, padding: 10, marginBottom: 8 }}>
-                    <div style={{ fontSize: 10, color: "#8844ee", fontWeight: "bold", marginBottom: 4 }}>🐙 {repo.name}</div>
-                    <div style={{ fontSize: 9, color: "#445", marginBottom: 6 }}>{repo.desc}</div>
-                    <a href={repo.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 9, color: "#8844ee", textDecoration: "none", border: "1px solid #8844ee44", borderRadius: 3, padding: "2px 6px" }}>↗ abrir</a>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Chat */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
           {/* Scanline overlay */}
@@ -655,7 +394,7 @@ function Squad() {
                     Descreva sua situação em linguagem natural. O sistema identificará o agente ideal e coordenará o time.
                   </div>
                 </div>
-                <div className="quick-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
                   {quickPrompts.map(p => (
                     <button key={p} className="quick-btn" onClick={() => { setInput(p); inputRef.current?.focus(); }} style={{
                       background: "#08080e", border: "1px solid #0a2a0a", borderRadius: 8,
@@ -736,8 +475,8 @@ function Squad() {
                               <span style={{ fontSize: 9, color: "#445" }}>{agent.role}</span>
                               <div style={{ width: 4, height: 4, borderRadius: "50%", background: agent.color, marginLeft: "auto", boxShadow: `0 0 4px ${agent.color}` }} />
                             </div>
-                            <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8 }}>
-                              {renderMarkdown(conv.message)}
+                            <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>
+                              {conv.message}
                             </div>
                           </div>
                         </div>
@@ -792,13 +531,12 @@ function Squad() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder="Descreva sua situação..."
-                  className="mob-input"
+                  placeholder="Descreva sua situação... NEXUS identificará o agente ideal"
                   style={{
                     width: "100%", background: "#08080e",
                     border: "1px solid #0a2a0a", borderRadius: 8,
                     padding: "11px 14px 11px 30px",
-                    color: "#aaccaa", fontSize: 16, fontFamily: "inherit",
+                    color: "#aaccaa", fontSize: 12, fontFamily: "inherit",
                     outline: "none", boxSizing: "border-box",
                     transition: "border-color 0.2s",
                   }}
@@ -827,10 +565,4 @@ function Squad() {
       </div>
     </div>
   );
-}
-
-export default function App() {
-  const [auth, setAuth] = useState(() => sessionStorage.getItem("squad_auth") === "1");
-  if (!auth) return <LoginScreen onLogin={() => setAuth(true)} />;
-  return <Squad />;
 }
