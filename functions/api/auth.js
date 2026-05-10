@@ -20,34 +20,52 @@ export async function onRequest(context) {
   }
   
   try {
-    const { username, password } = await request.json();
+    const { email, password } = await request.json();
+    const db = env.DB;
     
-    const VALID_USERNAME = env.ADMIN_USERNAME;
-    const VALID_PASSWORD = env.ADMIN_PASSWORD;
-    
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-      return new Response(JSON.stringify({ 
-        success: true, 
-        message: "Authenticated successfully"
-      }), {
-        status: 200,
+    if (!db) {
+      return new Response(JSON.stringify({ error: 'Database not connected' }), {
+        status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
     
+    // Buscar usuário no banco
+    const user = await db.prepare('SELECT * FROM users WHERE email = ?').bind(email).first();
+    
+    if (!user) {
+      return new Response(JSON.stringify({ success: false, error: 'Usuário não encontrado' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+    
+    // Hash da senha inserida para comparar
+    const encoder = new TextEncoder();
+    const hashedInput = await crypto.subtle.digest('SHA-256', encoder.encode(password));
+    const hashHex = [...new Uint8Array(hashedInput)].map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    if (hashHex !== user.password) {
+      return new Response(JSON.stringify({ success: false, error: 'Senha incorreta' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+    
+    // Gerar token simples
+    const token = btoa(`${email}:${Date.now()}`);
+    
     return new Response(JSON.stringify({ 
-      success: false, 
-      message: "Invalid credentials"
+      success: true, 
+      token: token,
+      user: { email: user.email, name: user.name }
     }), {
-      status: 401,
+      status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ 
-      success: false, 
-      error: error.message 
-    }), {
+    return new Response(JSON.stringify({ success: false, error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
