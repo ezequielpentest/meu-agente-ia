@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 // ─── LOGIN ────────────────────────────────────────────────────────────────────
-const ACCESS_PASSWORD = "Ray@1997"; // Troque para sua senha
+const ACCESS_PASSWORD = "Ray@1997";
 
 function LoginScreen({ onLogin }) {
   const [pwd, setPwd] = useState("");
@@ -33,9 +33,9 @@ function LoginScreen({ onLogin }) {
 
   return (
     <div style={{
-      height:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
-      background:"#050508",fontFamily:"'Share Tech Mono','Courier New',monospace",
-      position:"relative",overflow:"hidden",
+      height: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+      background: "#050508", fontFamily: "'Share Tech Mono','Courier New',monospace",
+      position: "relative", overflow: "hidden",
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
@@ -46,50 +46,49 @@ function LoginScreen({ onLogin }) {
         .lbox{animation:fadein 0.6s ease}
         .shake{animation:shake 0.4s ease}
       `}</style>
-      <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:"linear-gradient(#00ff88 1px,transparent 1px),linear-gradient(90deg,#00ff88 1px,transparent 1px)",backgroundSize:"40px 40px"}}/>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg,transparent,#00ff8844,transparent)",animation:"scanmove 4s linear infinite",pointerEvents:"none"}}/>
-      <div className={`lbox${shake?" shake":""}`} style={{
-        width:380,padding:"40px 36px",background:"#08080e",
-        border:"1px solid #00ff8830",borderRadius:12,
-        boxShadow:"0 0 60px #00ff8810,0 0 120px #00ff8806",position:"relative",
+      <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(#00ff88 1px,transparent 1px),linear-gradient(90deg,#00ff88 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg,transparent,#00ff8844,transparent)", animation: "scanmove 4s linear infinite", pointerEvents: "none" }} />
+      <div className={`lbox${shake ? " shake" : ""}`} style={{
+        width: 380, padding: "40px 36px", background: "#08080e",
+        border: "1px solid #00ff8830", borderRadius: 12,
+        boxShadow: "0 0 60px #00ff8810,0 0 120px #00ff8806", position: "relative",
       }}>
-        <div style={{position:"absolute",top:0,left:20,right:20,height:1,background:"linear-gradient(90deg,transparent,#00ff8866,transparent)"}}/>
-        <div style={{textAlign:"center",marginBottom:32}}>
-          <div style={{width:56,height:56,borderRadius:14,margin:"0 auto 16px",background:"linear-gradient(135deg,#00ff8820,#0088ff20)",border:"1px solid #00ff8840",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,boxShadow:"0 0 30px #00ff8820"}}>⚡</div>
-          <div style={{fontSize:16,fontWeight:900,color:"#00ff88",letterSpacing:4,fontFamily:"'Orbitron',monospace",marginBottom:4}}>PENTEST SQUAD</div>
-          <div style={{fontSize:9,color:"#334433",letterSpacing:3}}>ACESSO RESTRITO • AUTORIZADO APENAS</div>
+        <div style={{ position: "absolute", top: 0, left: 20, right: 20, height: 1, background: "linear-gradient(90deg,transparent,#00ff8866,transparent)" }} />
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ width: 56, height: 56, borderRadius: 14, margin: "0 auto 16px", background: "linear-gradient(135deg,#00ff8820,#0088ff20)", border: "1px solid #00ff8840", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, boxShadow: "0 0 30px #00ff8820" }}>⚡</div>
+          <div style={{ fontSize: 16, fontWeight: 900, color: "#00ff88", letterSpacing: 4, fontFamily: "'Orbitron',monospace", marginBottom: 4 }}>PENTEST SQUAD</div>
+          <div style={{ fontSize: 9, color: "#334433", letterSpacing: 3 }}>ACESSO RESTRITO • AUTORIZADO APENAS</div>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:24,padding:"8px 12px",background:"#0a1a0a",borderRadius:6,border:"1px solid #0a2a0a"}}>
-          <div style={{width:6,height:6,borderRadius:"50%",background:"#00ff88",boxShadow:"0 0 6px #00ff88",animation:"glow 2s infinite"}}/>
-          <span style={{fontSize:10,color:"#334433",letterSpacing:1}}>SISTEMA OPERACIONAL • AGUARDANDO AUTENTICAÇÃO</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 24, padding: "8px 12px", background: "#0a1a0a", borderRadius: 6, border: "1px solid #0a2a0a" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ff88", boxShadow: "0 0 6px #00ff88", animation: "glow 2s infinite" }} />
+          <span style={{ fontSize: 10, color: "#334433", letterSpacing: 1 }}>SISTEMA OPERACIONAL • AGUARDANDO AUTENTICAÇÃO</span>
         </div>
-        <div style={{marginBottom:16}}>
-          <div style={{fontSize:9,color:"#334433",letterSpacing:2,marginBottom:8}}>SENHA DE ACESSO</div>
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 9, color: "#334433", letterSpacing: 2, marginBottom: 8 }}>SENHA DE ACESSO</div>
           <input
             ref={inputRef} type="password" value={pwd}
-            onChange={e=>{setPwd(e.target.value);setError("");}}
-            onKeyDown={e=>e.key==="Enter"&&handleLogin()}
+            onChange={e => { setPwd(e.target.value); setError(""); }}
+            onKeyDown={e => e.key === "Enter" && handleLogin()}
             placeholder="••••••••" disabled={blocked}
-            style={{width:"100%",background:"#050508",border:`1px solid ${error?"#ff444440":"#0a2a0a"}`,borderRadius:8,padding:"12px 14px",color:"#aaccaa",fontSize:14,fontFamily:"inherit",outline:"none",boxSizing:"border-box",letterSpacing:4,opacity:blocked?0.5:1}}
+            style={{ width: "100%", background: "#050508", border: `1px solid ${error ? "#ff444440" : "#0a2a0a"}`, borderRadius: 8, padding: "12px 14px", color: "#aaccaa", fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box", letterSpacing: 4, opacity: blocked ? 0.5 : 1 }}
           />
         </div>
-        {error&&<div style={{fontSize:10,color:"#ff4444",background:"#ff000010",border:"1px solid #ff444420",borderRadius:6,padding:"8px 12px",marginBottom:16,letterSpacing:1}}>⚠ {error}</div>}
-        <button onClick={handleLogin} disabled={blocked||!pwd} style={{
-          width:"100%",padding:"13px",borderRadius:8,border:"1px solid #00ff8840",
-          background:(blocked||!pwd)?"#08080e":"linear-gradient(135deg,#001a00,#0a2a0a)",
-          color:(blocked||!pwd)?"#334433":"#00ff88",
-          cursor:(blocked||!pwd)?"not-allowed":"pointer",
-          fontSize:12,fontFamily:"'Orbitron',monospace",fontWeight:"bold",letterSpacing:3,
-          boxShadow:(blocked||!pwd)?"none":"0 0 20px #00ff8815",transition:"all 0.2s",
-        }}>{blocked?"AGUARDE...":"AUTENTICAR"}</button>
-        <div style={{marginTop:24,textAlign:"center",fontSize:9,color:"#1a2a1a",letterSpacing:1}}>EZEQUIEL CYBER SQUAD v3.0 • USO EXCLUSIVO DO OPERADOR</div>
+        {error && <div style={{ fontSize: 10, color: "#ff4444", background: "#ff000010", border: "1px solid #ff444420", borderRadius: 6, padding: "8px 12px", marginBottom: 16, letterSpacing: 1 }}>⚠ {error}</div>}
+        <button onClick={handleLogin} disabled={blocked || !pwd} style={{
+          width: "100%", padding: "13px", borderRadius: 8, border: "1px solid #00ff8840",
+          background: (blocked || !pwd) ? "#08080e" : "linear-gradient(135deg,#001a00,#0a2a0a)",
+          color: (blocked || !pwd) ? "#334433" : "#00ff88",
+          cursor: (blocked || !pwd) ? "not-allowed" : "pointer",
+          fontSize: 12, fontFamily: "'Orbitron',monospace", fontWeight: "bold", letterSpacing: 3,
+          boxShadow: (blocked || !pwd) ? "none" : "0 0 20px #00ff8815", transition: "all 0.2s",
+        }}>{blocked ? "AGUARDE..." : "AUTENTICAR"}</button>
+        <div style={{ marginTop: 24, textAlign: "center", fontSize: 9, color: "#1a2a1a", letterSpacing: 1 }}>EZEQUIEL CYBER SQUAD v3.0 • USO EXCLUSIVO DO OPERADOR</div>
       </div>
     </div>
   );
 }
-// ─────────────────────────────────────────────────────────────────────────────
 
-
+// ─── AGENTS ──────────────────────────────────────────────────────────────────
 const AGENTS = [
   { id: "dispatch", name: "EZEIA", role: "Command Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto. Coordena handoffs e conversas entre agentes." },
   { id: "commander", name: "Rex", role: "Squad Commander", team: "red", icon: "⚔️", color: "#ff4444", specialty: "Estratégia ofensiva, metodologias PTES/OWASP/OSSTMM, coordenação de operações complexas de pentest." },
@@ -193,7 +192,7 @@ REGRAS:
 - Ética: apenas ambientes autorizados, CTFs e labs
 - Para GitHub: gere conteúdo markdown profissional pronto para copiar`;
 
-// ── Renderizador de Markdown simples ─────────────────────────────────────────
+// ── Markdown renderer ─────────────────────────────────────────────────────────
 function renderMarkdown(text) {
   if (!text) return null;
   const lines = text.split("\n");
@@ -201,7 +200,6 @@ function renderMarkdown(text) {
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
-    // Bloco de código ```
     if (line.trim().startsWith("```")) {
       const lang = line.trim().slice(3).trim();
       const codeLines = [];
@@ -216,33 +214,22 @@ function renderMarkdown(text) {
           <pre style={{ margin: 0, borderRadius: lang ? "0 0 6px 6px" : "6px" }}>{codeLines.join("\n")}</pre>
         </div>
       );
-    }
-    // Título ##
-    else if (line.startsWith("## ")) {
+    } else if (line.startsWith("## ")) {
       elements.push(<div key={i} style={{ fontSize: 13, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(3)}</div>);
-    }
-    else if (line.startsWith("# ")) {
+    } else if (line.startsWith("# ")) {
       elements.push(<div key={i} style={{ fontSize: 14, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(2)}</div>);
-    }
-    // Linha horizontal ---
-    else if (line.trim() === "---") {
+    } else if (line.trim() === "---") {
       elements.push(<div key={i} style={{ height: 1, background: "#0a2a0a", margin: "10px 0" }} />);
-    }
-    // Item de lista - ou *
-    else if (line.match(/^[\-\*] /)) {
+    } else if (line.match(/^[\-\*] /)) {
       elements.push(
         <div key={i} style={{ display: "flex", gap: 8, marginBottom: 3 }}>
           <span style={{ color: "#00ff88", flexShrink: 0 }}>▸</span>
           <span>{inlineFormat(line.slice(2))}</span>
         </div>
       );
-    }
-    // Linha vazia
-    else if (line.trim() === "") {
+    } else if (line.trim() === "") {
       elements.push(<div key={i} style={{ height: 6 }} />);
-    }
-    // Texto normal
-    else {
+    } else {
       elements.push(<div key={i} style={{ marginBottom: 2 }}>{inlineFormat(line)}</div>);
     }
     i++;
@@ -251,7 +238,6 @@ function renderMarkdown(text) {
 }
 
 function inlineFormat(text) {
-  // **bold** e `code` inline
   const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith("`") && part.endsWith("`"))
@@ -261,33 +247,128 @@ function inlineFormat(text) {
     return part;
   });
 }
-// ─────────────────────────────────────────────────────────────────────────────
 
+// ─── SQUAD ────────────────────────────────────────────────────────────────────
 function Squad() {
-  const [messages, setMessages] = useState([{
-    type: "system",
-    content: "EZEIA online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
-  }]);
+  const INITIAL_MSG = [{ type: "system", content: "EZEIA online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário." }];
+
+  // ── sessões gerais ──
+  const [sessions, setSessions] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("ezeia_sessions") || "[]"); } catch { return []; }
+  });
+  const [currentSessionId, setCurrentSessionId] = useState(() => Date.now().toString());
+  const [messages, setMessages] = useState(INITIAL_MSG);
+
+  // ── chats individuais de agente (persistidos) ──
+  const [agentChats, setAgentChats] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("ezeia_agent_chats") || "{}"); } catch { return {}; }
+  });
+
+  // ── modo e navegação ──
+  const [chatMode, setChatMode] = useState("general"); // "general" | "agent"
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+  // ── UI ──
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sidebarTab, setSidebarTab] = useState("agents");
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [pinnedAgent, setPinnedAgent] = useState(null); // agente fixado pelo usuário
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, agentChats, selectedAgent, chatMode]);
 
+  const quickPrompts = [
+    "Preciso iniciar reconhecimento em um alvo web",
+    "Tenho acesso inicial, preciso escalar privilégios no Linux",
+    "Encontrei possível SQL Injection, como explorar manualmente?",
+    "Preciso escrever um writeup HTB para meu GitHub",
+    "Me ajude a estudar Buffer Overflow para o DCPT",
+    "Recebi um shell, o que fazer na pós-exploração?",
+    "Preciso de um script Python para automação de pentest",
+    "Como enumerar Active Directory depois de ter acesso?",
+  ];
+
+  // ── selecionar agente na sidebar ──
+  const handleSelectAgent = (agent) => {
+    if (agent.id === "dispatch") {
+      setChatMode("general");
+      setSelectedAgent(null);
+    } else {
+      setChatMode("agent");
+      setSelectedAgent(agent);
+    }
+    setSidebarOpen(false);
+  };
+
+  // ── novo chat geral ──
+  const newGeneralChat = () => {
+    setCurrentSessionId(Date.now().toString());
+    setMessages(INITIAL_MSG);
+    setChatMode("general");
+    setSelectedAgent(null);
+  };
+
+  // ── salvar sessão geral no localStorage ──
+  const saveSession = (sessionId, msgs, preview) => {
+    setSessions(prev => {
+      const updated = [
+        { id: sessionId, date: new Date().toLocaleDateString("pt-BR"), preview: preview.slice(0, 55), messages: msgs },
+        ...prev.filter(s => s.id !== sessionId),
+      ].slice(0, 30);
+      localStorage.setItem("ezeia_sessions", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // ── salvar chats de agente no localStorage ──
+  const saveAgentChat = (agentId, msgs) => {
+    setAgentChats(prev => {
+      const updated = { ...prev, [agentId]: msgs };
+      localStorage.setItem("ezeia_agent_chats", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // ── enviar mensagem ──
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
     const userText = input.trim();
     setInput("");
-    setMessages(prev => [...prev, { type: "user", content: userText }]);
     setLoading(true);
+
+    // ── MODO AGENTE INDIVIDUAL ──
+    if (chatMode === "agent" && selectedAgent) {
+      const prev = agentChats[selectedAgent.id] || [];
+      const updated = [...prev, { type: "user", content: userText }];
+      saveAgentChat(selectedAgent.id, updated);
+
+      const history = updated.map(m => ({
+        role: m.type === "user" ? "user" : "assistant",
+        content: m.content,
+      }));
+
+      try {
+        const agentSystem = `Você é ${selectedAgent.name}, ${selectedAgent.role} do squad de pentest de Ezequiel.\n\nSua especialidade: ${selectedAgent.specialty}\n\nREGRAS:\n- Responda SEMPRE em português brasileiro\n- Seja EXTREMAMENTE técnico e detalhado\n- Mostre comandos reais com explicação\n- Ética: apenas ambientes autorizados, CTFs e labs`;
+
+        const reply = await callClaude(history, agentSystem);
+        const final = [...updated, { type: "agent", content: reply }];
+        saveAgentChat(selectedAgent.id, final);
+      } catch {
+        const final = [...updated, { type: "agent", content: "❌ Erro de conexão com a API." }];
+        saveAgentChat(selectedAgent.id, final);
+      }
+
+      setLoading(false);
+      inputRef.current?.focus();
+      return;
+    }
+
+    // ── MODO GERAL EZEIA ──
+    const newMessages = [...messages, { type: "user", content: userText }];
+    setMessages(newMessages);
 
     try {
       const history = messages
@@ -296,48 +377,39 @@ function Squad() {
           if (m.type === "user") return { role: "user", content: m.content };
           return { role: "assistant", content: JSON.stringify(m.raw || m.content) };
         });
-
       history.push({ role: "user", content: userText });
 
-      // Se tem agente fixado, manda direto para ele sem passar pelo dispatcher
-      let raw;
-      if (pinnedAgent && pinnedAgent.id !== "dispatch") {
-        const agentSystem = `Você é ${pinnedAgent.name}, ${pinnedAgent.role} do squad de pentest de Ezequiel.\n\nSua especialidade: ${pinnedAgent.specialty}\n\nREGRAS:\n- Responda SEMPRE em português brasileiro\n- Seja EXTREMAMENTE técnico e detalhado\n- Mostre comandos reais com explicação\n- Ética: apenas ambientes autorizados, CTFs e labs\n\nFORMATO OBRIGATÓRIO — responda EXATAMENTE neste JSON:\n{\n  "agents": ["${pinnedAgent.id}"],\n  "reasoning": "agente fixado pelo usuário",\n  "conversation": [{"agent": "${pinnedAgent.id}", "message": "sua resposta técnica aqui"}]\n}`;
-        raw = await callClaude(history, agentSystem);
-      } else {
-        raw = await callClaude(history, DISPATCHER_SYSTEM);
-      }
-
+      const raw = await callClaude(history, DISPATCHER_SYSTEM);
       let parsed;
       try {
         const jsonMatch = raw.match(/\{[\s\S]*\}/);
         parsed = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
       } catch {
-        parsed = {
-          agents: ["dispatch"],
-          reasoning: "Análise da situação",
-          conversation: [{ agent: "dispatch", message: raw }]
-        };
+        parsed = { agents: ["dispatch"], reasoning: "", conversation: [{ agent: "dispatch", message: raw }] };
       }
 
       const involvedAgents = (parsed.agents || []).map(id => AGENT_MAP[id]).filter(Boolean);
       if (involvedAgents.length > 0) setActiveAgents(involvedAgents);
 
-      setMessages(prev => [...prev, {
+      const finalMessages = [...newMessages, {
         type: "agent_conversation",
         agents: parsed.agents || [],
         reasoning: parsed.reasoning,
         conversation: parsed.conversation || [],
         raw: parsed,
-      }]);
-    } catch (err) {
-      setMessages(prev => [...prev, {
+      }];
+      setMessages(finalMessages);
+      saveSession(currentSessionId, finalMessages, userText);
+    } catch {
+      const errMessages = [...newMessages, {
         type: "agent_conversation",
         agents: ["dispatch"],
         reasoning: "Erro",
-        conversation: [{ agent: "dispatch", message: "Limite de mensagens atingida" }],
-      }]);
+        conversation: [{ agent: "dispatch", message: "❌ Erro de conexão com a API. Verifique o worker e os créditos da conta Anthropic." }],
+      }];
+      setMessages(errMessages);
     }
+
     setLoading(false);
     inputRef.current?.focus();
   };
@@ -352,94 +424,221 @@ function Squad() {
   const teamLabels = { core: "◆ CORE", red: "◆ RED TEAM", specialist: "◆ SPECIALISTS", blue: "◆ BLUE TEAM" };
   const teamColors = { core: "#00ff88", red: "#ff4444", specialist: "#ffaa00", blue: "#0088ff" };
 
-  const quickPrompts = [
-    "Preciso iniciar reconhecimento em um alvo web",
-    "Tenho acesso inicial, preciso escalar privilégios no Linux",
-    "Encontrei possível SQL Injection, como explorar manualmente?",
-    "Preciso escrever um writeup HTB para meu GitHub",
-    "Me ajude a estudar Buffer Overflow para o DCPT",
-    "Recebi um shell, o que fazer na pós-exploração?",
-    "Preciso de um script Python para automação de pentest",
-    "Como enumerar Active Directory depois de ter acesso?",
-  ];
+  // ── componente sidebar interna (reutilizado desktop+mobile) ──
+  const SidebarContent = () => (
+    <>
+      <div style={{ display: "flex", borderBottom: "1px solid #0a1a0a" }}>
+        {["agents", "history", "repos"].map(tab => (
+          <button key={tab} onClick={() => setSidebarTab(tab)} style={{
+            flex: 1, padding: "9px 0", border: "none", cursor: "pointer",
+            background: sidebarTab === tab ? "#0a1a0a" : "transparent",
+            color: sidebarTab === tab ? "#00ff88" : "#334",
+            fontSize: 9, letterSpacing: 1, textTransform: "uppercase",
+            borderBottom: sidebarTab === tab ? "2px solid #00ff88" : "2px solid transparent",
+            transition: "all 0.2s", fontFamily: "inherit",
+          }}>{tab}</button>
+        ))}
+      </div>
+
+      {/* ABA AGENTS */}
+      {sidebarTab === "agents" && (
+        <>
+          <div style={{ padding: "8px" }}>
+            <input
+              value={search} onChange={e => setSearch(e.target.value)}
+              placeholder="buscar agente..."
+              style={{ width: "100%", background: "#0a0a0f", border: "1px solid #0a2a0a", borderRadius: 4, padding: "5px 8px", color: "#668866", fontSize: 10, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }}
+            />
+          </div>
+          <div style={{ flex: 1, overflowY: "auto" }}>
+            {/* EZEIA no topo sempre */}
+            {(() => {
+              const ez = AGENT_MAP["dispatch"];
+              const isSelected = chatMode === "general" && !selectedAgent;
+              return (
+                <div onClick={() => handleSelectAgent(ez)} style={{
+                  display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", cursor: "pointer",
+                  background: isSelected ? ez.color + "20" : "transparent",
+                  borderLeft: isSelected ? `2px solid ${ez.color}` : "2px solid transparent",
+                  transition: "all 0.15s",
+                }}>
+                  <div style={{ width: 22, height: 22, borderRadius: 4, background: ez.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, flexShrink: 0 }}>{ez.icon}</div>
+                  <div style={{ overflow: "hidden" }}>
+                    <div style={{ fontSize: 11, color: isSelected ? ez.color : "#667766", fontWeight: "bold" }}>{ez.name} — Chat Geral</div>
+                    <div style={{ fontSize: 9, color: "#334433" }}>Dispatcher automático</div>
+                  </div>
+                </div>
+              );
+            })()}
+            <div style={{ height: 1, background: "#0a1a0a", margin: "4px 0" }} />
+            {teamOrder.map(team => {
+              const agents = filteredAgents.filter(a => a.team === team && a.id !== "dispatch");
+              if (!agents.length) return null;
+              return (
+                <div key={team}>
+                  <div style={{ padding: "6px 10px 3px", fontSize: 8, color: teamColors[team], letterSpacing: 2, opacity: 0.7 }}>{teamLabels[team]}</div>
+                  {agents.map(agent => {
+                    const isSelected = chatMode === "agent" && selectedAgent?.id === agent.id;
+                    const isActive = activeAgents.some(a => a.id === agent.id);
+                    return (
+                      <div key={agent.id} className="agent-card" onClick={() => handleSelectAgent(agent)} style={{
+                        display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", cursor: "pointer",
+                        background: isSelected ? agent.color + "25" : isActive ? agent.color + "10" : "transparent",
+                        borderLeft: isSelected ? `2px solid ${agent.color}` : isActive ? `2px solid ${agent.color}66` : "2px solid transparent",
+                        transition: "all 0.15s",
+                      }}>
+                        <div style={{ width: 22, height: 22, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, flexShrink: 0 }}>{agent.icon}</div>
+                        <div style={{ overflow: "hidden", flex: 1 }}>
+                          <div style={{ fontSize: 11, color: isSelected ? agent.color : isActive ? agent.color + "cc" : "#667766", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.name}</div>
+                          <div style={{ fontSize: 9, color: "#334433", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.role}</div>
+                        </div>
+                        {isSelected
+                          ? <div style={{ fontSize: 9, color: agent.color, flexShrink: 0 }}>●</div>
+                          : isActive && <div style={{ width: 5, height: 5, borderRadius: "50%", background: agent.color, flexShrink: 0, boxShadow: `0 0 4px ${agent.color}` }} className="pulse" />
+                        }
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {/* ABA HISTORY */}
+      {sidebarTab === "history" && (
+        <div style={{ flex: 1, overflowY: "auto", padding: 10 }}>
+          <button onClick={() => { newGeneralChat(); setSidebarOpen(false); }} style={{
+            width: "100%", marginBottom: 10, padding: "8px",
+            background: "#001a00", border: "1px solid #00ff8840", borderRadius: 6,
+            color: "#00ff88", cursor: "pointer", fontSize: 10,
+            fontFamily: "'Orbitron',monospace", letterSpacing: 1,
+          }}>+ NOVO CHAT GERAL</button>
+
+          {sessions.length === 0 && (
+            <div style={{ fontSize: 9, color: "#334433", textAlign: "center", marginTop: 20 }}>Nenhuma sessão salva ainda.</div>
+          )}
+          {sessions.map(s => (
+            <div key={s.id} onClick={() => { setCurrentSessionId(s.id); setMessages(s.messages); setChatMode("general"); setSelectedAgent(null); setSidebarOpen(false); }} style={{
+              padding: "8px 10px", marginBottom: 6, cursor: "pointer",
+              background: s.id === currentSessionId && chatMode === "general" ? "#0a1a0a" : "#050508",
+              border: `1px solid ${s.id === currentSessionId && chatMode === "general" ? "#00ff8840" : "#0a1a0a"}`,
+              borderRadius: 6, transition: "all 0.15s",
+            }}>
+              <div style={{ fontSize: 9, color: "#00ff8866", marginBottom: 2 }}>{s.date}</div>
+              <div style={{ fontSize: 10, color: "#667766", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.preview}...</div>
+            </div>
+          ))}
+
+          {/* Chats individuais de agentes com histórico */}
+          {Object.keys(agentChats).filter(id => agentChats[id]?.length > 0).length > 0 && (
+            <>
+              <div style={{ fontSize: 8, color: "#ffaa00", letterSpacing: 2, margin: "14px 0 6px" }}>◆ CHATS DE AGENTES</div>
+              {Object.keys(agentChats).filter(id => agentChats[id]?.length > 0).map(id => {
+                const agent = AGENT_MAP[id];
+                if (!agent) return null;
+                const isSelected = chatMode === "agent" && selectedAgent?.id === id;
+                return (
+                  <div key={id} onClick={() => { handleSelectAgent(agent); setSidebarOpen(false); }} style={{
+                    display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", marginBottom: 4,
+                    cursor: "pointer", borderRadius: 6,
+                    background: isSelected ? agent.color + "20" : "#050508",
+                    border: `1px solid ${isSelected ? agent.color + "40" : "#0a1a0a"}`,
+                    transition: "all 0.15s",
+                  }}>
+                    <span style={{ fontSize: 14 }}>{agent.icon}</span>
+                    <div style={{ overflow: "hidden", flex: 1 }}>
+                      <div style={{ fontSize: 10, color: isSelected ? agent.color : "#667766", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.name}</div>
+                      <div style={{ fontSize: 9, color: "#334433" }}>{agentChats[id].length} mensagens</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* ABA REPOS */}
+      {sidebarTab === "repos" && (
+        <div style={{ flex: 1, overflowY: "auto", padding: 10 }}>
+          <div style={{ fontSize: 9, color: "#8844ee", letterSpacing: 2, marginBottom: 12 }}>◆ GITHUB REPOS</div>
+          {Object.values(REPOS).map(repo => (
+            <div key={repo.name} style={{ background: "#0a0a14", border: "1px solid #1a1a3a", borderRadius: 8, padding: 10, marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <span style={{ fontSize: 12 }}>🐙</span>
+                <span style={{ fontSize: 10, color: "#8844ee", fontWeight: "bold" }}>{repo.name}</span>
+              </div>
+              <div style={{ fontSize: 9, color: "#445", marginBottom: 6 }}>{repo.desc}</div>
+              <a href={repo.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 9, color: "#8844ee", textDecoration: "none", border: "1px solid #8844ee44", borderRadius: 3, padding: "2px 6px" }}>↗ abrir</a>
+            </div>
+          ))}
+          <div style={{ background: "#0a0a14", border: "1px solid #1a1a2a", borderRadius: 8, padding: 10, marginTop: 4 }}>
+            <div style={{ fontSize: 9, color: "#8844ee", marginBottom: 6 }}>📝 Pedir ao GitOps</div>
+            {[
+              "Escreve um writeup HTB para meu htb-writeups",
+              "Cria um script Python para meu repo scripts",
+              "Gera notas de módulo Desec para pentest-notas",
+            ].map(p => (
+              <button key={p} onClick={() => { setInput(p); setSidebarOpen(false); inputRef.current?.focus(); }} style={{
+                display: "block", width: "100%", textAlign: "left",
+                background: "#050508", border: "1px solid #1a1a2a", borderRadius: 4,
+                padding: "5px 7px", marginBottom: 4, cursor: "pointer",
+                fontSize: 9, color: "#556", fontFamily: "inherit", transition: "all 0.15s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#8844ee"; e.currentTarget.style.borderColor = "#8844ee44"; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "#556"; e.currentTarget.style.borderColor = "#1a1a2a"; }}
+              >{p}</button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
 
   return (
     <div style={{
       height: "100vh", display: "flex", flexDirection: "column",
-      background: "#050508",
-      fontFamily: "'Share Tech Mono', 'Courier New', monospace",
-      color: "#c0ccd8",
-      overflow: "hidden",
+      background: "#050508", fontFamily: "'Share Tech Mono','Courier New',monospace",
+      color: "#c0ccd8", overflow: "hidden",
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #050508; }
-        ::-webkit-scrollbar-thumb { background: #1a2a1a; border-radius: 2px; }
-        .agent-msg { animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .scanline {
-          background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.01) 2px, rgba(0,255,136,0.01) 4px);
-          pointer-events: none;
-        }
-        pre { background: #0a0f0a; border: 1px solid #1a3a1a; border-radius: 6px; padding: 12px; overflow-x: auto; color: #00ff88; font-size: 11px; line-height: 1.6; margin: 8px 0; }
-        code { background: #0a0f0a; color: #00ff88; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
-        .quick-btn:hover { background: #001a00 !important; color: #00ff88 !important; border-color: #00ff8844 !important; }
-        .agent-card:hover { border-color: inherit !important; background: rgba(255,255,255,0.03) !important; }
-        /* ── MOBILE ── */
-        * { -webkit-tap-highlight-color: transparent; }
-        textarea { font-size: 16px !important; } /* evita zoom no iOS */
-        .mob-input { font-size: 16px !important; }
-        .sidebar-overlay { position:fixed;inset:0;background:#000000aa;z-index:40; }
-        .sidebar-drawer {
-          position:fixed;top:0;left:0;bottom:0;width:260px;z-index:50;
-          background:#030306;border-right:1px solid #0a2a0a;
-          transform:translateX(-100%);transition:transform 0.25s ease;
-        }
-        .sidebar-drawer.open { transform:translateX(0); }
-        @media (max-width: 640px) {
-          .desktop-sidebar { display: none !important; }
-          .header-agents { display: none !important; }
-          .header-status { display: none !important; }
-          .quick-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 641px) {
-          .mob-sidebar-btn { display: none !important; }
-          .sidebar-drawer { display: none !important; }
-          .sidebar-overlay { display: none !important; }
-        }
+        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#050508}::-webkit-scrollbar-thumb{background:#1a2a1a;border-radius:2px}
+        .agent-msg{animation:fadeIn 0.3s ease}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+        .pulse{animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        .scanline{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,136,0.01) 2px,rgba(0,255,136,0.01) 4px);pointer-events:none}
+        pre{background:#0a0f0a;border:1px solid #1a3a1a;border-radius:6px;padding:12px;overflow-x:auto;color:#00ff88;font-size:11px;line-height:1.6;margin:8px 0}
+        code{background:#0a0f0a;color:#00ff88;padding:1px 5px;border-radius:3px;font-size:11px}
+        .quick-btn:hover{background:#001a00 !important;color:#00ff88 !important;border-color:#00ff8844 !important}
+        .agent-card:hover{background:rgba(255,255,255,0.03) !important}
+        *{-webkit-tap-highlight-color:transparent}
+        .mob-input{font-size:16px !important}
+        .sidebar-overlay{position:fixed;inset:0;background:#000000aa;z-index:40}
+        .sidebar-drawer{position:fixed;top:0;left:0;bottom:0;width:260px;z-index:50;background:#030306;border-right:1px solid #0a2a0a;transform:translateX(-100%);transition:transform 0.25s ease;display:flex;flex-direction:column}
+        .sidebar-drawer.open{transform:translateX(0)}
+        @media(max-width:640px){.desktop-sidebar{display:none !important}.header-agents{display:none !important}.header-status{display:none !important}.quick-grid{grid-template-columns:1fr !important}}
+        @media(min-width:641px){.mob-sidebar-btn{display:none !important}.sidebar-drawer{display:none !important}.sidebar-overlay{display:none !important}}
       `}</style>
 
       {/* Header */}
       <div style={{
-        background: "linear-gradient(90deg, #050508 0%, #080d08 50%, #050508 100%)",
-        borderBottom: "1px solid #0a2a0a",
-        padding: "0 20px",
-        height: 52,
+        background: "linear-gradient(90deg,#050508 0%,#080d08 50%,#050508 100%)",
+        borderBottom: "1px solid #0a2a0a", padding: "0 20px", height: 52,
         display: "flex", alignItems: "center", justifyContent: "space-between",
         position: "relative", flexShrink: 0,
       }}>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, #00ff8844, transparent)" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg,transparent,#00ff8844,transparent)" }} />
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: 8,
-            background: "linear-gradient(135deg, #00ff88, #0088ff)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 16, boxShadow: "0 0 20px #00ff8844",
-          }}>⚡</div>
+          <div style={{ width: 36, height: 36, borderRadius: 8, background: "linear-gradient(135deg,#00ff88,#0088ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, boxShadow: "0 0 20px #00ff8844" }}>⚡</div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 900, color: "#00ff88", letterSpacing: 3, fontFamily: "'Orbitron', monospace" }}>
-              EZEQUIEL PENTEST
-            </div>
-            <div style={{ fontSize: 9, color: "#334433", letterSpacing: 2 }}>
-              CYBER SQUAD v3.0 • {AGENTS.length} AGENTS • ELITE UNIT
-            </div>
+            <div style={{ fontSize: 15, fontWeight: 900, color: "#00ff88", letterSpacing: 3, fontFamily: "'Orbitron',monospace" }}>EZEQUIEL PENTEST</div>
+            <div style={{ fontSize: 9, color: "#334433", letterSpacing: 2 }}>CYBER SQUAD v3.0 • {AGENTS.length} AGENTS • ELITE UNIT</div>
           </div>
         </div>
-
-        {/* Agentes ativos — esconde no mobile */}
         <div className="header-agents" style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {activeAgents.slice(0, 4).map(a => (
             <div key={a.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -449,405 +648,234 @@ function Squad() {
           ))}
           {activeAgents.length > 4 && <span style={{ fontSize: 10, color: "#334" }}>+{activeAgents.length - 4}</span>}
         </div>
-
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div className="header-status" style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>
-            🟢 SISTEMA OPERACIONAL
-          </div>
-          {/* Botão hamburger — só mobile */}
-          <button className="mob-sidebar-btn" onClick={() => setSidebarOpen(true)} style={{
-            background: "#0a1a0a", border: "1px solid #0a2a0a", borderRadius: 6,
-            color: "#00ff88", padding: "6px 10px", cursor: "pointer", fontSize: 16,
-            display: "flex", alignItems: "center",
-          }}>☰</button>
+          <div className="header-status" style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>🟢 SISTEMA OPERACIONAL</div>
+          <button className="mob-sidebar-btn" onClick={() => setSidebarOpen(true)} style={{ background: "#0a1a0a", border: "1px solid #0a2a0a", borderRadius: 6, color: "#00ff88", padding: "6px 10px", cursor: "pointer", fontSize: 16 }}>☰</button>
         </div>
       </div>
 
-      {/* Sidebar mobile drawer overlay */}
+      {/* Mobile drawer overlay */}
       {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
 
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+
         {/* Sidebar desktop */}
-        <div className="desktop-sidebar" style={{
-          width: 220, background: "#030306",
-          borderRight: "1px solid #0a1a0a",
-          display: "flex", flexDirection: "column", flexShrink: 0,
-        }}>
-          {/* Sidebar tabs */}
-          <div style={{ display: "flex", borderBottom: "1px solid #0a1a0a" }}>
-            {["agents", "repos"].map(tab => (
-              <button key={tab} onClick={() => setSidebarTab(tab)} style={{
-                flex: 1, padding: "10px 0", border: "none", cursor: "pointer",
-                background: sidebarTab === tab ? "#0a1a0a" : "transparent",
-                color: sidebarTab === tab ? "#00ff88" : "#334",
-                fontSize: 10, letterSpacing: 1, textTransform: "uppercase",
-                borderBottom: sidebarTab === tab ? "2px solid #00ff88" : "2px solid transparent",
-                transition: "all 0.2s", fontFamily: "inherit",
-              }}>{tab}</button>
-            ))}
-          </div>
-
-          {sidebarTab === "agents" && (
-            <>
-              <div style={{ padding: "8px" }}>
-                <input
-                  value={search} onChange={e => setSearch(e.target.value)}
-                  placeholder="buscar agente..."
-                  style={{
-                    width: "100%", background: "#0a0a0f", border: "1px solid #0a2a0a",
-                    borderRadius: 4, padding: "5px 8px", color: "#668866", fontSize: 10,
-                    fontFamily: "inherit", outline: "none", boxSizing: "border-box",
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1, overflowY: "auto" }}>
-                {teamOrder.map(team => {
-                  const agents = filteredAgents.filter(a => a.team === team);
-                  if (!agents.length) return null;
-                  return (
-                    <div key={team}>
-                      <div style={{ padding: "8px 10px 4px", fontSize: 8, color: teamColors[team], letterSpacing: 2, opacity: 0.7 }}>
-                        {teamLabels[team]}
-                      </div>
-                      {agents.map(agent => {
-                        const isActive = activeAgents.some(a => a.id === agent.id);
-                        return (
-                          <div key={agent.id} className="agent-card" onClick={() => setPinnedAgent(pinnedAgent?.id === agent.id ? null : agent)} style={{
-                            display: "flex", alignItems: "center", gap: 8,
-                            padding: "7px 10px", cursor: "pointer",
-                            background: pinnedAgent?.id === agent.id ? agent.color + "25" : isActive ? agent.color + "10" : "transparent",
-                            borderLeft: pinnedAgent?.id === agent.id ? `2px solid ${agent.color}` : isActive ? `2px solid ${agent.color}` : "2px solid transparent",
-                            transition: "all 0.15s",
-                          }}>
-                            <div style={{ width: 22, height: 22, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, flexShrink: 0 }}>{agent.icon}</div>
-                            <div style={{ overflow: "hidden" }}>
-                              <div style={{ fontSize: 11, color: isActive ? agent.color : "#667766", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.name}</div>
-                              <div style={{ fontSize: 9, color: "#334433", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.role}</div>
-                            </div>
-                            {pinnedAgent?.id === agent.id
-                              ? <div style={{ fontSize: 9, color: agent.color, marginLeft: "auto", flexShrink: 0, letterSpacing: 1 }}>📌</div>
-                              : isActive && <div style={{ width: 5, height: 5, borderRadius: "50%", background: agent.color, marginLeft: "auto", flexShrink: 0, boxShadow: `0 0 4px ${agent.color}` }} className="pulse" />
-                            }
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-
-          {sidebarTab === "repos" && (
-            <div style={{ flex: 1, overflowY: "auto", padding: 10 }}>
-              <div style={{ fontSize: 9, color: "#8844ee", letterSpacing: 2, marginBottom: 12 }}>◆ GITHUB REPOS</div>
-              {Object.values(REPOS).map(repo => (
-                <div key={repo.name} style={{
-                  background: "#0a0a14", border: "1px solid #1a1a3a", borderRadius: 8,
-                  padding: 10, marginBottom: 8,
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                    <span style={{ fontSize: 12 }}>🐙</span>
-                    <span style={{ fontSize: 10, color: "#8844ee", fontWeight: "bold" }}>{repo.name}</span>
-                  </div>
-                  <div style={{ fontSize: 9, color: "#445", marginBottom: 6 }}>{repo.desc}</div>
-                  <a href={repo.url} target="_blank" rel="noopener noreferrer" style={{
-                    fontSize: 9, color: "#8844ee", textDecoration: "none",
-                    border: "1px solid #8844ee44", borderRadius: 3, padding: "2px 6px",
-                  }}>↗ abrir</a>
-                </div>
-              ))}
-              <div style={{
-                background: "#0a0a14", border: "1px solid #1a1a2a", borderRadius: 8, padding: 10, marginTop: 4,
-              }}>
-                <div style={{ fontSize: 9, color: "#8844ee", marginBottom: 6 }}>📝 Pedir ao GitOps</div>
-                {[
-                  "Escreve um writeup HTB para meu htb-writeups",
-                  "Cria um script Python para meu repo scripts",
-                  "Gera notas de módulo Desec para pentest-notas",
-                ].map(p => (
-                  <button key={p} onClick={() => { setInput(p); inputRef.current?.focus(); }} style={{
-                    display: "block", width: "100%", textAlign: "left",
-                    background: "#050508", border: "1px solid #1a1a2a", borderRadius: 4,
-                    padding: "5px 7px", marginBottom: 4, cursor: "pointer",
-                    fontSize: 9, color: "#556", fontFamily: "inherit",
-                    transition: "all 0.15s",
-                  }}
-                    onMouseEnter={e => { e.currentTarget.style.color = "#8844ee"; e.currentTarget.style.borderColor = "#8844ee44"; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = "#556"; e.currentTarget.style.borderColor = "#1a1a2a"; }}
-                  >{p}</button>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="desktop-sidebar" style={{ width: 220, background: "#030306", borderRight: "1px solid #0a1a0a", display: "flex", flexDirection: "column", flexShrink: 0 }}>
+          <SidebarContent />
         </div>
 
         {/* Sidebar mobile drawer */}
         <div className={`sidebar-drawer${sidebarOpen ? " open" : ""}`}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 12px 8px", borderBottom: "1px solid #0a1a0a" }}>
-            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: 2, fontFamily: "'Orbitron',monospace" }}>AGENTES</span>
-            <button onClick={() => setSidebarOpen(false)} style={{ background: "none", border: "none", color: "#334433", fontSize: 18, cursor: "pointer", lineHeight: 1 }}>✕</button>
+            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: 2, fontFamily: "'Orbitron',monospace" }}>MENU</span>
+            <button onClick={() => setSidebarOpen(false)} style={{ background: "none", border: "none", color: "#334433", fontSize: 18, cursor: "pointer" }}>✕</button>
           </div>
-          <div style={{ display: "flex", borderBottom: "1px solid #0a1a0a" }}>
-            {["agents", "repos"].map(tab => (
-              <button key={tab} onClick={() => setSidebarTab(tab)} style={{
-                flex: 1, padding: "10px 0", border: "none", cursor: "pointer",
-                background: sidebarTab === tab ? "#0a1a0a" : "transparent",
-                color: sidebarTab === tab ? "#00ff88" : "#334",
-                fontSize: 10, letterSpacing: 1, textTransform: "uppercase",
-                borderBottom: sidebarTab === tab ? "2px solid #00ff88" : "2px solid transparent",
-                transition: "all 0.2s", fontFamily: "inherit",
-              }}>{tab}</button>
-            ))}
-          </div>
-          <div style={{ flex: 1, overflowY: "auto", height: "calc(100vh - 100px)" }}>
-            {sidebarTab === "agents" && (
-              <div style={{ padding: "8px" }}>
-                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="buscar agente..."
-                  style={{ width: "100%", background: "#0a0a0f", border: "1px solid #0a2a0a", borderRadius: 4, padding: "5px 8px", color: "#668866", fontSize: 10, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
-                {["core","red","specialist","blue"].map(team => {
-                  const agents = filteredAgents.filter(a => a.team === team);
-                  const tColors = { core: "#00ff88", red: "#ff4444", specialist: "#ffaa00", blue: "#0088ff" };
-                  const tLabels = { core: "◆ CORE", red: "◆ RED TEAM", specialist: "◆ SPECIALISTS", blue: "◆ BLUE TEAM" };
-                  if (!agents.length) return null;
+          <SidebarContent />
+        </div>
+
+        {/* Área de chat */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
+          <div className="scanline" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }} />
+
+          {/* ── CHAT INDIVIDUAL DE AGENTE ── */}
+          {chatMode === "agent" && selectedAgent ? (
+            <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 12, position: "relative", zIndex: 1 }}>
+              {/* Header do agente */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: selectedAgent.color + "10", border: `1px solid ${selectedAgent.color}30`, borderRadius: 8, marginBottom: 4, flexShrink: 0 }}>
+                <span style={{ fontSize: 22 }}>{selectedAgent.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 12, color: selectedAgent.color, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{selectedAgent.name}</div>
+                  <div style={{ fontSize: 9, color: "#445" }}>{selectedAgent.role} • Chat individual</div>
+                </div>
+                <button onClick={() => { setChatMode("general"); setSelectedAgent(null); }} style={{
+                  background: "none", border: "1px solid #223", borderRadius: 4,
+                  color: "#556", cursor: "pointer", fontSize: 9, padding: "3px 8px", fontFamily: "inherit",
+                }}>← EZEIA Geral</button>
+                <button onClick={() => { if (window.confirm(`Limpar histórico de ${selectedAgent.name}?`)) saveAgentChat(selectedAgent.id, []); }} style={{
+                  background: "none", border: "1px solid #300", borderRadius: 4,
+                  color: "#744", cursor: "pointer", fontSize: 9, padding: "3px 8px", fontFamily: "inherit",
+                }}>limpar</button>
+              </div>
+
+              {(agentChats[selectedAgent.id] || []).length === 0 && (
+                <div style={{ fontSize: 11, color: "#334433", textAlign: "center", marginTop: 40 }}>
+                  Chat privado com {selectedAgent.name}.<br />
+                  <span style={{ fontSize: 9, color: "#223322" }}>{selectedAgent.specialty.slice(0, 80)}...</span>
+                </div>
+              )}
+
+              {(agentChats[selectedAgent.id] || []).map((msg, i) => (
+                <div key={i} className="agent-msg" style={{ display: "flex", gap: 10, alignItems: "flex-start", flexDirection: msg.type === "user" ? "row-reverse" : "row" }}>
+                  <div style={{
+                    width: 30, height: 30, borderRadius: 6, flexShrink: 0,
+                    background: msg.type === "user" ? "#0a2a0a" : selectedAgent.color + "20",
+                    border: `1px solid ${msg.type === "user" ? "#1a3a1a" : selectedAgent.color + "40"}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: msg.type === "user" ? 9 : 14,
+                  }}>
+                    {msg.type === "user" ? "EU" : selectedAgent.icon}
+                  </div>
+                  <div style={{
+                    maxWidth: "80%", background: "#08080e",
+                    border: `1px solid ${msg.type === "user" ? "#1a3a1a" : selectedAgent.color + "25"}`,
+                    borderRadius: msg.type === "user" ? "10px 2px 10px 10px" : "2px 10px 10px 10px",
+                    padding: "10px 14px", fontSize: 12, lineHeight: 1.8, color: "#b0c0b0",
+                  }}>
+                    {msg.type === "agent" ? renderMarkdown(msg.content) : msg.content}
+                  </div>
+                </div>
+              ))}
+
+              {loading && (
+                <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "8px 12px" }}>
+                  <span style={{ fontSize: 16 }}>{selectedAgent.icon}</span>
+                  {[0, 1, 2].map(i => (
+                    <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: selectedAgent.color, animation: `pulse 1s ${i * 0.2}s infinite` }} />
+                  ))}
+                  <span style={{ fontSize: 10, color: "#334433" }}>processando...</span>
+                </div>
+              )}
+              <div ref={bottomRef} />
+            </div>
+          ) : (
+            /* ── CHAT GERAL EZEIA ── */
+            <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16, position: "relative", zIndex: 1 }}>
+              {messages.length === 1 && (
+                <div style={{ marginTop: 20 }}>
+                  <div style={{ textAlign: "center", marginBottom: 24 }}>
+                    <div style={{ fontSize: 32, marginBottom: 8 }}>🧬</div>
+                    <div style={{ fontSize: 14, color: "#00ff88", fontFamily: "'Orbitron',monospace", letterSpacing: 2, marginBottom: 4 }}>EZEIA</div>
+                    <div style={{ fontSize: 11, color: "#445", maxWidth: 400, margin: "0 auto", lineHeight: 1.8 }}>
+                      Descreva sua situação. O sistema identifica o agente certo e coordena o time conforme o caso evolui.
+                    </div>
+                  </div>
+                  <div className="quick-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
+                    {quickPrompts.map(p => (
+                      <button key={p} className="quick-btn" onClick={() => { setInput(p); inputRef.current?.focus(); }} style={{
+                        background: "#08080e", border: "1px solid #0a2a0a", borderRadius: 8,
+                        padding: "10px 12px", cursor: "pointer", textAlign: "left",
+                        fontSize: 11, color: "#556677", fontFamily: "inherit", lineHeight: 1.5, transition: "all 0.2s",
+                      }}>{p}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {messages.map((msg, idx) => {
+                if (msg.type === "system") return (
+                  <div key={idx} style={{ textAlign: "center" }}>
+                    <span style={{ fontSize: 10, color: "#334433", background: "#0a1a0a", padding: "3px 12px", borderRadius: 20, border: "1px solid #0a2a0a" }}>🧬 {msg.content}</span>
+                  </div>
+                );
+                if (msg.type === "user") return (
+                  <div key={idx} style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div style={{ maxWidth: "70%", background: "#0a1a0a", border: "1px solid #1a3a1a", borderRadius: "10px 2px 10px 10px", padding: "10px 14px", fontSize: 12, color: "#aaccaa", lineHeight: 1.7 }}>
+                      {msg.content}
+                    </div>
+                  </div>
+                );
+                if (msg.type === "agent_conversation") {
+                  const convAgents = (msg.agents || []).map(id => AGENT_MAP[id]).filter(Boolean);
                   return (
-                    <div key={team}>
-                      <div style={{ padding: "8px 10px 4px", fontSize: 8, color: tColors[team], letterSpacing: 2, opacity: 0.7 }}>{tLabels[team]}</div>
-                      {agents.map(agent => {
-                        const isActive = activeAgents.some(a => a.id === agent.id);
+                    <div key={idx} className="agent-msg" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {convAgents.length > 0 && (
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <div style={{ height: 1, flex: 1, background: "linear-gradient(90deg,transparent,#0a2a0a)" }} />
+                          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                            <span style={{ fontSize: 9, color: "#334433" }}>EZEIA → </span>
+                            {convAgents.map(a => (
+                              <span key={a.id} style={{ fontSize: 9, padding: "2px 8px", borderRadius: 10, background: a.color + "15", color: a.color, border: `1px solid ${a.color}30` }}>{a.icon} {a.name}</span>
+                            ))}
+                          </div>
+                          <div style={{ height: 1, flex: 1, background: "linear-gradient(90deg,#0a2a0a,transparent)" }} />
+                        </div>
+                      )}
+                      {(msg.conversation || []).map((conv, ci) => {
+                        const agent = AGENT_MAP[conv.agent] || AGENT_MAP["dispatch"];
                         return (
-                          <div key={agent.id} onClick={() => setSidebarOpen(false)} style={{
-                            display: "flex", alignItems: "center", gap: 8, padding: "8px 10px",
-                            background: isActive ? agent.color + "10" : "transparent",
-                            borderLeft: isActive ? `2px solid ${agent.color}` : "2px solid transparent",
-                          }}>
-                            <div style={{ width: 24, height: 24, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>{agent.icon}</div>
-                            <div>
-                              <div style={{ fontSize: 12, color: isActive ? agent.color : "#667766", fontWeight: "bold" }}>{agent.name}</div>
-                              <div style={{ fontSize: 9, color: "#334433" }}>{agent.role}</div>
+                          <div key={ci} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                            <div style={{
+                              width: 34, height: 34, borderRadius: 8, flexShrink: 0,
+                              background: `linear-gradient(135deg,${agent.color}20,${agent.color}10)`,
+                              border: `1px solid ${agent.color}40`,
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                              fontSize: 16, boxShadow: `0 0 10px ${agent.color}20`,
+                            }}>{agent.icon}</div>
+                            <div style={{ flex: 1, background: "#08080e", border: `1px solid ${agent.color}25`, borderRadius: "2px 10px 10px 10px", padding: "10px 14px", boxShadow: `inset 0 0 20px ${agent.color}05` }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                                <span style={{ fontSize: 10, color: agent.color, fontWeight: "bold", letterSpacing: 1, fontFamily: "'Orbitron',monospace" }}>{agent.name}</span>
+                                <span style={{ fontSize: 9, color: "#334433" }}>•</span>
+                                <span style={{ fontSize: 9, color: "#445" }}>{agent.role}</span>
+                                <div style={{ width: 4, height: 4, borderRadius: "50%", background: agent.color, marginLeft: "auto", boxShadow: `0 0 4px ${agent.color}` }} />
+                              </div>
+                              <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8 }}>{renderMarkdown(conv.message)}</div>
                             </div>
                           </div>
                         );
                       })}
                     </div>
                   );
-                })}
-              </div>
-            )}
-            {sidebarTab === "repos" && (
-              <div style={{ padding: 10 }}>
-                <div style={{ fontSize: 9, color: "#8844ee", letterSpacing: 2, marginBottom: 12 }}>◆ GITHUB REPOS</div>
-                {Object.values({ scripts: { name: "ezequielpentest/scripts", url: "https://github.com/ezequielpentest/scripts", desc: "Scripts de pentest" }, htb: { name: "ezequielpentest/htb-writeups", url: "https://github.com/ezequielpentest/htb-writeups", desc: "Writeups HTB" }, notas: { name: "ezequielpentest/pentest-notas", url: "https://github.com/ezequielpentest/pentest-notas", desc: "Notas de pentest" } }).map(repo => (
-                  <div key={repo.name} style={{ background: "#0a0a14", border: "1px solid #1a1a3a", borderRadius: 8, padding: 10, marginBottom: 8 }}>
-                    <div style={{ fontSize: 10, color: "#8844ee", fontWeight: "bold", marginBottom: 4 }}>🐙 {repo.name}</div>
-                    <div style={{ fontSize: 9, color: "#445", marginBottom: 6 }}>{repo.desc}</div>
-                    <a href={repo.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 9, color: "#8844ee", textDecoration: "none", border: "1px solid #8844ee44", borderRadius: 3, padding: "2px 6px" }}>↗ abrir</a>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+                }
+                return null;
+              })}
 
-        {/* Chat */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
-          {/* Scanline overlay */}
-          <div className="scanline" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }} />
-
-          {/* Messages */}
-          <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: 16, position: "relative", zIndex: 1 }}>
-
-            {messages.length === 1 && (
-              <div style={{ marginTop: 20 }}>
-                <div style={{ textAlign: "center", marginBottom: 24 }}>
-                  <div style={{ fontSize: 32, marginBottom: 8 }}>🧬</div>
-                  <div style={{ fontSize: 14, color: "#00ff88", fontFamily: "'Orbitron', monospace", letterSpacing: 2, marginBottom: 4 }}>EZEIA</div>
-                  <div style={{ fontSize: 11, color: "#445", maxWidth: 400, margin: "0 auto", lineHeight: 1.8 }}>
-                    Descreva sua situação em linguagem natural. O sistema identificará o agente ideal e coordenará o time.
+              {loading && (
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ width: 34, height: 34, borderRadius: 8, background: "#00ff8815", border: "1px solid #00ff8840", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🧬</div>
+                  <div style={{ background: "#08080e", border: "1px solid #00ff8820", borderRadius: "2px 10px 10px 10px", padding: "10px 14px" }}>
+                    <div style={{ fontSize: 10, color: "#00ff88", marginBottom: 6, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>EZEIA</div>
+                    <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                      {[0, 1, 2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ff88", animation: `pulse 1s ${i * 0.2}s infinite` }} />)}
+                      <span style={{ fontSize: 11, color: "#334433", marginLeft: 8 }}>identificando agente e processando...</span>
+                    </div>
                   </div>
                 </div>
-                <div className="quick-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
-                  {quickPrompts.map(p => (
-                    <button key={p} className="quick-btn" onClick={() => { setInput(p); inputRef.current?.focus(); }} style={{
-                      background: "#08080e", border: "1px solid #0a2a0a", borderRadius: 8,
-                      padding: "10px 12px", cursor: "pointer", textAlign: "left",
-                      fontSize: 11, color: "#556677", fontFamily: "inherit", lineHeight: 1.5,
-                      transition: "all 0.2s",
-                    }}>{p}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {messages.map((msg, idx) => {
-              if (msg.type === "system") return (
-                <div key={idx} style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: 10, color: "#334433", background: "#0a1a0a", padding: "3px 12px", borderRadius: 20, border: "1px solid #0a2a0a" }}>
-                    🧬 {msg.content}
-                  </span>
-                </div>
-              );
-
-              if (msg.type === "user") return (
-                <div key={idx} style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <div style={{
-                    maxWidth: "70%", background: "#0a1a0a",
-                    border: "1px solid #1a3a1a", borderRadius: "10px 2px 10px 10px",
-                    padding: "10px 14px", fontSize: 12, color: "#aaccaa", lineHeight: 1.7,
-                  }}>
-                    {msg.content}
-                  </div>
-                </div>
-              );
-
-              if (msg.type === "agent_conversation") {
-                const convAgents = (msg.agents || []).map(id => AGENT_MAP[id]).filter(Boolean);
-                return (
-                  <div key={idx} className="agent-msg" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {/* Dispatch notice */}
-                    {convAgents.length > 0 && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{ height: 1, flex: 1, background: "linear-gradient(90deg, transparent, #0a2a0a)" }} />
-                        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                          <span style={{ fontSize: 9, color: "#334433" }}>EZEIA → </span>
-                          {convAgents.map(a => (
-                            <span key={a.id} style={{
-                              fontSize: 9, padding: "2px 8px", borderRadius: 10,
-                              background: a.color + "15", color: a.color,
-                              border: `1px solid ${a.color}30`,
-                            }}>{a.icon} {a.name}</span>
-                          ))}
-                        </div>
-                        <div style={{ height: 1, flex: 1, background: "linear-gradient(90deg, #0a2a0a, transparent)" }} />
-                      </div>
-                    )}
-
-                    {/* Agent messages */}
-                    {(msg.conversation || []).map((conv, ci) => {
-                      const agent = AGENT_MAP[conv.agent] || AGENT_MAP["dispatch"];
-                      return (
-                        <div key={ci} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                          <div style={{
-                            width: 34, height: 34, borderRadius: 8, flexShrink: 0,
-                            background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`,
-                            border: `1px solid ${agent.color}40`,
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            fontSize: 16, boxShadow: `0 0 10px ${agent.color}20`,
-                          }}>{agent.icon}</div>
-                          <div style={{
-                            flex: 1, background: "#08080e",
-                            border: `1px solid ${agent.color}25`,
-                            borderRadius: "2px 10px 10px 10px",
-                            padding: "10px 14px",
-                            boxShadow: `inset 0 0 20px ${agent.color}05`,
-                          }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                              <span style={{ fontSize: 10, color: agent.color, fontWeight: "bold", letterSpacing: 1, fontFamily: "'Orbitron', monospace" }}>{agent.name}</span>
-                              <span style={{ fontSize: 9, color: "#334433" }}>•</span>
-                              <span style={{ fontSize: 9, color: "#445" }}>{agent.role}</span>
-                              <div style={{ width: 4, height: 4, borderRadius: "50%", background: agent.color, marginLeft: "auto", boxShadow: `0 0 4px ${agent.color}` }} />
-                            </div>
-                            <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8 }}>
-                              {renderMarkdown(conv.message)}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              }
-              return null;
-            })}
-
-            {loading && (
-              <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <div style={{
-                  width: 34, height: 34, borderRadius: 8,
-                  background: "#00ff8815", border: "1px solid #00ff8840",
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16,
-                }}>🧬</div>
-                <div style={{
-                  background: "#08080e", border: "1px solid #00ff8820",
-                  borderRadius: "2px 10px 10px 10px", padding: "10px 14px",
-                }}>
-                  <div style={{ fontSize: 10, color: "#00ff88", marginBottom: 6, fontFamily: "'Orbitron', monospace", letterSpacing: 1 }}>EZEIA</div>
-                  <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                    {[0, 1, 2].map(i => (
-                      <div key={i} style={{
-                        width: 6, height: 6, borderRadius: "50%", background: "#00ff88",
-                        animation: `pulse 1s ${i * 0.2}s infinite`,
-                      }} />
-                    ))}
-                    <span style={{ fontSize: 11, color: "#334433", marginLeft: 8 }}>identificando agente e processando...</span>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={bottomRef} />
-          </div>
+              )}
+              <div ref={bottomRef} />
+            </div>
+          )}
 
           {/* Input */}
-          <div style={{
-            padding: "12px 20px",
-            background: "#050508",
-            borderTop: "1px solid #0a2a0a",
-            position: "relative", zIndex: 1,
-          }}>
-            {/* Banner agente fixado */}
-            {pinnedAgent && pinnedAgent.id !== "dispatch" && (
-              <div style={{
-                display: "flex", alignItems: "center", gap: 8,
-                background: pinnedAgent.color + "15",
-                border: `1px solid ${pinnedAgent.color}40`,
-                borderRadius: 6, padding: "6px 12px", marginBottom: 10,
-              }}>
-                <span style={{ fontSize: 14 }}>{pinnedAgent.icon}</span>
-                <span style={{ fontSize: 10, color: pinnedAgent.color, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>
-                  📌 {pinnedAgent.name} fixado
-                </span>
-                <span style={{ fontSize: 9, color: "#445", flex: 1 }}>{pinnedAgent.role}</span>
-                <button onClick={() => setPinnedAgent(null)} style={{
-                  background: "none", border: "none", color: "#445",
-                  cursor: "pointer", fontSize: 12, padding: "0 4px",
-                }} title="Soltar agente">✕</button>
+          <div style={{ padding: "12px 20px", background: "#050508", borderTop: "1px solid #0a2a0a", position: "relative", zIndex: 1, flexShrink: 0 }}>
+            {/* Banner modo atual */}
+            {chatMode === "agent" && selectedAgent && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, background: selectedAgent.color + "10", border: `1px solid ${selectedAgent.color}30`, borderRadius: 6, padding: "5px 10px", marginBottom: 8 }}>
+                <span style={{ fontSize: 13 }}>{selectedAgent.icon}</span>
+                <span style={{ fontSize: 10, color: selectedAgent.color, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{selectedAgent.name}</span>
+                <span style={{ fontSize: 9, color: "#445", flex: 1 }}>chat individual</span>
+                <button onClick={() => { setChatMode("general"); setSelectedAgent(null); }} style={{ background: "none", border: "none", color: "#445", cursor: "pointer", fontSize: 11 }}>✕</button>
               </div>
             )}
-            <div style={{ position: "absolute", top: 0, left: 20, right: 20, height: 1, background: "linear-gradient(90deg, transparent, #00ff8822, transparent)" }} />
+            <div style={{ position: "absolute", top: 0, left: 20, right: 20, height: 1, background: "linear-gradient(90deg,transparent,#00ff8822,transparent)" }} />
             <div style={{ display: "flex", gap: 10 }}>
               <div style={{ position: "relative", flex: 1 }}>
-                <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 12, color: "#00ff8844" }}>▶</span>
+                <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 12, color: chatMode === "agent" && selectedAgent ? selectedAgent.color + "66" : "#00ff8844" }}>▶</span>
                 <input
                   ref={inputRef}
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder={pinnedAgent && pinnedAgent.id !== "dispatch" ? `Fale direto com ${pinnedAgent.name}...` : "Descreva sua situação... EZEIA escolhe o agente"}
+                  placeholder={chatMode === "agent" && selectedAgent ? `Fale com ${selectedAgent.name}...` : "Descreva sua situação... EZEIA escolhe o agente"}
                   className="mob-input"
                   style={{
                     width: "100%", background: "#08080e",
-                    border: "1px solid #0a2a0a", borderRadius: 8,
-                    padding: "11px 14px 11px 30px",
+                    border: `1px solid ${chatMode === "agent" && selectedAgent ? selectedAgent.color + "30" : "#0a2a0a"}`,
+                    borderRadius: 8, padding: "11px 14px 11px 30px",
                     color: "#aaccaa", fontSize: 16, fontFamily: "inherit",
-                    outline: "none", boxSizing: "border-box",
-                    transition: "border-color 0.2s",
+                    outline: "none", boxSizing: "border-box", transition: "border-color 0.2s",
                   }}
-                  onFocus={e => e.target.style.borderColor = "#00ff8844"}
-                  onBlur={e => e.target.style.borderColor = "#0a2a0a"}
+                  onFocus={e => e.target.style.borderColor = chatMode === "agent" && selectedAgent ? selectedAgent.color + "66" : "#00ff8844"}
+                  onBlur={e => e.target.style.borderColor = chatMode === "agent" && selectedAgent ? selectedAgent.color + "30" : "#0a2a0a"}
                 />
               </div>
               <button onClick={sendMessage} disabled={loading} style={{
                 padding: "11px 22px", borderRadius: 8, border: "1px solid #00ff8840",
-                background: loading ? "#08080e" : "linear-gradient(135deg, #001a00, #0a2a0a)",
+                background: loading ? "#08080e" : "linear-gradient(135deg,#001a00,#0a2a0a)",
                 color: loading ? "#334433" : "#00ff88",
                 cursor: loading ? "not-allowed" : "pointer",
-                fontSize: 11, fontFamily: "'Orbitron', monospace",
-                fontWeight: "bold", letterSpacing: 2,
-                boxShadow: loading ? "none" : "0 0 20px #00ff8815",
-                transition: "all 0.2s",
-              }}>
-                {loading ? "..." : "ENVIAR"}
-              </button>
+                fontSize: 11, fontFamily: "'Orbitron',monospace", fontWeight: "bold", letterSpacing: 2,
+                boxShadow: loading ? "none" : "0 0 20px #00ff8815", transition: "all 0.2s",
+              }}>{loading ? "..." : "ENVIAR"}</button>
             </div>
             <div style={{ fontSize: 9, color: "#223322", marginTop: 6, textAlign: "center", letterSpacing: 1 }}>
               ENTER para enviar • apenas ambientes autorizados, CTFs e labs
