@@ -335,7 +335,7 @@ function Squad() {
         type: "agent_conversation",
         agents: ["dispatch"],
         reasoning: "Erro",
-        conversation: [{ agent: "dispatch", message: "Erro de conexão. Tente novamente." }],
+        conversation: [{ agent: "dispatch", message: "Limite de mensagens atingida" }],
       }]);
     }
     setLoading(false);
