@@ -374,7 +374,7 @@ function App() {
         ),
         h('div', { style: { padding: '12px 20px', borderTop: '1px solid #0a2a0a' } },
           h('div', { style: { display: 'flex', gap: 10 } },
-            h('input', { ref: inputRef, value: input, onChange: e => setInput(e.target.value), onKeyDown: e => e.key === 'Enter' && sendMessage(), placeholder: 'Descreva sua situação...', style: { flex: 1, background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 8, padding: '11px 14px', color: '#aaccaa', fontSize: 12, fontFamily: 'inherit', outline: 'none' } }),
+            h('input', { ref: inputRef, value: input, onChange: e => setInput(e.target.value), onKeyDown: e => e.key === 'Enter' && sendMessage(), placeholder: 'Describe your situation...', style: { flex: 1, background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 8, padding: '11px 14px', color: '#aaccaa', fontSize: 12, fontFamily: 'inherit', outline: 'none' } }),
             h('button', { onClick: sendMessage, disabled: loading, style: { padding: '11px 22px', borderRadius: 8, border: '1px solid #00ff8840', background: loading ? '#08080e' : 'linear-gradient(135deg,#001a00,#0a2a0a)', color: loading ? '#334433' : '#00ff88', cursor: loading ? 'not-allowed' : 'pointer', fontSize: 11, fontFamily: "'Orbitron',monospace", fontWeight: 'bold' } }, loading ? '...' : 'ENVIAR')
           )
         )
