@@ -298,6 +298,7 @@ function App() {
 
   return h('div', { style: { height: '100vh', display: 'flex', flexDirection: 'column', background: '#050508', overflow: 'hidden' } },
     h('div', { style: { background: '#0a0a14', borderBottom: '1px solid #0a2a0a', padding: '0 20px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 } },
+      
       // ✅ BOTÕES RÁPIDOS (AQUI!)
     h('div', { style: { padding: '0 20px 12px 20px', display: 'flex', gap: 8, flexWrap: 'wrap', borderBottom: '1px solid #0a2a0a' } },
       ...QUICK_PROMPTS.map(p => 
@@ -308,7 +309,8 @@ function App() {
           style: { background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 20, padding: '6px 14px', fontSize: 10, color: '#667766', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' } 
         }, p.length > 45 ? p.slice(0, 45) + '...' : p)
       )
-    ),      
+    ),  
+      
       h('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
         h('div', { style: { width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg,#00ff88,#0088ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 } }, '⚡'),
         h('div', null,
