@@ -96,22 +96,9 @@
 import { createElement as h, useState, useRef, useEffect, Fragment } from 'https://esm.sh/react@18';
 import { createRoot } from 'https://esm.sh/react-dom@18/client';
 
-// ============= SISTEMA DE LOGIN COM API =============
-async function authenticate(username, password) {
-  try {
-    const response = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    
-    const data = await response.json();
-    return { success: response.ok && data.success, data };
-  } catch (error) {
-    console.error('Erro na autenticação:', error);
-    return { success: false, data: null };
-  }
-}
+// ============= CREDENCIAIS LOCAIS (PARA TESTE) =============
+const VALID_USERNAME = "admin";
+const VALID_PASSWORD = "123456";
 
 function initLogin() {
   const usernameInput = document.getElementById('username');
@@ -130,21 +117,11 @@ function initLogin() {
     }, 3000);
   }
   
-  async function attemptLogin() {
+  function attemptLogin() {
     const user = usernameInput.value.trim();
     const pass = passwordInput.value;
     
-    if (!user || !pass) {
-      showError();
-      return;
-    }
-    
-    loginBtn.disabled = true;
-    loginBtn.textContent = '▶ VERIFICANDO...';
-    
-    const { success } = await authenticate(user, pass);
-    
-    if (success) {
+    if (user === VALID_USERNAME && pass === VALID_PASSWORD) {
       sessionStorage.setItem('auth_user', user);
       sessionStorage.setItem('auth_time', Date.now().toString());
       document.body.classList.add('app-loaded');
@@ -154,20 +131,11 @@ function initLogin() {
       passwordInput.value = '';
       passwordInput.focus();
     }
-    
-    loginBtn.disabled = false;
-    loginBtn.textContent = '▶ System Access';
   }
   
   loginBtn.addEventListener('click', attemptLogin);
-  
-  usernameInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') passwordInput.focus();
-  });
-  
-  passwordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') attemptLogin();
-  });
+  usernameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
+  passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
   
   const authUser = sessionStorage.getItem('auth_user');
   const authTime = sessionStorage.getItem('auth_time');
@@ -223,19 +191,18 @@ Responda SEMPRE em português brasileiro com formato JSON:
   "conversation": [{"agent": "agent_id", "message": "resposta técnica"}]
 }`;
 
+// ============= API GROQ (GRATUITA) =============
 async function callAPI(messages) {
-  const res = await fetch("/api/claude", {
+  const res = await fetch("/api/groq", {  // ← MUDOU PARA /api/groq
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1500,
-      system: DISPATCHER_SYSTEM,
-      messages,
+      messages: messages,
+      system: DISPATCHER_SYSTEM
     }),
   });
   const data = await res.json();
-  if (data.error) throw new Error(data.error.message || data.error);
+  if (data.error) throw new Error(data.error);
   return data.content?.[0]?.text || "";
 }
 
@@ -371,7 +338,7 @@ function App() {
             return null;
           }),
           
-          // ✅ BOTÕES RÁPIDOS - Aparecem apenas quando há apenas a mensagem do sistema
+          // ✅ BOTÕES RÁPIDOS
           messages.length === 1 && h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, maxWidth: 600, margin: '20px auto 0' } },
             ...QUICK_PROMPTS.map(p => 
               h('button', { 
