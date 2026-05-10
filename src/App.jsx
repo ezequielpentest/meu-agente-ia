@@ -263,7 +263,7 @@ function inlineFormat(text) {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-function App() {
+function Squad() {
   const [messages, setMessages] = useState([{
     type: "system",
     content: "NEXUS online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
@@ -832,5 +832,5 @@ function App() {
 export default function App() {
   const [auth, setAuth] = useState(() => sessionStorage.getItem("squad_auth") === "1");
   if (!auth) return <LoginScreen onLogin={() => setAuth(true)} />;
-  return <App />;
+  return <Squad />;
 }
