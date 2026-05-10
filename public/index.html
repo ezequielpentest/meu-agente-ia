@@ -330,7 +330,7 @@ function App() {
         ),
         sidebarTab === 'agents' ? h(Fragment, null,
           h('div', { style: { padding: '8px' } },
-            h('input', { value: search, onChange: e => setSearch(e.target.value), placeholder: 'buscar...', style: { width: '100%', background: '#0a0a0f', border: '1px solid #0a2a0a', borderRadius: 4, padding: '5px 8px', color: '#668866', fontSize: 10, fontFamily: 'inherit', outline: 'none' } })
+            h('input', { value: search, onChange: e => setSearch(e.target.value), placeholder: 'Search...', style: { width: '100%', background: '#0a0a0f', border: '1px solid #0a2a0a', borderRadius: 4, padding: '5px 8px', color: '#668866', fontSize: 10, fontFamily: 'inherit', outline: 'none' } })
           ),
           h('div', { style: { flex: 1, overflowY: 'auto' } },
             ...TEAM_ORDER.map(team => {
