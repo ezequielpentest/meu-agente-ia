@@ -1,39 +1,46 @@
-// Cloudflare Pages Function - autenticação segura
+// functions/api/auth.js
 export async function onRequest(context) {
-  const { request } = context;
+  const { request, env } = context;
   
-  // Apenas POST
   if (request.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
   
   try {
     const { username, password } = await request.json();
     
-    // Credenciais seguras nas Environment Variables
-    const VALID_USER = context.env.ADMIN_USERNAME || "Usuário";
-    const VALID_PASS = context.env.ADMIN_PASSWORD;
+    // ⚠️ CREDENCIAIS SEGURAS - Configure no Cloudflare Dashboard
+    const VALID_USERNAME = env.ADMIN_USERNAME;
+    const VALID_PASSWORD = env.ADMIN_PASSWORD;
     
-    if (username === VALID_USER && password === VALID_PASS) {
-      // Gera token simples (opcional)
-      const token = btoa(`${username}:${Date.now()}`);
-      
+    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
       return new Response(JSON.stringify({ 
         success: true, 
-        token: token 
+        message: "Authenticated"
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
     }
     
-    return new Response(JSON.stringify({ success: false }), {
+    return new Response(JSON.stringify({ 
+      success: false, 
+      message: "Invalid credentials"
+    }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
+    
   } catch (error) {
-    return new Response(JSON.stringify({ success: false, error: error.message }), {
-      status: 500
+    return new Response(JSON.stringify({ 
+      success: false, 
+      error: error.message 
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }
