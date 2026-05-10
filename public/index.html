@@ -106,9 +106,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   .quick-grid{grid-template-columns:1fr}
 }
 .login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
-.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 32px;width:340px;max-width:90vw}
+.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 32px;width:380px;max-width:90vw}
 .login-logo{font-size:32px;text-align:center;margin-bottom:12px}
-.login-title{font-size:18px;font-weight:500;text-align:center;color:var(--text);margin-bottom:4px}
+.login-title{font-size:18px;font-weight:600;text-align:center;color:var(--text);margin-bottom:4px}
 .login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:28px}
 .login-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:block;font-weight:500}
 .login-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px}
@@ -117,6 +117,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .login-btn:hover{opacity:.85}
 .login-err{font-size:12px;color:#a32d2d;text-align:center;margin-top:12px;display:none}
 .login-err.show{display:block}
+.switch-form{text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted)}
+.switch-link{color:var(--text);cursor:pointer;text-decoration:underline;margin-left:4px}
+.switch-link:hover{opacity:.7}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -124,30 +127,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </head>
 <body>
 
+<!-- LOGIN/REGISTER -->
 <div class="login-wrap" id="loginWrap">
-  <div class="login-card">
-    <div class="login-logo">⚡</div>
-    <div class="login-title">Pentest Forge</div>
-    <div class="login-sub">Cyber Squad — acesso restrito</div>
-    <label class="login-label">Usuário</label>
-    <input class="login-input" id="loginUser" type="text" placeholder="admin" autocomplete="off"/>
-    <label class="login-label">Senha</label>
-    <input class="login-input" id="loginPass" type="password" placeholder="••••••••"/>
-    <button class="login-btn" id="loginBtn">Entrar</button>
-    <div class="login-err" id="loginErr">Credenciais inválidas</div>
+  <div class="login-card" id="loginCard">
+    <!-- Formulário de Login -->
+    <div id="loginForm">
+      <div class="login-logo">⚡</div>
+      <div class="login-title">Pentest Forge</div>
+      <div class="login-sub">Cyber Squad — entre com sua conta</div>
+      <label class="login-label">E-mail</label>
+      <input class="login-input" id="loginEmail" type="email" placeholder="seu@email.com" autocomplete="off"/>
+      <label class="login-label">Senha</label>
+      <input class="login-input" id="loginPassword" type="password" placeholder="••••••••"/>
+      <button class="login-btn" id="loginBtn">Entrar</button>
+      <div class="login-err" id="loginErr">Credenciais inválidas</div>
+      <div class="switch-form">Não tem conta? <span class="switch-link" id="showRegister">Criar conta</span></div>
+    </div>
+    
+    <!-- Formulário de Registro (escondido) -->
+    <div id="registerForm" style="display:none">
+      <div class="login-logo">⚡</div>
+      <div class="login-title">Criar Conta</div>
+      <div class="login-sub">Cadastre-se para acessar o Pentest Forge</div>
+      <label class="login-label">Nome</label>
+      <input class="login-input" id="regName" type="text" placeholder="Seu nome" autocomplete="off"/>
+      <label class="login-label">E-mail</label>
+      <input class="login-input" id="regEmail" type="email" placeholder="seu@email.com" autocomplete="off"/>
+      <label class="login-label">Senha</label>
+      <input class="login-input" id="regPassword" type="password" placeholder="••••••••"/>
+      <button class="login-btn" id="registerBtn">Cadastrar</button>
+      <div class="login-err" id="registerErr">Erro no cadastro</div>
+      <div class="switch-form">Já tem conta? <span class="switch-link" id="showLogin">Fazer login</span></div>
+    </div>
   </div>
 </div>
 
+<!-- APP -->
 <div class="app" id="app" style="display:none">
   <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span style="font-size:18px">⚡</span>
       <span class="sidebar-logo">Pentest Forge</span>
-      <button class="icon-btn" onclick="toggleDark()" title="Tema">🌙</button>
+      <button class="icon-btn" id="darkModeBtn" title="Tema">🌙</button>
     </div>
     <div style="padding:0 8px 8px">
-      <button class="new-chat-btn" onclick="newChat()">
+      <button class="new-chat-btn" id="newChatBtn">
         <span style="font-size:18px">✏️</span> Novo chat
       </button>
     </div>
@@ -167,7 +192,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="topbar">
       <span class="topbar-title" id="topbarTitle">EZEIA — Chat Geral</span>
       <div class="topbar-agent" id="topbarAgent">🧬 EZEIA</div>
-      <button class="icon-btn" onclick="clearChat()" title="Limpar">🗑️</button>
+      <button class="icon-btn" id="clearChatBtn" title="Limpar">🗑️</button>
+      <button class="icon-btn" id="logoutBtn" title="Sair">🚪</button>
     </div>
     <div class="messages" id="messagesDiv">
       <div class="messages-inner" id="messagesInner"></div>
@@ -177,11 +203,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="mode-banner" id="modeBanner" style="display:none">
           <span id="bannerIcon"></span>
           <span style="flex:1;margin-left:6px" id="bannerLabel"></span>
-          <button class="close-btn" onclick="exitAgentMode()">✕</button>
+          <button class="close-btn" id="exitAgentBtn">✕</button>
         </div>
         <textarea class="input-box" id="inputBox" rows="1" placeholder="Mensagem..."></textarea>
         <button class="send-btn" id="sendBtn" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
       <div class="input-hint">Enter para enviar · Shift+Enter nova linha · apenas ambientes autorizados</div>
@@ -189,11 +215,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<button class="mob-toggle" onclick="toggleSidebar()">☰</button>
+<button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
-const CREDS = { user: "admin", pass: "123456" };
-
+// ============= AGENTS =============
 const AGENTS = [
   { id:"dispatch",   name:"EZEIA",     role:"Dispatcher automático",    team:"core", icon:"🧬", color:"#3b6d11", bg:"#eaf3de" },
   { id:"recon",      name:"Ghost",     role:"OSINT & reconhecimento",   team:"red",  icon:"👁️", color:"#185fa5", bg:"#e6f1fb" },
@@ -222,87 +247,7 @@ const QUICK = [
   "Escreve um writeup HTB completo para meu GitHub",
 ];
 
-// ============================================================
-// SYSTEM PROMPTS AVANÇADOS - VERSÃO CORRIGIDA
-// ============================================================
-const SYSTEM = {
-  dispatch: `Você é EZEIA, dispatcher de elite. Responda SOMENTE com JSON válido e respostas EXTREMAMENTE DETALHADAS.
-
-CRÍTICO: Sua resposta deve ser UM ÚNICO JSON. NADA antes, NADA depois.
-
-REGRAS PARA RESPOSTAS DOS AGENTES:
-
-1. password/Cipher: SEMPRE mostre comandos COMPLETOS para identificar e quebrar o arquivo:
-   - file arquivo.enc
-   - xxd arquivo.enc | head -20
-   - zip2john backup.zip.enc > hash.txt  (se for ZIP)
-   - openssl enc -d -aes-256-cbc -in arquivo.enc -out decriptado.zip -k senha
-   - hashcat -m 13600 hash.txt /usr/share/wordlists/rockyou.txt
-
-2. privesc/Escalon: SEMPRE mostre comandos REAIS com checklist completo:
-   - whoami; id
-   - sudo -l
-   - find / -perm -4000 -type f 2>/dev/null
-   - uname -a; cat /etc/os-release
-   - curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh
-
-3. script/Syntax: Código Python COMPLETO e funcional, não snippet. Com imports, funções, main.
-
-4. github/GitOps: Writeup COMPLETO no formato markdown com todas as seções: Título, Sumário, Reconhecimento, Enumeração, Exploitation, Escalação, Flags, Lições Aprendidas. Use comandos reais.
-
-EXEMPLO DE RESPOSTA CORRETA:
-
-{
-  "agents": ["password", "privesc", "script", "github"],
-  "reasoning": "texto curto explicando",
-  "conversation": [
-    {
-      "agent": "password",
-      "message": "**1. Identificar o tipo de criptografia:**\\n```bash\\nfile backup.zip.enc\\nxxd backup.zip.enc | head -20\\n```\\n**2. Extrair hash:**\\n```bash\\nzip2john backup.zip.enc > hash.txt\\n```\\n**3. Quebrar com hashcat:**\\n```bash\\nhashcat -m 13600 hash.txt /usr/share/wordlists/rockyou.txt\\n```"
-    },
-    {
-      "agent": "privesc",
-      "message": "**Checklist de escalação Linux:**\\n```bash\\nwhoami; id\\nsudo -l\\nfind / -perm -4000 -type f 2>/dev/null\\ncurl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh\\n```"
-    },
-    {
-      "agent": "script",
-      "message": "```python\\n#!/usr/bin/env python3\\n\\\"\\\"\\\"Script de enumeração automática\\\"\\\"\\\"\\nimport subprocess\\nimport sys\\n\\ndef run(cmd):\\n    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)\\n    return result.stdout\\n\\ndef main():\\n    ip = sys.argv[1] if len(sys.argv) > 1 else input(\\\"IP: \\\")\\n    print(run(f\\\"nmap -sV -p- {ip}\\\"))\\n\\nif __name__ == \\\"__main__\\\":\\n    main()\\n```"
-    },
-    {
-      "agent": "github",
-      "message": "# Cicada - HTB Writeup\\n\\n## Enumeração\\n### Nmap\\n```bash\\nnmap -sV -sC -p- 10.10.11.x\\n```\\n### SMB\\n```bash\\nsmbclient -L //10.10.11.x -N\\n```\\n\\n## Exploitation\\n### Descriptografia\\n```bash\\nzip2john backup.zip.enc > hash.txt\\nhashcat -m 13600 hash.txt rockyou.txt\\n```\\n\\n## Flags\\n- user.txt: flag_aqui\\n- root.txt: flag_aqui\\n\\n## Lições Aprendidas\\n- Sempre verificar SMB anônimo\\n- Wordlists fazem diferença"
-    }
-  ]
-}`,
-
-  recon: `Você é Ghost, especialista em OSINT e reconhecimento. Responda em português com comandos COMPLETOS e detalhados. Mostre sempre: nmap -sS -sV -sC -p-, enum4linux, smbclient, gobuster, ffuf, whatweb. Explique cada flag.`,
-
-  web: `Você é Phantom, especialista em web exploitation. Responda em português com payloads reais para SQLi, XSS, LFI/RFI. Mostre comandos do sqlmap apenas como último recurso, priorize manual.`,
-
-  network: `Você é Shadow, especialista em network pentesting. Responda em português com comandos reais para nmap, enumeração de serviços, pivoting com Ligolo/Chisel.`,
-
-  exploit: `Você é Viper, especialista em exploits. Responda em português mostrando como buscar exploits com searchsploit, como adaptar e como corrigir.`,
-
-  password: `Você é Cipher, especialista em cracking. Responda em português identificando automaticamente o tipo de hash/criptografia. Mostre comandos completos do zip2john, john, hashcat (com modo correto: 13600 para ZIP, 1000 para NTLM, 1800 para bcrypt). Recomende rockyou.txt.`,
-
-  post: `Você é Wraith, especialista em pós-exploração. Responda em português mostrando como estabilizar shell (python3 -c 'import pty;pty.spawn(\"/bin/bash\")'), transferir arquivos (wget/curl/powershell), persistência e lateral movement.`,
-
-  ad: `Você é Dominator, especialista em Active Directory. Responda em português com comandos para BloodHound, PowerView, Impacket, Kerberoasting.`,
-
-  bof: `Você é B0F, especialista em Buffer Overflow. Responda em português com código Python completo para fuzzing, offset, badchars, shellcode.`,
-
-  privesc: `Você é Escalon, especialista em privilege escalation. Responda em português com checklist completo: sudo -l, SUID find / -perm -4000, cron jobs, LinPEAS/WinPEAS. Mostre comandos reais e como interpretar saídas.`,
-
-  script: `Você é Syntax, especialista em scripting. Responda em português com código Python COMPLETO e funcional. Inclua shebang, imports, função main, tratamento de erros. O código deve rodar sem modificações.`,
-
-  metasploit: `Você é Hydra, especialista em Metasploit. Responda em português com comandos completos: search, use, set RHOSTS, set LHOST, run, meterpreter.`,
-
-  report: `Você é Scribe, especialista em relatórios. Responda em português com estrutura profissional de relatório DCPT/OSCP.`,
-
-  github: `Você é GitOps, especialista em GitHub. Responda em português gerando writeup MARKDOWN COMPLETO e pronto para copiar. Use o template: # Nome da Máquina, ## Resumo, ## Reconhecimento, ## Enumeração, ## Exploitation, ## Escalação de Privilégios, ## Flags, ## Lições Aprendidas.`
-};
-
-// Estado
+// ============= STATE =============
 let chatMode = "general";
 let selectedAgentId = "dispatch";
 let messages = [];
@@ -311,28 +256,139 @@ let agentChats = JSON.parse(localStorage.getItem("pf_agent_chats") || "{}");
 let currentSessionId = Date.now().toString();
 let loading = false;
 let darkMode = localStorage.getItem("pf_dark") === "1";
+let currentUser = null;
 
-document.getElementById("loginBtn").onclick = doLogin;
-document.getElementById("loginPass").addEventListener("keydown", e => { if(e.key==="Enter") doLogin(); });
-document.getElementById("loginUser").addEventListener("keydown", e => { if(e.key==="Enter") document.getElementById("loginPass").focus(); });
+// ============= HELPER FUNCTIONS =============
+function escapeHtml(t) { 
+  if(!t) return '';
+  return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); 
+}
 
-function doLogin(){
-  const u = document.getElementById("loginUser").value.trim();
-  const p = document.getElementById("loginPass").value;
-  if(u===CREDS.user && p===CREDS.pass){
-    sessionStorage.setItem("pf_auth","1");
+function renderMD(text){
+  if(!text) return "";
+  let t = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  t = t.replace(/```[\w]*\n?([\s\S]*?)```/g, (_,c)=>`<pre>${c}</pre>`);
+  t = t.replace(/`([^`]+)`/g,"<code>$1</code>");
+  t = t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+  t = t.replace(/^#{1,3} (.+)$/gm,"<div style='font-size:14px;font-weight:600;color:var(--text);margin:10px 0 4px'>$1</div>");
+  t = t.replace(/^[-*] (.+)$/gm,"<div style='padding-left:14px;margin:3px 0'>▸ $1</div>");
+  t = t.replace(/\n\n/g,"<br/><br/>").replace(/\n/g,"<br/>");
+  return t;
+}
+
+// ============= LOGIN/REGISTER API =============
+async function apiRequest(action, data) {
+  const response = await fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, ...data })
+  });
+  return await response.json();
+}
+
+// Mostrar formulário de registro
+document.getElementById("showRegister").onclick = () => {
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("registerForm").style.display = "block";
+  document.getElementById("loginErr").classList.remove("show");
+  document.getElementById("registerErr").classList.remove("show");
+};
+
+document.getElementById("showLogin").onclick = () => {
+  document.getElementById("registerForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("loginErr").classList.remove("show");
+  document.getElementById("registerErr").classList.remove("show");
+};
+
+// Login
+document.getElementById("loginBtn").onclick = async () => {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const errDiv = document.getElementById("loginErr");
+  
+  if(!email || !password) {
+    errDiv.textContent = "Preencha todos os campos";
+    errDiv.classList.add("show");
+    setTimeout(() => errDiv.classList.remove("show"), 3000);
+    return;
+  }
+  
+  const result = await apiRequest('login', { email, password });
+  
+  if(result.success) {
+    currentUser = result.user;
+    sessionStorage.setItem("pf_auth", "1");
+    sessionStorage.setItem("pf_user", JSON.stringify(result.user));
     document.getElementById("loginWrap").style.display = "none";
     document.getElementById("app").style.display = "flex";
     boot();
   } else {
-    const err = document.getElementById("loginErr");
-    err.classList.add("show");
-    document.getElementById("loginPass").value = "";
-    setTimeout(()=>err.classList.remove("show"), 3000);
+    errDiv.textContent = result.error || "Credenciais inválidas";
+    errDiv.classList.add("show");
+    document.getElementById("loginPassword").value = "";
+    setTimeout(() => errDiv.classList.remove("show"), 3000);
   }
-}
+};
 
-function boot(){
+// Registro
+document.getElementById("registerBtn").onclick = async () => {
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const errDiv = document.getElementById("registerErr");
+  
+  if(!name || !email || !password) {
+    errDiv.textContent = "Preencha todos os campos";
+    errDiv.classList.add("show");
+    setTimeout(() => errDiv.classList.remove("show"), 3000);
+    return;
+  }
+  
+  if(password.length < 4) {
+    errDiv.textContent = "Senha deve ter no mínimo 4 caracteres";
+    errDiv.classList.add("show");
+    setTimeout(() => errDiv.classList.remove("show"), 3000);
+    return;
+  }
+  
+  const result = await apiRequest('register', { email, password, name });
+  
+  if(result.success) {
+    alert("Conta criada com sucesso! Faça login.");
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("regName").value = "";
+    document.getElementById("regEmail").value = "";
+    document.getElementById("regPassword").value = "";
+  } else {
+    errDiv.textContent = result.error || "Erro ao cadastrar";
+    errDiv.classList.add("show");
+    setTimeout(() => errDiv.classList.remove("show"), 3000);
+  }
+};
+
+// Enter nas senhas
+document.getElementById("loginPassword").addEventListener("keydown", (e) => { if(e.key === "Enter") document.getElementById("loginBtn").click(); });
+document.getElementById("regPassword").addEventListener("keydown", (e) => { if(e.key === "Enter") document.getElementById("registerBtn").click(); });
+
+// Logout
+document.getElementById("logoutBtn").onclick = () => {
+  sessionStorage.removeItem("pf_auth");
+  sessionStorage.removeItem("pf_user");
+  sessionStorage.removeItem("pf_sessions");
+  sessionStorage.removeItem("pf_agent_chats");
+  currentUser = null;
+  document.getElementById("app").style.display = "none";
+  document.getElementById("loginWrap").style.display = "flex";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("registerForm").style.display = "none";
+  document.getElementById("loginEmail").value = "";
+  document.getElementById("loginPassword").value = "";
+};
+
+// ============= BOOT =============
+function boot() {
   if(darkMode) document.body.classList.add("dark-mode");
   buildSidebar();
   renderMessages();
@@ -340,19 +396,24 @@ function boot(){
   document.getElementById("inputBox").focus();
 }
 
-if(sessionStorage.getItem("pf_auth")==="1"){
+// Verificar se já está logado
+if(sessionStorage.getItem("pf_auth") === "1") {
+  currentUser = JSON.parse(sessionStorage.getItem("pf_user") || "{}");
   document.getElementById("loginWrap").style.display = "none";
   document.getElementById("app").style.display = "flex";
   boot();
 }
 
-function toggleDark(){
+// ============= DARK MODE =============
+function toggleDark() {
   darkMode = !darkMode;
   document.body.classList.toggle("dark-mode", darkMode);
-  localStorage.setItem("pf_dark", darkMode?"1":"0");
+  localStorage.setItem("pf_dark", darkMode ? "1" : "0");
 }
+document.getElementById("darkModeBtn").onclick = toggleDark;
 
-function buildSidebar(){
+// ============= SIDEBAR =============
+function buildSidebar() {
   const list = document.getElementById("agentList");
   list.innerHTML = "";
   ["core","red","spec"].forEach(team => {
@@ -383,90 +444,140 @@ function buildSidebar(){
 
 function updateSidebarActive(){
   document.querySelectorAll(".agent-item").forEach(el => el.classList.remove("active"));
-  const activeId = chatMode==="general" ? "dispatch" : selectedAgentId;
+  const activeId = chatMode === "general" ? "dispatch" : selectedAgentId;
   const btn = document.getElementById("agent-btn-" + activeId);
   if(btn) btn.classList.add("active");
 }
 
 function selectAgent(id){
-  if(id==="dispatch"){ chatMode="general"; selectedAgentId="dispatch"; }
-  else { chatMode="agent"; selectedAgentId=id; }
-  updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); renderHistory(); closeSidebar();
+  if(id === "dispatch"){ 
+    chatMode = "general"; 
+    selectedAgentId = "dispatch"; 
+  } else { 
+    chatMode = "agent"; 
+    selectedAgentId = id; 
+  }
+  updateTopbar(); 
+  updateBanner(); 
+  updateSidebarActive(); 
+  renderMessages(); 
+  renderHistory(); 
+  closeSidebar();
 }
 
 function updateTopbar(){
   const agent = AGENT_MAP[selectedAgentId] || AGENT_MAP["dispatch"];
-  document.getElementById("topbarTitle").textContent = chatMode==="general" ? "EZEIA — Chat Geral" : agent.name + " — Chat individual";
+  document.getElementById("topbarTitle").textContent = chatMode === "general" ? "EZEIA — Chat Geral" : agent.name + " — Chat individual";
   document.getElementById("topbarAgent").textContent = agent.icon + " " + agent.name;
 }
 
 function updateBanner(){
   const banner = document.getElementById("modeBanner");
-  if(chatMode==="agent"){
+  if(chatMode === "agent"){
     const agent = AGENT_MAP[selectedAgentId];
     document.getElementById("bannerIcon").textContent = agent.icon;
     document.getElementById("bannerLabel").textContent = agent.name + " — chat individual";
     banner.style.display = "flex";
-  } else { banner.style.display = "none"; }
+  } else { 
+    banner.style.display = "none"; 
+  }
 }
 
-function exitAgentMode(){ chatMode="general"; selectedAgentId="dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); }
+function exitAgentMode(){ 
+  chatMode = "general"; 
+  selectedAgentId = "dispatch"; 
+  updateTopbar(); 
+  updateBanner(); 
+  updateSidebarActive(); 
+  renderMessages(); 
+}
+document.getElementById("exitAgentBtn").onclick = exitAgentMode;
 
+// ============= HISTORY =============
 function renderHistory(){
   const el = document.getElementById("historyList");
   el.innerHTML = "";
-  const agentItems = Object.keys(agentChats).filter(id=>agentChats[id]?.length>0).map(id=>({id:"agent_"+id,agentId:id,isAgent:true}));
+  const agentItems = Object.keys(agentChats).filter(id => agentChats[id]?.length > 0).map(id => ({id:"agent_"+id, agentId:id, isAgent:true}));
+  
   if(!sessions.length && !agentItems.length){
-    el.innerHTML='<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>'; return;
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>'; 
+    return;
   }
-  sessions.forEach(s=>{
-    const div=document.createElement("div");
-    div.className="history-item"+(s.id===currentSessionId&&chatMode==="general"?" active":"");
-    div.innerHTML=`<div class="history-date">${s.date}</div><div class="history-preview">${escapeHtml(s.preview)}</div>`;
-    div.onclick=()=>{ currentSessionId=s.id; messages=s.messages; chatMode="general"; selectedAgentId="dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); };
+  
+  sessions.forEach(s => {
+    const div = document.createElement("div");
+    div.className = "history-item" + (s.id === currentSessionId && chatMode === "general" ? " active" : "");
+    div.innerHTML = `<div class="history-date">${s.date}</div><div class="history-preview">${escapeHtml(s.preview)}</div>`;
+    div.onclick = () => { 
+      currentSessionId = s.id; 
+      messages = s.messages; 
+      chatMode = "general"; 
+      selectedAgentId = "dispatch"; 
+      updateTopbar(); 
+      updateBanner(); 
+      updateSidebarActive(); 
+      renderMessages(); 
+    };
     el.appendChild(div);
   });
+  
   if(agentItems.length){
-    const lbl=document.createElement("div");
-    lbl.style.cssText="font-size:10px;color:var(--text-hint);padding:12px 10px 3px;font-weight:500;letter-spacing:.3px;text-transform:uppercase";
-    lbl.textContent="Chats individuais"; el.appendChild(lbl);
-    agentItems.forEach(s=>{
-      const agent=AGENT_MAP[s.agentId]; if(!agent) return;
-      const msgs=agentChats[s.agentId];
-      const div=document.createElement("div");
-      div.className="history-item"+(chatMode==="agent"&&selectedAgentId===s.agentId?" active":"");
-      div.innerHTML=`<div class="history-date" style="color:${agent.color}">${agent.icon} ${agent.name}</div><div class="history-preview">${msgs.length} mensagens</div>`;
-      div.onclick=()=>selectAgent(s.agentId); el.appendChild(div);
+    const lbl = document.createElement("div");
+    lbl.style.cssText = "font-size:10px;color:var(--text-hint);padding:12px 10px 3px;font-weight:500;letter-spacing:.3px;text-transform:uppercase";
+    lbl.textContent = "Chats individuais"; 
+    el.appendChild(lbl);
+    agentItems.forEach(s => {
+      const agent = AGENT_MAP[s.agentId]; 
+      if(!agent) return;
+      const msgs = agentChats[s.agentId];
+      const div = document.createElement("div");
+      div.className = "history-item" + (chatMode === "agent" && selectedAgentId === s.agentId ? " active" : "");
+      div.innerHTML = `<div class="history-date" style="color:${agent.color}">${agent.icon} ${agent.name}</div><div class="history-preview">${msgs.length} mensagens</div>`;
+      div.onclick = () => selectAgent(s.agentId); 
+      el.appendChild(div);
     });
   }
 }
 
+// ============= RENDER MESSAGES =============
 function renderMessages(){
-  const inner=document.getElementById("messagesInner");
-  inner.innerHTML="";
-  const currentMsgs=chatMode==="agent"?(agentChats[selectedAgentId]||[]):messages;
-  const agent=AGENT_MAP[selectedAgentId]||AGENT_MAP["dispatch"];
+  const inner = document.getElementById("messagesInner");
+  inner.innerHTML = "";
+  const currentMsgs = chatMode === "agent" ? (agentChats[selectedAgentId] || []) : messages;
+  const agent = AGENT_MAP[selectedAgentId] || AGENT_MAP["dispatch"];
+  
   if(!currentMsgs.length){
-    const w=document.createElement("div"); w.className="welcome";
-    w.innerHTML=`
-      <div class="welcome-icon">${chatMode==="agent"?agent.icon:"🧬"}</div>
-      <div class="welcome-title">${chatMode==="agent"?agent.name:"EZEIA Pentest Squad"}</div>
-      <div class="welcome-sub">${chatMode==="agent"?agent.role:"Descreva sua situação — o dispatcher escolhe o agente certo e entrega respostas técnicas detalhadas."}</div>
-      ${chatMode==="general"?'<div class="quick-grid" id="quickGrid"></div>':""}
+    const w = document.createElement("div"); 
+    w.className = "welcome";
+    w.innerHTML = `
+      <div class="welcome-icon">${chatMode === "agent" ? agent.icon : "🧬"}</div>
+      <div class="welcome-title">${chatMode === "agent" ? agent.name : "EZEIA Pentest Squad"}</div>
+      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — o dispatcher escolhe o agente certo."}</div>
+      ${chatMode === "general" ? '<div class="quick-grid" id="quickGrid"></div>' : ""}
     `;
     inner.appendChild(w);
-    if(chatMode==="general"){
-      const grid=document.getElementById("quickGrid");
-      QUICK.forEach(q=>{
-        const btn=document.createElement("button"); btn.className="quick-card"; btn.textContent=q;
-        btn.onclick=()=>{ document.getElementById("inputBox").value=q; document.getElementById("sendBtn").disabled=false; document.getElementById("inputBox").focus(); };
+    if(chatMode === "general"){
+      const grid = document.getElementById("quickGrid");
+      QUICK.forEach(q => {
+        const btn = document.createElement("button"); 
+        btn.className = "quick-card"; 
+        btn.textContent = q;
+        btn.onclick = () => { 
+          document.getElementById("inputBox").value = q; 
+          document.getElementById("sendBtn").disabled = false; 
+          document.getElementById("inputBox").focus(); 
+        };
         grid.appendChild(btn);
       });
     }
-  } else { currentMsgs.forEach((msg,i)=>renderMsg(msg,i,inner)); }
+  } else { 
+    currentMsgs.forEach((msg, i) => renderMsg(msg, i, inner)); 
+  }
+  
   if(loading){
-    const row=document.createElement("div"); row.className="msg-agent";
-    row.innerHTML=`
+    const row = document.createElement("div"); 
+    row.className = "msg-agent";
+    row.innerHTML = `
       <div class="msg-agent-av" style="background:${agent.bg}">${agent.icon}</div>
       <div class="msg-agent-body">
         <div class="msg-agent-name" style="color:${agent.color}">${agent.name}</div>
@@ -475,43 +586,54 @@ function renderMessages(){
     `;
     inner.appendChild(row);
   }
-  document.getElementById("messagesDiv").scrollTop=999999;
+  document.getElementById("messagesDiv").scrollTop = 999999;
 }
 
-function renderMsg(msg,i,container){
-  if(msg.type==="system"){
-    const d=document.createElement("div"); d.className="system-msg";
-    d.innerHTML=`<span class="system-badge">${escapeHtml(msg.content)}</span>`; container.appendChild(d); return;
+function renderMsg(msg, i, container){
+  if(msg.type === "system"){
+    const d = document.createElement("div"); 
+    d.className = "system-msg";
+    d.innerHTML = `<span class="system-badge">${escapeHtml(msg.content)}</span>`; 
+    container.appendChild(d); 
+    return;
   }
-  if(msg.type==="user"){
-    const d=document.createElement("div"); d.className="msg-user";
-    d.innerHTML=`<div class="msg-user-bubble">${escapeHtml(msg.content)}</div>`; container.appendChild(d); return;
+  if(msg.type === "user"){
+    const d = document.createElement("div"); 
+    d.className = "msg-user";
+    d.innerHTML = `<div class="msg-user-bubble">${escapeHtml(msg.content)}</div>`; 
+    container.appendChild(d); 
+    return;
   }
-  if(msg.type==="agent"){
-    const a=AGENT_MAP[msg.agentId]||AGENT_MAP["dispatch"];
-    const d=document.createElement("div"); d.className="msg-agent";
-    d.innerHTML=`
+  if(msg.type === "agent"){
+    const a = AGENT_MAP[msg.agentId] || AGENT_MAP["dispatch"];
+    const d = document.createElement("div"); 
+    d.className = "msg-agent";
+    d.innerHTML = `
       <div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
       <div class="msg-agent-body">
         <div class="msg-agent-name" style="color:${a.color}">${a.name} · ${a.role}</div>
         <div class="msg-agent-text">${renderMD(msg.content)}</div>
       </div>
     `;
-    container.appendChild(d); return;
+    container.appendChild(d); 
+    return;
   }
-  if(msg.type==="dispatch"){
+  if(msg.type === "dispatch"){
     if(msg.agents?.length){
-      const row=document.createElement("div"); row.className="dispatch-row";
-      row.innerHTML=msg.agents.map(id=>{
-        const a=AGENT_MAP[id]; if(!a) return "";
+      const row = document.createElement("div"); 
+      row.className = "dispatch-row";
+      row.innerHTML = msg.agents.map(id => {
+        const a = AGENT_MAP[id]; 
+        if(!a) return "";
         return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`;
-      }).join("")+'<span style="font-size:11px;color:var(--text-hint);margin-left:4px">ativados</span>';
+      }).join("") + '<span style="font-size:11px;color:var(--text-hint);margin-left:4px">ativados</span>';
       container.appendChild(row);
     }
-    (msg.conversation||[]).forEach(conv=>{
-      const a=AGENT_MAP[conv.agent]||AGENT_MAP["dispatch"];
-      const d=document.createElement("div"); d.className="msg-agent";
-      d.innerHTML=`
+    (msg.conversation || []).forEach(conv => {
+      const a = AGENT_MAP[conv.agent] || AGENT_MAP["dispatch"];
+      const d = document.createElement("div"); 
+      d.className = "msg-agent";
+      d.innerHTML = `
         <div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
         <div class="msg-agent-body">
           <div class="msg-agent-name" style="color:${a.color}">${a.name} · ${a.role}</div>
@@ -523,100 +645,138 @@ function renderMsg(msg,i,container){
   }
 }
 
-// ============= API GROQ COM MAX TOKENS AJUSTADO =============
+// ============= API GROQ =============
 async function callGroq(history, system){
-  const res=await fetch("/api/groq",{
+  const res = await fetch("/api/groq",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ 
-      messages:history, 
-      system:system, 
-      model:"llama-3.3-70b-versatile", 
-      temperature:0.3, 
-      max_tokens:4000
+      messages: history, 
+      system: system, 
+      model: "llama-3.3-70b-versatile", 
+      temperature: 0.3, 
+      max_tokens: 4000
     })
   });
-  const data=await res.json();
-  if(data.error) throw new Error(typeof data.error==='string'?data.error:JSON.stringify(data.error));
-  return data.content?.[0]?.text||"";
+  const data = await res.json();
+  if(data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
+  return data.content?.[0]?.text || "";
 }
 
+// ============= SEND MESSAGE =============
 async function sendMessage(){
-  const input=document.getElementById("inputBox");
-  const text=input.value.trim();
-  if(!text||loading) return;
-  input.value=""; input.style.height="auto";
-  document.getElementById("sendBtn").disabled=true;
-  loading=true;
+  const input = document.getElementById("inputBox");
+  const text = input.value.trim();
+  if(!text || loading) return;
+  input.value = ""; 
+  input.style.height = "auto";
+  document.getElementById("sendBtn").disabled = true;
+  loading = true;
 
-  if(chatMode==="agent"){
-    const prev=agentChats[selectedAgentId]||[];
-    const updated=[...prev,{type:"user",content:text}];
-    agentChats[selectedAgentId]=updated; renderMessages();
-    const history=updated.map(m=>({role:m.type==="user"?"user":"assistant",content:m.content}));
+  if(chatMode === "agent"){
+    const prev = agentChats[selectedAgentId] || [];
+    const updated = [...prev, {type:"user", content:text}];
+    agentChats[selectedAgentId] = updated; 
+    renderMessages();
+    const history = updated.map(m => ({role: m.type === "user" ? "user" : "assistant", content: m.content}));
     try {
-      const reply=await callGroq(history,SYSTEM[selectedAgentId]||SYSTEM.dispatch);
-      agentChats[selectedAgentId]=[...updated,{type:"agent",agentId:selectedAgentId,content:reply}];
-      localStorage.setItem("pf_agent_chats",JSON.stringify(agentChats));
+      const systemPrompt = `Você é ${AGENT_MAP[selectedAgentId]?.name || "especialista"}, especialista em ${AGENT_MAP[selectedAgentId]?.role || "pentest"}. Responda em português com comandos detalhados e explicações.`;
+      const reply = await callGroq(history, systemPrompt);
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
+      localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
     } catch(e){
       console.error(e);
-      agentChats[selectedAgentId]=[...updated,{type:"agent",agentId:"dispatch",content:"❌ Erro de conexão com a API Groq. Verifique o worker /api/groq e a chave GROQ_API_KEY."}];
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro de conexão com a API Groq. Verifique a configuração da chave API no Cloudflare."}];
     }
-    loading=false; renderMessages(); renderHistory(); return;
+    loading = false; 
+    renderMessages(); 
+    renderHistory(); 
+    return;
   }
 
-  messages.push({type:"user",content:text}); renderMessages();
-  const history=messages.filter(m=>m.type==="user"||m.type==="dispatch").slice(-12)
-    .map(m=>m.type==="user"?{role:"user",content:m.content}:{role:"assistant",content:m.raw||"..."});
+  messages.push({type:"user", content:text}); 
+  renderMessages();
+  const history = messages.filter(m => m.type === "user" || m.type === "dispatch").slice(-12)
+    .map(m => m.type === "user" ? {role:"user", content:m.content} : {role:"assistant", content:m.raw || "..."});
 
   try {
-    const raw=await callGroq(history,SYSTEM.dispatch);
+    const systemPrompt = `Você é EZEIA, dispatcher do Pentest Forge. Responda com JSON: {"agents":["id1","id2"],"conversation":[{"agent":"id1","message":"resposta"}]}`;
+    const raw = await callGroq(history, systemPrompt);
     let parsed;
-    try { const match=raw.match(/\{[\s\S]*\}/); parsed=JSON.parse(match?.[0]||raw); }
-    catch { parsed={agents:["dispatch"],conversation:[{agent:"dispatch",message:raw}]}; }
-    const dispatchMsg={type:"dispatch",agents:parsed.agents||[],conversation:parsed.conversation||[],raw};
+    try { 
+      const match = raw.match(/\{[\s\S]*\}/); 
+      parsed = JSON.parse(match?.[0] || raw); 
+    } catch { 
+      parsed = {agents:["dispatch"], conversation:[{agent:"dispatch", message:raw}]}; 
+    }
+    const dispatchMsg = {type:"dispatch", agents:parsed.agents || [], conversation:parsed.conversation || [], raw};
     messages.push(dispatchMsg);
-    const sessionData={id:currentSessionId,date:new Date().toLocaleDateString("pt-BR"),preview:text.slice(0,55),messages:[...messages]};
-    sessions=[sessionData,...sessions.filter(s=>s.id!==currentSessionId)].slice(0,30);
-    localStorage.setItem("pf_sessions",JSON.stringify(sessions));
+    const sessionData = {id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages]};
+    sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
+    localStorage.setItem("pf_sessions", JSON.stringify(sessions));
   } catch(e){
     console.error(e);
-    messages.push({type:"dispatch",agents:["dispatch"],conversation:[{agent:"dispatch",message:"❌ Erro de conexão com a API Groq. Verifique o worker /api/groq e a chave GROQ_API_KEY."}]});
+    messages.push({type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro de conexão com a API Groq. Verifique a configuração da chave API no Cloudflare."}]});
   }
-  loading=false; renderMessages(); renderHistory();
+  loading = false; 
+  renderMessages(); 
+  renderHistory();
 }
 
-function newChat(){ currentSessionId=Date.now().toString(); messages=[]; chatMode="general"; selectedAgentId="dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); }
+function newChat(){ 
+  currentSessionId = Date.now().toString(); 
+  messages = []; 
+  chatMode = "general"; 
+  selectedAgentId = "dispatch"; 
+  updateTopbar(); 
+  updateBanner(); 
+  updateSidebarActive(); 
+  renderMessages(); 
+}
+document.getElementById("newChatBtn").onclick = newChat;
 
 function clearChat(){
   if(!confirm("Limpar esta conversa?")) return;
-  if(chatMode==="agent"){ agentChats[selectedAgentId]=[]; localStorage.setItem("pf_agent_chats",JSON.stringify(agentChats)); }
-  else { messages=[]; sessions=sessions.filter(s=>s.id!==currentSessionId); localStorage.setItem("pf_sessions",JSON.stringify(sessions)); }
-  renderMessages(); renderHistory();
+  if(chatMode === "agent"){ 
+    agentChats[selectedAgentId] = []; 
+    localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats)); 
+  } else { 
+    messages = []; 
+    sessions = sessions.filter(s => s.id !== currentSessionId); 
+    localStorage.setItem("pf_sessions", JSON.stringify(sessions)); 
+  }
+  renderMessages(); 
+  renderHistory();
 }
+document.getElementById("clearChatBtn").onclick = clearChat;
 
-function escapeHtml(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+// ============= INPUT =============
+const inputBox = document.getElementById("inputBox");
+const sendBtn = document.getElementById("sendBtn");
+inputBox.addEventListener("input", function(){ 
+  sendBtn.disabled = !this.value.trim(); 
+  this.style.height = "auto"; 
+  this.style.height = Math.min(this.scrollHeight, 160) + "px"; 
+});
+inputBox.addEventListener("keydown", e => { 
+  if(e.key === "Enter" && !e.shiftKey){ 
+    e.preventDefault(); 
+    sendMessage(); 
+  } 
+});
+sendBtn.onclick = sendMessage;
 
-function renderMD(text){
-  if(!text) return "";
-  let t=text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  t=t.replace(/```[\w]*\n?([\s\S]*?)```/g,(_,c)=>`<pre>${c}</pre>`);
-  t=t.replace(/`([^`]+)`/g,"<code>$1</code>");
-  t=t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
-  t=t.replace(/^#{1,3} (.+)$/gm,"<div style='font-size:14px;font-weight:600;color:var(--text);margin:10px 0 4px'>$1</div>");
-  t=t.replace(/^[-*] (.+)$/gm,"<div style='padding-left:14px;margin:3px 0'>▸ $1</div>");
-  t=t.replace(/\n\n/g,"<br/><br/>").replace(/\n/g,"<br/>");
-  return t;
+// ============= MOBILE =============
+function toggleSidebar(){ 
+  document.getElementById("sidebar").classList.toggle("open"); 
+  document.getElementById("overlay").classList.toggle("show"); 
 }
-
-const inputBox=document.getElementById("inputBox");
-const sendBtn=document.getElementById("sendBtn");
-inputBox.addEventListener("input",function(){ sendBtn.disabled=!this.value.trim(); this.style.height="auto"; this.style.height=Math.min(this.scrollHeight,160)+"px"; });
-inputBox.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
-sendBtn.onclick=sendMessage;
-
-function toggleSidebar(){ document.getElementById("sidebar").classList.toggle("open"); document.getElementById("overlay").classList.toggle("show"); }
-function closeSidebar(){ document.getElementById("sidebar").classList.remove("open"); document.getElementById("overlay").classList.remove("show"); }
+function closeSidebar(){ 
+  document.getElementById("sidebar").classList.remove("open"); 
+  document.getElementById("overlay").classList.remove("show"); 
+}
+document.getElementById("mobToggle").onclick = toggleSidebar;
+document.getElementById("overlay").onclick = closeSidebar;
 </script>
 </body>
 </html>
