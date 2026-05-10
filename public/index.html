@@ -138,17 +138,14 @@ function initLogin() {
       return;
     }
     
-    // Desabilita botão durante requisição
     loginBtn.disabled = true;
     loginBtn.textContent = '▶ VERIFICANDO...';
     
     const { success } = await authenticate(user, pass);
     
     if (success) {
-      // Salva sessão local
       sessionStorage.setItem('auth_user', user);
       sessionStorage.setItem('auth_time', Date.now().toString());
-      
       document.body.classList.add('app-loaded');
       initApp();
     } else {
@@ -171,7 +168,6 @@ function initLogin() {
     if (e.key === 'Enter') attemptLogin();
   });
   
-  // Verifica se já está logado
   const authUser = sessionStorage.getItem('auth_user');
   const authTime = sessionStorage.getItem('auth_time');
   if (authUser && authTime && (Date.now() - parseInt(authTime) < 3600000)) {
@@ -255,7 +251,7 @@ function renderMD(text) {
 }
 
 function App() {
-  const [messages, setMessages] = useState([{ type: "system", content: NEXUS online. Describe your situation." }]);
+  const [messages, setMessages] = useState([{ type: "system", content: "NEXUS online. Describe your situation." }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
