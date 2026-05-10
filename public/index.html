@@ -28,110 +28,399 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   --text-hint:#605d58;
 }
 .app{display:flex;height:100vh;background:var(--bg)}
-.sidebar{width:280px;min-width:280px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;transition:transform .25s;flex-shrink:0;position:relative}
-.sidebar-header{padding:16px 12px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);flex-shrink:0}
-.sidebar-logo{font-size:13px;font-weight:600;color:var(--text);flex:1}
-.new-chat-btn{width:calc(100% - 24px);margin:12px;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;color:var(--text-muted);font-size:13px;font-family:inherit}
-.new-chat-btn:hover{background:var(--border)}
-.sidebar-section{padding:8px 12px;flex-shrink:0}
-.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:0 0 6px;letter-spacing:.5px;text-transform:uppercase}
 
-/* BARRA DE AGENTES COM SCROLL HOVER */
-.agents-wrapper{position:relative;flex:1;min-height:0;overflow:hidden}
-.agents-container{height:100%;overflow-y:auto;padding-right:4px;scrollbar-width:thin}
-.agents-container::-webkit-scrollbar{width:4px}
-.agents-container::-webkit-scrollbar-track{background:transparent}
-.agents-container::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.agents-container{opacity:0.7;transition:opacity .2s}
-.agents-container:hover{opacity:1}
+/* SIDEBAR - ESTILO DEEPSEEK */
+.sidebar{
+  width:280px;
+  background:var(--bg-sidebar);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  flex-shrink:0;
+}
+.sidebar-header{
+  padding:16px 16px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo{font-size:16px;font-weight:700;color:var(--text);flex:1}
+.new-chat-btn{
+  margin:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  color:var(--text-muted);
+  font-size:13px;
+  font-family:inherit;
+  transition:all .2s;
+}
+.new-chat-btn:hover{background:var(--border);color:var(--text)}
 
-.agent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit}
+/* ÁREA DE AGENTES COM SCROLL */
+.agents-area{
+  flex:1;
+  overflow-y:auto;
+  padding:8px 12px;
+}
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-hint);
+  padding:8px 8px 4px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.agent-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .15s;
+  margin-bottom:2px;
+}
 .agent-item:hover{background:rgba(0,0,0,.05)}
 .dark-mode .agent-item:hover{background:rgba(255,255,255,.05)}
 .agent-item.active{background:var(--bg-card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.agent-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.agent-item-info{flex:1;min-width:0}
-.agent-item-name{font-size:13px;font-weight:500;color:var(--text)}
-.agent-item-role{font-size:10px;color:var(--text-hint)}
+.agent-icon{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+.agent-info{flex:1;min-width:0}
+.agent-name{font-size:13px;font-weight:500;color:var(--text)}
+.agent-role{font-size:10px;color:var(--text-hint)}
 
-/* HISTÓRICO - BOTÃO MODAL */
-.history-btn{width:calc(100% - 24px);margin:8px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;color:var(--text-muted);font-size:12px;font-family:inherit}
-.history-btn:hover{background:var(--border)}
-.history-modal{display:none;position:fixed;bottom:20px;left:300px;width:300px;max-height:400px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:300;overflow:hidden;flex-direction:column}
+/* BOTÃO HISTÓRICO */
+.history-btn{
+  margin:8px 16px 16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  color:var(--text-muted);
+  font-size:12px;
+  font-family:inherit;
+  transition:all .2s;
+}
+.history-btn:hover{background:var(--border);color:var(--text)}
+
+/* MODAL HISTÓRICO */
+.history-modal{
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:400px;
+  max-width:90vw;
+  max-height:500px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 10px 40px rgba(0,0,0,.2);
+  z-index:300;
+  flex-direction:column;
+  overflow:hidden;
+}
 .history-modal.show{display:flex}
-.history-modal-header{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.history-modal-title{font-size:12px;font-weight:600;color:var(--text)}
-.close-history{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted)}
-.history-list{overflow-y:auto;max-height:350px;padding:8px}
-.history-item{padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px}
+.history-modal-header{
+  padding:16px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.history-modal-title{font-size:14px;font-weight:600;color:var(--text)}
+.close-history{
+  background:none;
+  border:none;
+  font-size:20px;
+  cursor:pointer;
+  color:var(--text-muted);
+  padding:0 8px;
+}
+.history-list{
+  overflow-y:auto;
+  max-height:400px;
+  padding:8px;
+}
+.history-item{
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-bottom:6px;
+  transition:background .15s;
+}
 .history-item:hover{background:rgba(0,0,0,.05)}
 .history-item.active{background:var(--bg-sidebar)}
-.history-date{font-size:10px;color:var(--text-hint)}
-.history-preview{font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-date{font-size:10px;color:var(--text-hint);margin-bottom:2px}
+.history-preview{font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-.topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;background:var(--bg)}
+.topbar{
+  height:52px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:12px;
+  background:var(--bg);
+}
 .topbar-title{font-size:14px;font-weight:500;color:var(--text);flex:1}
-.topbar-agent{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:20px;background:var(--bg-sidebar);border:1px solid var(--border);font-size:12px;color:var(--text-muted)}
-.icon-btn{width:34px;height:34px;border-radius:8px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:16px}
+.topbar-agent{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:5px 12px;
+  border-radius:20px;
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  font-size:12px;
+  color:var(--text-muted);
+}
+.icon-btn{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-muted);
+  font-size:16px;
+}
 .icon-btn:hover{background:var(--border)}
 .messages{flex:1;overflow-y:auto;padding:20px 0}
 .messages-inner{max-width:800px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:16px}
-.welcome{text-align:center;padding:40px 0 20px}
-.welcome-icon{font-size:40px}
-.welcome-title{font-size:20px;font-weight:500;color:var(--text);margin:12px 0 6px}
+.welcome{text-align:center;padding:40px 0}
+.welcome-icon{font-size:48px;margin-bottom:16px}
+.welcome-title{font-size:22px;font-weight:600;color:var(--text);margin-bottom:8px}
 .welcome-sub{font-size:13px;color:var(--text-muted)}
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
-.quick-card{padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;text-align:left;font-size:12px;color:var(--text-muted);font-family:inherit}
-.quick-card:hover{border-color:var(--text-hint)}
+.quick-card{
+  padding:12px 16px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  text-align:left;
+  font-size:12px;
+  color:var(--text-muted);
+  font-family:inherit;
+  transition:all .2s;
+}
+.quick-card:hover{border-color:var(--text-hint);color:var(--text)}
 .msg-user{display:flex;justify-content:flex-end}
-.msg-user-bubble{max-width:80%;background:var(--text);color:var(--bg);border-radius:18px 18px 4px 18px;padding:10px 16px;font-size:14px}
+.msg-user-bubble{
+  max-width:80%;
+  background:var(--text);
+  color:var(--bg);
+  border-radius:18px 18px 4px 18px;
+  padding:10px 16px;
+  font-size:14px;
+  line-height:1.5;
+}
 .msg-agent{display:flex;gap:12px;align-items:flex-start}
-.msg-agent-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg-agent-av{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
 .msg-agent-body{flex:1}
-.msg-agent-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.msg-agent-name{font-size:12px;font-weight:600}
+.msg-agent-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:6px;
+}
+.msg-agent-name{font-size:13px;font-weight:600}
 .msg-agent-role{font-size:10px;color:var(--text-hint)}
-.copy-btn{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:10px;cursor:pointer;color:var(--text-muted);margin-left:auto}
+.copy-btn{
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:3px 10px;
+  font-size:10px;
+  cursor:pointer;
+  color:var(--text-muted);
+  margin-left:auto;
+  transition:all .2s;
+}
 .copy-btn:hover{background:var(--border)}
 .msg-agent-text{font-size:14px;line-height:1.6;color:var(--text)}
-.msg-agent-text pre{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:8px;padding:12px;overflow-x:auto;font-size:12px;font-family:var(--font-mono);margin:8px 0;white-space:pre-wrap}
-.msg-agent-text code{background:var(--bg-sidebar);padding:2px 6px;border-radius:4px;font-size:12px;font-family:var(--font-mono)}
-.dispatch-row{display:flex;align-items:center;gap:8px;margin:4px 0 8px 46px;flex-wrap:wrap}
-.dispatch-badge{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:500}
-.typing{display:flex;gap:4px;padding:4px 0}
-.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-hint);animation:bounce 1.2s infinite}
+.msg-agent-text pre{
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  overflow-x:auto;
+  font-size:12px;
+  font-family:var(--font-mono);
+  margin:8px 0;
+}
+.msg-agent-text code{
+  background:var(--bg-sidebar);
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:12px;
+  font-family:var(--font-mono);
+}
+.dispatch-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:4px 0 8px 48px;
+  flex-wrap:wrap;
+}
+.dispatch-badge{
+  font-size:10px;
+  padding:2px 10px;
+  border-radius:20px;
+  font-weight:500;
+}
+.typing{display:flex;gap:4px;padding:8px 0}
+.typing-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--text-hint);
+  animation:bounce 1.2s infinite;
+}
 .typing-dot:nth-child(2){animation-delay:.2s}
 .typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 .system-msg{text-align:center}
-.system-badge{font-size:11px;color:var(--text-hint);background:var(--bg-sidebar);padding:3px 12px;border-radius:20px;border:1px solid var(--border)}
+.system-badge{
+  font-size:11px;
+  color:var(--text-hint);
+  background:var(--bg-sidebar);
+  padding:4px 14px;
+  border-radius:20px;
+  border:1px solid var(--border);
+}
 .input-area{padding:12px 20px 16px;border-top:1px solid var(--border)}
 .input-wrap{max-width:800px;margin:0 auto;position:relative}
-.input-box{width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:12px 50px 12px 16px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;min-height:48px;max-height:140px}
+.input-box{
+  width:100%;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:12px 50px 12px 18px;
+  font-size:14px;
+  font-family:inherit;
+  color:var(--text);
+  outline:none;
+  resize:none;
+  min-height:48px;
+  max-height:140px;
+}
 .input-box:focus{border-color:var(--text-hint)}
-.send-btn{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:10px;border:none;background:var(--text);color:var(--bg);cursor:pointer}
-.send-btn:disabled{opacity:.3}
+.send-btn{
+  position:absolute;
+  right:12px;
+  bottom:10px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:none;
+  background:var(--text);
+  color:var(--bg);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.send-btn:disabled{opacity:.3;cursor:not-allowed}
 .input-hint{text-align:center;font-size:10px;color:var(--text-hint);margin-top:6px}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:150}
-.mob-toggle{display:none;position:fixed;bottom:20px;left:16px;z-index:200;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;align-items:center;justify-content:center;font-size:20px}
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  z-index:250;
+}
+.mob-toggle{
+  display:none;
+  position:fixed;
+  bottom:20px;
+  left:16px;
+  z-index:200;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
 @media(max-width:680px){
   .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:160;transform:translateX(-100%);width:280px}
   .sidebar.open{transform:translateX(0)}
   .mob-toggle{display:flex}
   .overlay.show{display:block}
   .quick-grid{grid-template-columns:1fr}
-  .history-modal{left:20px;right:20px;width:auto}
+  .history-modal{width:90vw}
 }
 .login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
-.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;width:340px}
-.login-logo{font-size:32px;text-align:center}
-.login-title{font-size:18px;font-weight:600;text-align:center;color:var(--text);margin:8px 0 4px}
-.login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:24px}
-.login-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:block}
-.login-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px}
+.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:32px;width:340px}
+.login-logo{font-size:40px;text-align:center}
+.login-title{font-size:20px;font-weight:600;text-align:center;color:var(--text);margin:12px 0 4px}
+.login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:28px}
+.login-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:block;font-weight:500}
+.login-input{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 14px;
+  font-size:14px;
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+  margin-bottom:16px;
+}
 .login-input:focus{border-color:var(--text-hint)}
-.login-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:500;cursor:pointer}
+.login-btn{
+  width:100%;
+  background:var(--text);
+  color:var(--bg);
+  border:none;
+  border-radius:12px;
+  padding:12px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
 .login-err{font-size:12px;color:#a32d2d;text-align:center;margin-top:12px;display:none}
 .login-err.show{display:block}
 .switch-form{text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted)}
@@ -176,27 +465,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <span style="font-size:18px">⚡</span>
+      <span style="font-size:20px">⚡</span>
       <span class="sidebar-logo">Pentest Forge</span>
       <button class="icon-btn" id="darkModeBtn">🌙</button>
     </div>
     <button class="new-chat-btn" id="newChatBtn">✏️ Novo chat</button>
     
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">🤖 Agentes IA</div>
-      <div class="agents-wrapper">
-        <div class="agents-container" id="agentsContainer"></div>
-      </div>
-    </div>
+    <div class="agents-area" id="agentsArea"></div>
     
-    <button class="history-btn" id="historyBtn">📜 Histórico de conversas</button>
+    <button class="history-btn" id="historyBtn">📜 Histórico</button>
   </div>
 
   <div class="main">
     <div class="topbar">
       <span class="topbar-title" id="topbarTitle">NEXUS — Chat Geral</span>
       <div class="topbar-agent" id="topbarAgent">🧬 NEXUS</div>
-      <button class="icon-btn" id="clearChatBtn" title="Limpar conversa">🗑️</button>
+      <button class="icon-btn" id="clearChatBtn" title="Limpar">🗑️</button>
       <button class="icon-btn" id="logoutBtn" title="Sair">🚪</button>
     </div>
     <div class="messages" id="messagesDiv">
@@ -207,12 +491,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <textarea class="input-box" id="inputBox" rows="1" placeholder="Descreva sua situação..."></textarea>
         <button class="send-btn" id="sendBtn" disabled>➤</button>
       </div>
-      <div class="input-hint">Enter enviar · Shift+Enter nova linha</div>
+      <div class="input-hint">Enter para enviar · Shift+Enter nova linha</div>
     </div>
   </div>
 </div>
 
-<!-- Modal de Histórico -->
 <div class="history-modal" id="historyModal">
   <div class="history-modal-header">
     <span class="history-modal-title">📜 Histórico de conversas</span>
@@ -224,32 +507,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
-// ============= TODOS OS AGENTES =============
+// ============= AGENTES =============
 const AGENTS = [
-  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de", specialty:"🎯 Analisa situações e despacha o agente especialista correto. Coordena todo o squad." },
-  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe", specialty:"📝 Gerencia writeups, markdown e repositórios GitHub para documentação de pentest." },
-  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb", specialty:"⚡ Estratégia ofensiva, metodologias PTES/OWASP, coordenação de operações." },
-  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda", specialty:"🔍 OSINT, Shodan, theHarvester, Maltego, Google Dorks, reconhecimento passivo." },
-  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda", specialty:"🌐 SQLi, XSS, LFI/RFI, Burp Suite, OWASP Top 10, exploração web." },
-  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda", specialty:"📡 Nmap avançado, enumeração de serviços, pivoting, Ligolo-ng, Chisel." },
-  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb", specialty:"🐍 CVEs, Searchsploit, ExploitDB, adaptação de exploits públicos." },
-  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb", specialty:"🔓 Hashcat, John, Hydra, cracking de senhas, wordlists, rockyou." },
-  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb", specialty:"💀 Meterpreter, shells estáveis, persistência, lateral movement, limpeza." },
-  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0", specialty:"🏛️ Active Directory, BloodHound, Kerberoasting, DCSync, Pass-the-Hash." },
-  { id:"echo", name:"Echo", role:"SocialEng", team:"red", icon:"🎭", color:"#ff3300", bg:"#fcebeb", specialty:"🎭 Phishing, SET framework, engenharia social, pretexting." },
-  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb", specialty:"🧠 Buffer Overflow, fuzzing, shellcode, msfvenom, DEP/ASLR bypass." },
-  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda", specialty:"🔑 Escalação Linux/Windows, sudo, SUID, LinPEAS, WinPEAS, GTFOBins." },
-  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de", specialty:"🐧 Linux avançado, bash, permissões, grep/awk/sed, Kali Linux." },
-  { id:"hydra_m", name:"Hydra", role:"Metasploit", team:"spec", icon:"💣", color:"#ff8800", bg:"#faeeda", specialty:"💣 Metasploit Framework, msfvenom, meterpreter avançado, módulos." },
-  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe", specialty:"💻 Python, Bash, PowerShell, automação, criação de ferramentas." },
-  { id:"airwave", name:"Airwave", role:"Wireless", team:"spec", icon:"📡", color:"#00ffcc", bg:"#eaf3de", specialty:"📡 Wi-Fi hacking, WPA2, aircrack-ng, handshake, PMKID, hashcat." },
-  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb", specialty:"📝 Relatórios DCPT/OSCP, CVSS scoring, writeups profissionais." },
-  { id:"scholar", name:"Scholar", role:"Study", team:"spec", icon:"📅", color:"#00ffaa", bg:"#eaf3de", specialty:"📅 Cronogramas de estudo, certificações, Desec/HTB, OSCP/eJPT prep." },
-  { id:"flaghunter", name:"FlagHunter", role:"CTF", team:"spec", icon:"🚩", color:"#ffaa00", bg:"#faeeda", specialty:"🚩 CTF challenges, HTB Starting Point, TryHackMe, estratégias." },
-  { id:"oscarp", name:"OscarP", role:"CertCoach", team:"spec", icon:"🏆", color:"#ff88aa", bg:"#fcebeb", specialty:"🏆 Preparação OSCP/DCPT/eJPT, metodologia Try Harder, writeups." },
-  { id:"forge", name:"Forge", role:"AppSec", team:"blue", icon:"⚙️", color:"#0055cc", bg:"#e6f1fb", specialty:"⚙️ Code review, SAST, DAST, DevSecOps, secure coding." },
-  { id:"atlas", name:"Atlas", role:"IR", team:"blue", icon:"🚨", color:"#0077ee", bg:"#e6f1fb", specialty:"🚨 Incident response, forensics digital, análise de malware, Volatility." },
-  { id:"sentinel", name:"Sentinel", role:"Defense", team:"blue", icon:"🛡️", color:"#0088ff", bg:"#e6f1fb", specialty:"🛡️ IDS/IPS, firewall, hardening, monitoramento, detecção." }
+  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de", specialty:"Analisa situações e despacha o agente especialista correto" },
+  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe", specialty:"Gerencia writeups, markdown e repositórios GitHub" },
+  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb", specialty:"Estratégia ofensiva, metodologias PTES/OWASP" },
+  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda", specialty:"OSINT, Shodan, theHarvester, Maltego" },
+  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda", specialty:"SQLi, XSS, LFI, Burp Suite" },
+  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda", specialty:"Nmap, enumeração de serviços, pivoting" },
+  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb", specialty:"CVEs, Searchsploit, adaptação de exploits" },
+  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb", specialty:"Hashcat, John, Hydra, cracking" },
+  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb", specialty:"Meterpreter, shells, persistência" },
+  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0", specialty:"Active Directory, BloodHound" },
+  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb", specialty:"Buffer Overflow, shellcode" },
+  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda", specialty:"Escalação Linux/Windows" },
+  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de", specialty:"Linux avançado, bash" },
+  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe", specialty:"Python, Bash, automação" },
+  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb", specialty:"Relatórios DCPT/OSCP" }
 ];
 
 const AGENT_MAP = {};
@@ -262,24 +536,169 @@ const QUICK = [
   "Cria um script Python para scanner de portas"
 ];
 
-// ============= SYSTEM PROMPTS =============
-const SYSTEM = {
-  dispatch: `Você é NEXUS, dispatcher. Sua ÚNICA função é DELEGAR. NUNCA responda diretamente.
+// ============= RESPOSTAS LOCAIS =============
+function getLocalResponse(userMessage, agentId) {
+  const lowerMsg = userMessage.toLowerCase();
+  
+  if(agentId === "cipher" || lowerMsg.includes("descriptografar") || lowerMsg.includes("criptografado") || lowerMsg.includes(".enc")) {
+    return `**Comandos para descriptografar arquivo .enc:**
 
-Mapeamento: .enc,hash,john → cipher; escalar,root,privesc → privesc; python,script → syntax; github,writeup → gitops; buffer overflow → bof; active directory → dominator; nmap,porta,scan → shadow.
+\`\`\`bash
+# 1. Identificar o tipo de arquivo
+file backup.zip.enc
 
-Responda SOMENTE JSON: {"agents":["cipher","privesc"],"conversation":[{"agent":"cipher","message":"comandos"},{"agent":"privesc","message":"comandos"}]}`,
-  cipher: `Você é Cipher. Responda com comandos: file, xxd, zip2john, john, hashcat.`,
-  privesc: `Você é Escalon. Responda com: sudo -l, find / -perm -4000, linpeas.sh.`,
-  syntax: `Você é Syntax. Responda com código Python COMPLETO.`,
-  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo.`,
-  shadow: `Você é Shadow. Responda com nmap: nmap -sV -sC -p- target.com`,
-  bof: `Você é B0F. Responda com código Python para fuzzing.`,
-  dominator: `Você é Dominator. Responda comandos BloodHound.`,
-  ghost: `Você é Ghost. Responda comandos OSINT.`,
-  scribe: `Você é Scribe. Responda relatório técnico.`,
-  wraith: `Você é Wraith. Responda comandos de shell.`
-};
+# 2. Verificar magic bytes (cabeçalho)
+xxd backup.zip.enc | head -20
+
+# 3. Se for ZIP criptografado, extrair hash
+zip2john backup.zip.enc > hash.txt
+
+# 4. Quebrar a senha com John
+john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
+
+# 5. Se for OpenSSL
+openssl enc -d -aes-256-cbc -in backup.zip.enc -out decriptado.zip -k "senha_aqui"
+\`\`\`
+
+**Para identificar o tipo de criptografia:** \`file\` e \`xxd\` são seus melhores amigos.`;
+  }
+  
+  if(agentId === "privesc" || lowerMsg.includes("escalar") || lowerMsg.includes("privilégio")) {
+    return `**Checklist de escalação de privilégio no Linux:**
+
+\`\`\`bash
+# 1. Informações do sistema
+whoami; id; uname -a; cat /etc/os-release
+
+# 2. Verificar sudo
+sudo -l
+
+# 3. Buscar binários SUID
+find / -perm -4000 -type f 2>/dev/null
+
+# 4. Buscar binários SGID
+find / -perm -2000 -type f 2>/dev/null
+
+# 5. Verificar cron jobs
+cat /etc/crontab
+ls -la /etc/cron*
+
+# 6. Buscar arquivos escrevíveis
+find / -writable -type f 2>/dev/null | grep -v /proc
+
+# 7. Executar LinPEAS
+curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh
+\`\`\`
+
+**Próximos passos:** Verifique cada saída e pesquise no GTFOBins para binários SUID/Sudo.`;
+  }
+  
+  if(agentId === "syntax" || lowerMsg.includes("python") || lowerMsg.includes("script")) {
+    return `**Script Python para scanner de portas:**
+
+\`\`\`python
+#!/usr/bin/env python3
+\"\"\"Scanner de portas simples\"\"\"
+import socket
+import sys
+
+def scan_port(ip, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(0.5)
+    result = sock.connect_ex((ip, port))
+    sock.close()
+    return result == 0
+
+def main():
+    if len(sys.argv) < 2:
+        print("Uso: python3 scanner.py <IP>")
+        sys.exit(1)
+    
+    ip = sys.argv[1]
+    print(f"Escaneando {ip}...")
+    print("-" * 40)
+    
+    for port in range(1, 1025):
+        if scan_port(ip, port):
+            print(f"Porta {port} ABERTA")
+    
+    print("-" * 40)
+    print("Scan concluído!")
+
+if __name__ == "__main__":
+    main()
+\`\`\``;
+  }
+  
+  if(agentId === "gitops" || lowerMsg.includes("github") || lowerMsg.includes("writeup")) {
+    return `**Writeup para GitHub - Modelo completo:**
+
+\`\`\`markdown
+# Nome da Máquina - HTB Writeup
+
+## Resumo
+- **IP:** 10.10.11.x
+- **SO:** Linux/Windows
+- **Dificuldade:** Fácil/Média/Difícil
+
+## Enumeração
+### Nmap
+\`\`\`bash
+nmap -sV -sC -p- 10.10.11.x
+\`\`\`
+
+## Exploitation
+\`\`\`bash
+zip2john backup.zip.enc > hash.txt
+john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
+\`\`\`
+
+## Escalação
+\`\`\`bash
+sudo -l
+find / -perm -4000 2>/dev/null
+\`\`\`
+
+## Flags
+- user.txt: \`flag_aqui\`
+- root.txt: \`flag_aqui\`
+
+## Comandos git
+\`\`\`bash
+git clone https://github.com/ezequielpentest/htb-writeups
+git add .
+git commit -m "Add writeup"
+git push origin main
+\`\`\`
+\`\`\``;
+  }
+  
+  return `**${AGENT_MAP[agentId]?.name || "NEXUS"}** respondendo:
+
+Sua solicitação: "${userMessage.substring(0, 100)}..."
+
+Para uma resposta mais específica, selecione um agente especialista na lateral esquerda:
+- 🔐 Cipher - cracking
+- 🔑 Escalon - escalação
+- 💻 Syntax - scripts
+- 🐙 GitOps - GitHub`;
+}
+
+// ============= API GROQ COM FALLBACK =============
+async function callGroq(history, system){
+  try {
+    const res = await fetch("/api/groq",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ messages: history, system: system, model: "llama-3.3-70b-versatile", temperature: 0.3, max_tokens: 4000 })
+    });
+    const data = await res.json();
+    if(data.error) throw new Error(data.error);
+    return data.content?.[0]?.text || "";
+  } catch(e) {
+    return null;
+  }
+}
 
 let chatMode = "general";
 let selectedAgentId = "dispatch";
@@ -294,7 +713,6 @@ function escapeHtml(t) { return t?.replace(/&/g,"&amp;").replace(/</g,"&lt;").re
 
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text);
-  // sem popup
 }
 
 function renderMD(text){
@@ -303,21 +721,9 @@ function renderMD(text){
   t = t.replace(/```[\w]*\n?([\s\S]*?)```/g, (_,c)=>`<pre>${c}</pre>`);
   t = t.replace(/`([^`]+)`/g,"<code>$1</code>");
   t = t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
-  t = t.replace(/^#+\s*(.+)$/gm,"<div style='font-size:15px;font-weight:600;margin:10px 0 4px'>$1</div>");
   t = t.replace(/^[-*]\s+(.+)$/gm,"<div style='padding-left:14px;margin:3px 0'>▸ $1</div>");
   t = t.replace(/\n\n/g,"<br/><br/>").replace(/\n/g,"<br/>");
   return t;
-}
-
-async function callGroq(history, system){
-  const res = await fetch("/api/groq",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ messages: history, system: system, model: "llama-3.3-70b-versatile", temperature: 0.3, max_tokens: 4000 })
-  });
-  const data = await res.json();
-  if(data.error) throw new Error(data.error);
-  return data.content?.[0]?.text || "";
 }
 
 // Login
@@ -331,7 +737,7 @@ function boot() {
   if(darkMode) document.body.classList.add("dark-mode");
   buildSidebar();
   renderMessages();
-  renderHistoryModal();
+  renderHistoryList();
   document.getElementById("inputBox").focus();
 }
 
@@ -341,20 +747,20 @@ document.getElementById("darkModeBtn").onclick = () => {
   localStorage.setItem("pf_dark", darkMode ? "1" : "0");
 };
 
-// Modal de histórico
+// Modal histórico
 const historyModal = document.getElementById("historyModal");
 document.getElementById("historyBtn").onclick = () => {
-  renderHistoryModal();
-  historyModal.classList.toggle("show");
+  renderHistoryList();
+  historyModal.classList.add("show");
 };
 document.getElementById("closeHistoryBtn").onclick = () => historyModal.classList.remove("show");
 document.getElementById("overlay").onclick = () => historyModal.classList.remove("show");
 
-function renderHistoryModal() {
+function renderHistoryList() {
   const el = document.getElementById("historyList");
   el.innerHTML = "";
   if(!sessions.length){
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão histórica</div>'; 
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:16px;text-align:center">Nenhuma conversa salva ainda</div>'; 
     return;
   }
   [...sessions].reverse().forEach(s => {
@@ -376,21 +782,31 @@ function renderHistoryModal() {
 }
 
 function buildSidebar() {
-  const container = document.getElementById("agentsContainer");
+  const container = document.getElementById("agentsArea");
   container.innerHTML = "";
   
-  ["core","red","spec","blue"].forEach(team => {
-    const agents = AGENTS.filter(a => a.team === team);
-    if(!agents.length) return;
-    agents.forEach(agent => {
+  const teams = [
+    { name:"🎯 CORE", ids:["dispatch","gitops"] },
+    { name:"🔴 RED TEAM", ids:["commander","ghost","phantom","shadow","viper","cipher","wraith","dominator"] },
+    { name:"🧠 SPECIALISTS", ids:["bof","privesc","tux","syntax","scribe"] }
+  ];
+  
+  teams.forEach(team => {
+    const label = document.createElement("div");
+    label.className = "section-label";
+    label.textContent = team.name;
+    container.appendChild(label);
+    
+    team.ids.forEach(id => {
+      const agent = AGENT_MAP[id];
+      if(!agent) return;
       const btn = document.createElement("button");
       btn.className = "agent-item";
       btn.id = "agent-btn-" + agent.id;
-      btn.title = agent.specialty;
       btn.innerHTML = `<div class="agent-icon" style="background:${agent.bg}">${agent.icon}</div>
-        <div class="agent-item-info">
-          <div class="agent-item-name">${agent.name}</div>
-          <div class="agent-item-role">${agent.role}</div>
+        <div class="agent-info">
+          <div class="agent-name">${agent.name}</div>
+          <div class="agent-role">${agent.role}</div>
         </div>`;
       btn.onclick = () => selectAgent(agent.id);
       container.appendChild(btn);
@@ -410,13 +826,12 @@ function selectAgent(id){
   const agent = AGENT_MAP[id];
   if(!agent) return;
   
-  // Mostrar especialidade do agente no chat
-  const specialtyMsg = `🎯 **${agent.name}** (${agent.role})\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 **Especialidade:** ${agent.specialty}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ Agora você está conversando diretamente com **${agent.name}**.\nDescreva sua situação para receber ajuda especializada.`;
+  const specialtyMsg = `🎯 **${agent.name}** (${agent.role})\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 **Especialidade:** ${agent.specialty}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ Agora conversando diretamente com **${agent.name}**.`;
   
   if(id === "dispatch"){ 
     chatMode = "general"; 
     selectedAgentId = "dispatch"; 
-    messages.push({ type: "system", content: "🔄 Modo geral ativado. O NEXUS irá delegar para os agentes especialistas automaticamente." });
+    messages.push({ type: "system", content: "🔄 Modo geral ativado. O NEXUS irá delegar para os agentes especialistas." });
   } else { 
     chatMode = "agent"; 
     selectedAgentId = id;
@@ -425,7 +840,6 @@ function selectAgent(id){
   updateTopbar(); 
   updateSidebarActive(); 
   renderMessages(); 
-  if(id !== "dispatch") renderHistoryModal(); 
   closeSidebar();
 }
 
@@ -445,10 +859,10 @@ function renderMessages(){
     const w = document.createElement("div"); w.className = "welcome";
     w.innerHTML = `<div class="welcome-icon">${chatMode === "agent" ? agent.icon : "🧬"}</div>
       <div class="welcome-title">${chatMode === "agent" ? agent.name : "Pentest Forge"}</div>
-      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — múltiplos agentes especialistas serão ativados"}</div>
+      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação"}</div>
       ${chatMode === "general" ? '<div class="quick-grid" id="quickGrid"></div>' : ""}`;
     inner.appendChild(w);
-    if(chatMode === "general"){
+    if(chatMode === "general" && document.getElementById("quickGrid")){
       const grid = document.getElementById("quickGrid");
       QUICK.forEach(q => {
         const btn = document.createElement("button"); btn.className = "quick-card"; btn.textContent = q;
@@ -539,67 +953,45 @@ async function sendMessage(){
     const prev = agentChats[selectedAgentId] || [];
     const updated = [...prev, {type:"user", content:text}];
     agentChats[selectedAgentId] = updated; renderMessages();
-    const history = updated.map(m => ({role: m.type === "user" ? "user" : "assistant", content: m.content}));
-    try {
-      const reply = await callGroq(history, SYSTEM[selectedAgentId] || "Você é especialista. Responda em português com detalhes.");
-      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
-      localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
-    } catch(e){
-      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro API Groq"}];
-    }
-    loading = false; renderMessages(); renderHistoryModal(); return;
+    
+    const reply = getLocalResponse(text, selectedAgentId);
+    agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
+    
+    localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
+    loading = false; renderMessages(); renderHistoryList(); return;
   }
 
   messages.push({type:"user", content:text}); renderMessages();
   
-  const history = messages.filter(m => m.type === "user" || m.type === "dispatch").slice(-8).map(m => 
-    m.type === "user" ? {role:"user", content:m.content} : {role:"assistant", content: m.raw ? m.raw.substring(0, 500) : "..."}
-  );
-
-  try {
-    const raw = await callGroq(history, SYSTEM.dispatch);
-    let parsed;
-    let agentsList = [];
-    let conversationList = [];
-    
-    try {
-      const jsonMatch = raw.match(/\{[\s\S]*\}/);
-      if(jsonMatch) {
-        parsed = JSON.parse(jsonMatch[0]);
-        agentsList = parsed.agents || [];
-        conversationList = parsed.conversation || [];
-      } else {
-        throw new Error("No JSON found");
-      }
-    } catch(e) {
-      agentsList = ["dispatch"];
-      conversationList = [{agent:"dispatch", message: raw.substring(0, 1000)}];
-    }
-    
-    const validConversation = conversationList.map(conv => ({
-      agent: conv.agent || "dispatch",
-      message: conv.message || "Sem resposta detalhada"
-    }));
-    
-    const dispatchMsg = { type:"dispatch", agents: agentsList, conversation: validConversation, raw: raw.substring(0, 2000) };
-    messages.push(dispatchMsg);
-    
-    const sessionData = { id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages] };
-    sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
-    localStorage.setItem("pf_sessions", JSON.stringify(sessions));
-    
-  } catch(e){
-    messages.push({ type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro de conexão. Verifique sua chave API Groq."}], raw:"" });
-  }
-  loading = false; renderMessages(); renderHistoryModal();
+  // Fallback local
+  let agentsList = [];
+  if(text.includes("descriptografar") || text.includes(".enc")) agentsList.push("cipher");
+  if(text.includes("escalar") || text.includes("privilégio") || text.includes("privesc")) agentsList.push("privesc");
+  if(text.includes("python") || text.includes("script") || text.includes("scanner")) agentsList.push("syntax");
+  if(text.includes("github") || text.includes("writeup") || text.includes("documentar")) agentsList.push("gitops");
+  if(agentsList.length === 0) agentsList = ["dispatch"];
+  
+  const conversation = agentsList.map(id => ({
+    agent: id,
+    message: getLocalResponse(text, id)
+  }));
+  
+  const dispatchMsg = { type:"dispatch", agents: agentsList, conversation: conversation, raw: "" };
+  messages.push(dispatchMsg);
+  
+  const sessionData = { id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages] };
+  sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
+  localStorage.setItem("pf_sessions", JSON.stringify(sessions));
+  
+  loading = false; renderMessages(); renderHistoryList();
 }
 
-function newChat(){ currentSessionId = Date.now().toString(); messages = []; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateSidebarActive(); renderMessages(); renderHistoryModal(); }
+function newChat(){ currentSessionId = Date.now().toString(); messages = []; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateSidebarActive(); renderMessages(); renderHistoryList(); }
 function clearChat(){
   if(!confirm("Limpar conversa?")) return;
   if(chatMode === "agent"){ agentChats[selectedAgentId] = []; localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats)); }
   else { messages = []; sessions = sessions.filter(s => s.id !== currentSessionId); localStorage.setItem("pf_sessions", JSON.stringify(sessions)); }
-  renderMessages(); renderHistoryModal();
+  renderMessages(); renderHistoryList();
 }
 
 document.getElementById("newChatBtn").onclick = newChat;
