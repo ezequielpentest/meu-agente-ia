@@ -255,7 +255,7 @@ function renderMD(text) {
 }
 
 function App() {
-  const [messages, setMessages] = useState([{ type: "system", content: "NEXUS online. Descreva sua situação." }]);
+  const [messages, setMessages] = useState([{ type: "system", content: NEXUS online. Describe your situation." }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
@@ -305,7 +305,7 @@ function App() {
       h('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
         h('div', { style: { width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg,#00ff88,#0088ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 } }, '⚡'),
         h('div', null,
-          h('div', { style: { fontSize: 15, fontWeight: 900, color: '#00ff88', fontFamily: "'Orbitron',monospace" } }, 'EZEQUIEL PENTEST'),
+          h('div', { style: { fontSize: 15, fontWeight: 900, color: '#00ff88', fontFamily: "'Orbitron',monospace" } }, 'PENTEST FORGE'),
           h('div', { style: { fontSize: 9, color: '#334433' } }, `SQUAD v3.0 • ${AGENTS.length} AGENTES`)
         )
       ),
