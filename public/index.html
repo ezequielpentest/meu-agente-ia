@@ -179,8 +179,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <div class="main">
     <div class="topbar">
-      <span class="topbar-title" id="topbarTitle">EZEIA — Chat Geral</span>
-      <div class="topbar-agent" id="topbarAgent">🧬 EZEIA</div>
+      <span class="topbar-title" id="topbarTitle">NEXUS — Chat Geral</span>
+      <div class="topbar-agent" id="topbarAgent">🧬 NEXUS</div>
       <button class="icon-btn" id="clearChatBtn">🗑️</button>
       <button class="icon-btn" id="logoutBtn">🚪</button>
     </div>
@@ -200,12 +200,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
-// ============= TODOS OS 24 AGENTES =============
+// ============= TODOS OS AGENTES =============
 const AGENTS = [
-  // CORE
   { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de" },
   { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe" },
-  // RED TEAM
   { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb" },
   { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda" },
   { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda" },
@@ -215,7 +213,6 @@ const AGENTS = [
   { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb" },
   { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0" },
   { id:"echo", name:"Echo", role:"SocialEng", team:"red", icon:"🎭", color:"#ff3300", bg:"#fcebeb" },
-  // SPECIALISTS
   { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb" },
   { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda" },
   { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de" },
@@ -226,7 +223,6 @@ const AGENTS = [
   { id:"scholar", name:"Scholar", role:"Study", team:"spec", icon:"📅", color:"#00ffaa", bg:"#eaf3de" },
   { id:"flaghunter", name:"FlagHunter", role:"CTF", team:"spec", icon:"🚩", color:"#ffaa00", bg:"#faeeda" },
   { id:"oscarp", name:"OscarP", role:"CertCoach", team:"spec", icon:"🏆", color:"#ff88aa", bg:"#fcebeb" },
-  // BLUE TEAM
   { id:"forge", name:"Forge", role:"AppSec", team:"blue", icon:"⚙️", color:"#0055cc", bg:"#e6f1fb" },
   { id:"atlas", name:"Atlas", role:"IR", team:"blue", icon:"🚨", color:"#0077ee", bg:"#e6f1fb" },
   { id:"sentinel", name:"Sentinel", role:"Defense", team:"blue", icon:"🛡️", color:"#0088ff", bg:"#e6f1fb" }
@@ -239,7 +235,7 @@ const QUICK = [
   "Preciso descriptografar um arquivo .enc, escalar privilégio no Linux, criar um script Python e documentar no GitHub",
   "Como fazer Buffer Overflow no Windows?",
   "Enumera Active Directory com BloodHound",
-  "Writeup HTB completo para GitHub"
+  "Cria um script Python para scanner de portas"
 ];
 
 // ============= SYSTEM PROMPTS =============
@@ -247,22 +243,18 @@ const SYSTEM = {
   dispatch: `Você é NEXUS, dispatcher do Pentest Forge. Sua ÚNICA função é DELEGAR para agentes especialistas. NUNCA responda diretamente.
 
 Mapeamento de palavras para agentes (use os IDs exatos):
-- .enc, .zip, criptografia, hash, john, hashcat, quebrar senha → cipher
+- .enc, .zip, criptografia, hash, john, hashcat, quebrar senha, descriptografar → cipher
 - escalar privilégio, root, sudo, SUID, linpeas, privesc → privesc
-- script, python, código, automatizar, programa → syntax
+- script, python, código, automatizar, programa, scanner → syntax
 - github, writeup, documentar, markdown, repositório → gitops
 - buffer overflow, bof, fuzzing, shellcode → bof
 - active directory, ad, kerberoasting, bloodhound → dominator
 - metasploit, msfvenom, meterpreter → hydra_m
-- relatório, relatorio, relatorios, relatórios, writeup, documentar → scribe
-- osint, shodan, theharvester, reconhecimento → ghost
+- relatório, relatorio, writeup, documentar → scribe
+- osint, shodan, reconhecimento → ghost
 - sql injection, xss, burp, web → phantom
 - nmap, porta, rede, scanning → shadow
-- shell, meterpreter, pós-exploração, persistência → wraith
-- linux, bash, comando linux → tux
-- ctf, hackthebox, tryhackme → flaghunter
-- certificação, oscp, dcpt, ejpt → oscarp
-- estudos, cronograma, certificações → scholar
+- shell, meterpreter, pós-exploração → wraith
 
 Se o usuário pedir MÚLTIPLAS coisas, acione MÚLTIPLOS agentes.
 
@@ -270,34 +262,73 @@ Responda SOMENTE com JSON no formato:
 {
   "agents": ["cipher", "privesc", "syntax", "gitops"],
   "conversation": [
-    {"agent": "cipher", "message": "resposta detalhada com comandos reais"},
-    {"agent": "privesc", "message": "resposta detalhada com comandos reais"}
+    {"agent": "cipher", "message": "resposta MUITO detalhada com comandos reais"},
+    {"agent": "privesc", "message": "resposta MUITO detalhada com comandos reais"}
   ]
 }`,
 
-  cipher: `Você é Cipher, especialista em cracking. Responda com comandos COMPLETOS: file, xxd, zip2john, john, hashcat. Identifique o tipo de arquivo antes.`,
-  privesc: `Você é Escalon, especialista em escalação Linux/Windows. Responda com comandos reais: sudo -l, find / -perm -4000, linpeas.sh, winpeas.`,
-  syntax: `Você é Syntax, especialista em scripting. Responda com código Python COMPLETO e funcional, com explicações.`,
-  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo com todas as seções: Sumário, Enumeração, Exploitation, Privesc, Flags, Lições.`,
-  bof: `Você é B0F. Responda com código Python completo para fuzzing, offset, badchars, shellcode.`,
-  dominator: `Você é Dominator. Responda com comandos para BloodHound, PowerView, Impacket, Kerberoasting.`,
-  hydra_m: `Você é Hydra. Responda com comandos Metasploit: search, use, set, run, msfvenom.`,
-  scribe: `Você é Scribe. Responda com relatório técnico completo: CVSS, evidências, remediações.`,
-  ghost: `Você é Ghost. Responda com comandos para OSINT, Shodan, theHarvester, subfinder, amass.`,
-  phantom: `Você é Phantom. Responda com SQLi manual, XSS, LFI, Burp Suite, payloads reais.`,
-  shadow: `Você é Shadow. Responda com nmap avançado, enumeração serviços, pivoting.`,
-  wraith: `Você é Wraith. Responda com shells estáveis, meterpreter, persistência, lateral movement.`,
-  tux: `Você é Tux. Responda com comandos Linux avançados: bash, grep, awk, sed, find, permissões.`,
-  flaghunter: `Você é FlagHunter. Responda com estratégias para CTF, HTB, TryHackMe.`,
-  oscarp: `Você é OscarP. Responda com dicas para OSCP, DCPT, eJPT, metodologia pentest.`,
-  scholar: `Você é Scholar. Responda com cronogramas, revisões, certificações, materiais de estudo.`,
-  commander: `Você é Rex. Responda com estratégia ofensiva, metodologias PTES/OWASP.`,
-  viper: `Você é Viper. Responda com busca de exploits, Searchsploit, adaptação de CVEs.`,
-  airwave: `Você é Airwave. Responda com Wi-Fi: aircrack-ng, handshake, PMKID, hashcat.`,
-  forge: `Você é Forge. Responda com code review, SAST, DAST, DevSecOps.`,
-  atlas: `Você é Atlas. Responda com IR, forensics, análise de malware, Volatility.`,
-  sentinel: `Você é Sentinel. Responda com IDS/IPS, firewall, hardening, monitoramento.`,
-  echo: `Você é Echo. Responda com phishing, SET framework, engenharia social.`
+  cipher: `Você é Cipher, especialista em cracking. Responda SOMENTE com comandos REAIS:
+
+1. Identificar: file arquivo.enc
+2. Verificar: xxd arquivo.enc | head -20
+3. Para ZIP: zip2john arquivo.zip > hash.txt
+4. Quebrar: john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
+5. OpenSSL: openssl enc -d -aes-256-cbc -in arquivo.enc -out dec.zip -k senha`,
+
+  privesc: `Você é Escalon. Responda com comandos REAIS:
+- whoami; id; uname -a
+- sudo -l
+- find / -perm -4000 -type f 2>/dev/null
+- curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh`,
+
+  syntax: `Você é Syntax. Responda com código Python COMPLETO:
+
+#!/usr/bin/env python3
+import socket
+import sys
+
+def scan_port(ip, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1)
+    result = sock.connect_ex((ip, port))
+    sock.close()
+    return result == 0
+
+def main():
+    if len(sys.argv) < 2:
+        print("Uso: python3 scanner.py <IP>")
+        sys.exit(1)
+    ip = sys.argv[1]
+    print(f"Escaneando {ip}...")
+    for port in range(1, 1025):
+        if scan_port(ip, port):
+            print(f"Porta {port} ABERTA")
+
+if __name__ == "__main__":
+    main()`,
+
+  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo com seções: Resumo, Enumeração, Exploitation, Privesc, Flags, Lições, Comandos git.`,
+
+  shadow: `Você é Shadow. Responda com comandos nmap: nmap -sV -sC -p- target.com, gobuster dir -u https://target.com -w wordlist.txt`,
+
+  bof: `Você é B0F. Responda com código Python completo para fuzzing.`,
+  dominator: `Você é Dominator. Responda com comandos BloodHound.`,
+  ghost: `Você é Ghost. Responda com comandos OSINT.`,
+  phantom: `Você é Phantom. Responda com SQLi manual.`,
+  wraith: `Você é Wraith. Responda com comandos de shell.`,
+  scribe: `Você é Scribe. Responda com relatório completo.`,
+  tux: `Você é Tux. Responda com comandos Linux.`,
+  hydra_m: `Você é Hydra. Responda com Metasploit.`,
+  viper: `Você é Viper. Responda com exploits.`,
+  commander: `Você é Rex. Responda com estratégia.`,
+  airwave: `Você é Airwave. Responda com Wi-Fi.`,
+  forge: `Você é Forge. Responda com AppSec.`,
+  atlas: `Você é Atlas. Responda com forensics.`,
+  sentinel: `Você é Sentinel. Responda com defesa.`,
+  echo: `Você é Echo. Responda com phishing.`,
+  scholar: `Você é Scholar. Responda com estudos.`,
+  flaghunter: `Você é FlagHunter. Responda com CTF.`,
+  oscarp: `Você é OscarP. Responda com certificações.`
 };
 
 let chatMode = "general";
@@ -452,7 +483,7 @@ function renderMessages(){
   document.getElementById("messagesDiv").scrollTop = 999999;
 }
 
-function renderMsg(msg,i,container){
+function renderMsg(msg, i, container){
   if(msg.type === "system"){
     const d = document.createElement("div"); d.className = "system-msg";
     d.innerHTML = `<span class="system-badge">${escapeHtml(msg.content)}</span>`; container.appendChild(d); return;
@@ -476,25 +507,27 @@ function renderMsg(msg,i,container){
     container.appendChild(d); return;
   }
   if(msg.type === "dispatch"){
-    if(msg.agents?.length){
+    if(msg.agents && msg.agents.length){
       const row = document.createElement("div"); row.className = "dispatch-row";
       row.innerHTML = msg.agents.map(id => { const a = AGENT_MAP[id]; if(!a) return ""; return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`; }).join("");
       container.appendChild(row);
     }
-    (msg.conversation || []).forEach(conv => {
-      const a = AGENT_MAP[conv.agent] || AGENT_MAP["dispatch"];
-      const d = document.createElement("div"); d.className = "msg-agent";
-      d.innerHTML = `<div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
-        <div class="msg-agent-body">
-          <div class="msg-agent-header">
-            <span class="msg-agent-name" style="color:${a.color}">${a.name}</span>
-            <span class="msg-agent-role">${a.role}</span>
-            <button class="copy-btn" onclick="copyToClipboard(\`${escapeHtml(conv.message).replace(/`/g, '\\`')}\`)">📋 Copiar</button>
-          </div>
-          <div class="msg-agent-text">${renderMD(conv.message)}</div>
-        </div>`;
-      container.appendChild(d);
-    });
+    if(msg.conversation && msg.conversation.length){
+      msg.conversation.forEach(conv => {
+        const a = AGENT_MAP[conv.agent] || AGENT_MAP["dispatch"];
+        const d = document.createElement("div"); d.className = "msg-agent";
+        d.innerHTML = `<div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
+          <div class="msg-agent-body">
+            <div class="msg-agent-header">
+              <span class="msg-agent-name" style="color:${a.color}">${a.name}</span>
+              <span class="msg-agent-role">${a.role}</span>
+              <button class="copy-btn" onclick="copyToClipboard(\`${escapeHtml(conv.message).replace(/`/g, '\\`')}\`)">📋 Copiar</button>
+            </div>
+            <div class="msg-agent-text">${renderMD(conv.message)}</div>
+          </div>`;
+        container.appendChild(d);
+      });
+    }
   }
 }
 
@@ -516,26 +549,52 @@ async function sendMessage(){
       agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
       localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
     } catch(e){
-      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro API Groq. Verifique sua chave no Cloudflare."}];
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro API Groq"}];
     }
     loading = false; renderMessages(); renderHistory(); return;
   }
 
   messages.push({type:"user", content:text}); renderMessages();
-  const history = messages.filter(m => m.type === "user" || m.type === "dispatch").slice(-12).map(m => m.type === "user" ? {role:"user", content:m.content} : {role:"assistant", content:m.raw || "..."});
+  
+  const history = messages.filter(m => m.type === "user" || m.type === "dispatch").slice(-8).map(m => 
+    m.type === "user" ? {role:"user", content:m.content} : {role:"assistant", content: m.raw ? m.raw.substring(0, 500) : "..."}
+  );
 
   try {
     const raw = await callGroq(history, SYSTEM.dispatch);
+    
     let parsed;
-    try { const match = raw.match(/\{[\s\S]*\}/); parsed = JSON.parse(match?.[0] || raw); }
-    catch { parsed = {agents:["dispatch"], conversation:[{agent:"dispatch", message:raw}]}; }
-    const dispatchMsg = {type:"dispatch", agents:parsed.agents || [], conversation:parsed.conversation || [], raw};
+    let agentsList = [];
+    let conversationList = [];
+    
+    try {
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if(jsonMatch) {
+        parsed = JSON.parse(jsonMatch[0]);
+        agentsList = parsed.agents || [];
+        conversationList = parsed.conversation || [];
+      } else {
+        throw new Error("No JSON found");
+      }
+    } catch(e) {
+      agentsList = ["dispatch"];
+      conversationList = [{agent:"dispatch", message: raw.substring(0, 1000)}];
+    }
+    
+    const validConversation = conversationList.map(conv => ({
+      agent: conv.agent || "dispatch",
+      message: conv.message || "Sem resposta detalhada"
+    }));
+    
+    const dispatchMsg = { type:"dispatch", agents: agentsList, conversation: validConversation, raw: raw.substring(0, 2000) };
     messages.push(dispatchMsg);
-    const sessionData = {id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages]};
+    
+    const sessionData = { id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages] };
     sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
     localStorage.setItem("pf_sessions", JSON.stringify(sessions));
+    
   } catch(e){
-    messages.push({type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro API Groq. Verifique sua chave no Cloudflare."}]});
+    messages.push({ type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro de conexão. Verifique sua chave API Groq."}], raw:"" });
   }
   loading = false; renderMessages(); renderHistory();
 }
