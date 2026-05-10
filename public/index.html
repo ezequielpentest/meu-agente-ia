@@ -34,8 +34,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .new-chat-btn{width:100%;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:13px;text-align:left;transition:background .15s;font-family:inherit}
 .new-chat-btn:hover{background:var(--border)}
 .sidebar-section{padding:4px 8px 0}
-.sidebar-section-label{font-size:10px;font-weight:500;color:var(--text-hint);padding:8px 10px 3px;letter-spacing:.3px;text-transform:uppercase}
-.agent-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit}
+.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:8px 10px 3px;letter-spacing:.3px;text-transform:uppercase}
+.agent-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit;margin-bottom:2px}
 .agent-item:hover{background:rgba(0,0,0,.05)}
 .dark-mode .agent-item:hover{background:rgba(255,255,255,.05)}
 .agent-item.active{background:var(--bg-card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -43,8 +43,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .agent-item-info{flex:1;min-width:0}
 .agent-item-name{font-size:13px;font-weight:500;color:var(--text)}
 .agent-item-role{font-size:11px;color:var(--text-hint)}
-.history-btn{margin:8px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;color:var(--text-muted);font-size:12px;font-family:inherit}
-.history-btn:hover{background:var(--border)}
 .history-section{flex:1;overflow-y:auto;padding:0 8px 8px}
 .history-item{padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:2px}
 .history-item:hover{background:rgba(0,0,0,.05)}
@@ -206,23 +204,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
-// ============= AGENTES COMPLETOS =============
+// ============= AGENTES =============
 const AGENTS = [
-  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de", specialty:"Analisa situações e despacha o agente especialista correto" },
-  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe", specialty:"Gerencia writeups, markdown e repositórios GitHub" },
-  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb", specialty:"Estratégia ofensiva, metodologias PTES/OWASP" },
-  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda", specialty:"OSINT, Shodan, theHarvester, Maltego" },
-  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda", specialty:"SQLi, XSS, LFI, Burp Suite" },
-  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda", specialty:"Nmap, enumeração de serviços, pivoting" },
-  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb", specialty:"CVEs, Searchsploit, adaptação de exploits" },
-  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb", specialty:"Hashcat, John, Hydra, cracking" },
-  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb", specialty:"Meterpreter, shells, persistência" },
-  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0", specialty:"Active Directory, BloodHound" },
-  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb", specialty:"Buffer Overflow, shellcode" },
-  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda", specialty:"Escalação Linux/Windows" },
-  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de", specialty:"Linux avançado, bash" },
-  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe", specialty:"Python, Bash, automação" },
-  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb", specialty:"Relatórios DCPT/OSCP" }
+  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de" },
+  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe" },
+  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb" },
+  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda" },
+  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda" },
+  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda" },
+  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb" },
+  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb" },
+  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb" },
+  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0" },
+  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb" },
+  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda" },
+  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de" },
+  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe" },
+  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb" }
 ];
 
 const AGENT_MAP = {};
@@ -237,171 +235,59 @@ const QUICK = [
   "Cria um script Python para scanner de portas"
 ];
 
-// ============= RESPOSTAS LOCAIS (FALLBACK) =============
-function getLocalResponse(userMessage, agentId) {
-  const lowerMsg = userMessage.toLowerCase();
-  
-  if(agentId === "cipher" || lowerMsg.includes("descriptografar") || lowerMsg.includes("criptografado") || lowerMsg.includes(".enc")) {
-    return `**📌 Comandos para descriptografar arquivo .enc:**
+// ============= DISPATCHER SYSTEM =============
+const DISPATCHER_SYSTEM = `Você é NEXUS, dispatcher do Pentest Forge. Analise a situação e chame os agentes corretos.
 
-\`\`\`bash
-# 1. Identificar o tipo de arquivo
-file backup.zip.enc
+Mapeamento de palavras para agentes:
+- .enc, criptografia, hash, john, hashcat, descriptografar → cipher
+- escalar, privilégio, root, sudo, SUID, privesc → privesc
+- python, script, código, automatizar → syntax
+- github, writeup, documentar, markdown → gitops
+- active directory, ad, bloodhound, kerberoasting → dominator
+- nmap, porta, scan, rede → shadow
+- buffer overflow, bof, fuzzing → bof
 
-# 2. Verificar magic bytes (cabeçalho)
-xxd backup.zip.enc | head -20
+Responda SOMENTE com JSON:
+{
+  "agents": ["cipher", "privesc", "syntax", "gitops"],
+  "conversation": [
+    {"agent": "cipher", "message": "resposta detalhada com comandos reais"},
+    {"agent": "privesc", "message": "resposta detalhada com comandos reais"}
+  ]
+}`;
 
-# 3. Se for ZIP criptografado, extrair hash
-zip2john backup.zip.enc > hash.txt
+const AGENT_SYSTEMS = {
+  cipher: "Você é Cipher, especialista em cracking. Responda com comandos: file, xxd, zip2john, john, hashcat. Seja detalhado.",
+  privesc: "Você é Escalon, especialista em escalação. Responda com: sudo -l, find / -perm -4000, linpeas.sh. Seja detalhado.",
+  syntax: "Você é Syntax, especialista em scripts. Responda com código Python COMPLETO e funcional.",
+  gitops: "Você é GitOps. Responda com writeup MARKDOWN completo.",
+  dominator: "Você é Dominator. Responda com comandos BloodHound: SharpHound.exe, bloodhound-python, coleta de dados.",
+  shadow: "Você é Shadow. Responda com comandos nmap: nmap -sV -sC -p- target.com",
+  bof: "Você é B0F. Responda com código Python para fuzzing e exploit.",
+  ghost: "Você é Ghost. Responda com comandos OSINT.",
+  scribe: "Você é Scribe. Responda com estrutura de relatório profissional.",
+  wraith: "Você é Wraith. Responda com comandos de shell e persistência.",
+  phantom: "Você é Phantom. Responda com SQLi e XSS.",
+  tux: "Você é Tux. Responda com comandos Linux.",
+  viper: "Você é Viper. Responda com busca de exploits.",
+  commander: "Você é Rex. Responda com estratégia ofensiva."
+};
 
-# 4. Quebrar a senha com John
-john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
-
-# 5. Se for OpenSSL
-openssl enc -d -aes-256-cbc -in backup.zip.enc -out decriptado.zip -k "senha_aqui"
-\`\`\`
-
-**Dica:** \`file\` e \`xxd\` são seus melhores amigos para identificar o tipo de criptografia.`;
-  }
-  
-  if(agentId === "privesc" || lowerMsg.includes("escalar") || lowerMsg.includes("privilégio") || lowerMsg.includes("privesc")) {
-    return `**📌 Checklist de escalação de privilégio no Linux:**
-
-\`\`\`bash
-# 1. Informações do sistema
-whoami; id; uname -a; cat /etc/os-release
-
-# 2. Verificar sudo
-sudo -l
-
-# 3. Buscar binários SUID
-find / -perm -4000 -type f 2>/dev/null
-
-# 4. Buscar binários SGID
-find / -perm -2000 -type f 2>/dev/null
-
-# 5. Verificar cron jobs
-cat /etc/crontab
-ls -la /etc/cron*
-
-# 6. Executar LinPEAS
-curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh
-\`\`\`
-
-**Próximos passos:** Verifique cada saída e pesquise no GTFOBins para binários SUID/Sudo.`;
-  }
-  
-  if(agentId === "syntax" || lowerMsg.includes("python") || lowerMsg.includes("script")) {
-    return `**📌 Script Python para scanner de portas completo:**
-
-\`\`\`python
-#!/usr/bin/env python3
-\"\"\"Scanner de portas simples\"\"\"
-import socket
-import sys
-from datetime import datetime
-
-def scan_port(ip, port):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(0.5)
-    result = sock.connect_ex((ip, port))
-    sock.close()
-    return result == 0
-
-def main():
-    if len(sys.argv) < 2:
-        print("Uso: python3 scanner.py <IP>")
-        sys.exit(1)
-    
-    ip = sys.argv[1]
-    print(f"Iniciando scan em {ip} às {datetime.now()}")
-    print("-" * 40)
-    
-    for port in range(1, 1025):
-        if scan_port(ip, port):
-            print(f"Porta {port} ABERTA")
-    
-    print("-" * 40)
-    print("Scan concluído!")
-
-if __name__ == "__main__":
-    main()
-\`\`\`
-
-**Como usar:** \`python3 scanner.py 192.168.1.1\``;
-  }
-  
-  if(agentId === "gitops" || lowerMsg.includes("github") || lowerMsg.includes("writeup")) {
-    return `**📌 Modelo de Writeup para GitHub:**
-
-\`\`\`markdown
-# Nome da Máquina - HTB Writeup
-
-## Resumo
-- **IP:** 10.10.11.x
-- **SO:** Linux/Windows
-- **Dificuldade:** Fácil/Média/Difícil
-
-## Enumeração
-### Nmap
-\`\`\`bash
-nmap -sV -sC -p- 10.10.11.x
-\`\`\`
-
-### SMB
-\`\`\`bash
-smbclient -L //10.10.11.x -N
-\`\`\`
-
-## Exploitation
-### Descriptografia
-\`\`\`bash
-zip2john backup.zip.enc > hash.txt
-john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
-\`\`\`
-
-## Escalação de Privilégios
-\`\`\`bash
-sudo -l
-find / -perm -4000 2>/dev/null
-\`\`\`
-
-## Flags
-- **user.txt:** flag_aqui
-- **root.txt:** flag_aqui
-
-## Comandos git
-\`\`\`bash
-git clone https://github.com/ezequielpentest/htb-writeups
-git add .
-git commit -m "Add writeup - $(date +%Y-%m-%d)"
-git push origin main
-\`\`\`
-\`\`\``;
-  }
-  
-  return `**${AGENT_MAP[agentId]?.name || "NEXUS"}** respondendo:
-
-Sua solicitação: "${userMessage.substring(0, 100)}..."
-
-Para uma resposta mais específica, descreva melhor sua situação ou selecione um agente especialista na lateral.`;
-}
-
-// ============= API GROQ COM FALLBACK =============
-async function callGroq(history, system){
-  try {
-    const res = await fetch("/api/groq",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ messages: history, system: system, model: "llama-3.3-70b-versatile", temperature: 0.3, max_tokens: 4000 })
-    });
-    const data = await res.json();
-    if(data.error) throw new Error(data.error);
-    return data.content?.[0]?.text || "";
-  } catch(e) {
-    console.log("⚠️ API Groq falhou, usando fallback local");
-    return null;
-  }
+async function callGroq(messages, system) {
+  const res = await fetch("/api/groq", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: messages,
+      system: system,
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+      max_tokens: 4000
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error);
+  return data.content?.[0]?.text || "";
 }
 
 let chatMode = "general";
@@ -459,7 +345,7 @@ function buildSidebar() {
     const agents = AGENTS.filter(a => a.team === team);
     if(!agents.length) return;
     const lbl = document.createElement("div");
-    lbl.style.cssText = "font-size:10px;color:var(--text-hint);padding:8px 10px 3px;font-weight:500;letter-spacing:.3px;text-transform:uppercase";
+    lbl.style.cssText = "font-size:10px;color:var(--text-hint);padding:8px 10px 3px;font-weight:600;letter-spacing:.5px;text-transform:uppercase";
     lbl.textContent = TEAM_LABELS[team];
     list.appendChild(lbl);
     agents.forEach(agent => {
@@ -489,16 +375,12 @@ function selectAgent(id){
   const agent = AGENT_MAP[id];
   if(!agent) return;
   
-  const specialtyMsg = `🎯 **${agent.name}** (${agent.role})\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 **Especialidade:** ${agent.specialty}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ Agora conversando diretamente com **${agent.name}**.`;
-  
   if(id === "dispatch"){ 
     chatMode = "general"; 
     selectedAgentId = "dispatch"; 
-    messages.push({ type: "system", content: "🔄 Modo geral ativado. O NEXUS irá delegar para os agentes especialistas." });
   } else { 
     chatMode = "agent"; 
     selectedAgentId = id;
-    messages.push({ type: "system", content: specialtyMsg });
   }
   updateTopbar(); 
   updateSidebarActive(); 
@@ -546,7 +428,7 @@ function renderMessages(){
     const w = document.createElement("div"); w.className = "welcome";
     w.innerHTML = `<div class="welcome-icon">${chatMode === "agent" ? agent.icon : "🧬"}</div>
       <div class="welcome-title">${chatMode === "agent" ? agent.name : "Pentest Forge"}</div>
-      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — múltiplos agentes especialistas serão ativados"}</div>
+      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — NEXUS irá delegar para os agentes especialistas"}</div>
       ${chatMode === "general" ? '<div class="quick-grid" id="quickGrid"></div>' : ""}`;
     inner.appendChild(w);
     if(chatMode === "general"){
@@ -641,35 +523,59 @@ async function sendMessage(){
     const updated = [...prev, {type:"user", content:text}];
     agentChats[selectedAgentId] = updated; renderMessages();
     
-    const reply = getLocalResponse(text, selectedAgentId);
-    agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
+    const history = updated.map(m => ({role: m.type === "user" ? "user" : "assistant", content: m.content}));
     
-    localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
+    try {
+      const reply = await callGroq(history, AGENT_SYSTEMS[selectedAgentId] || "Você é um especialista em pentest. Responda em português com comandos reais e detalhados.");
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
+      localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
+    } catch(e) {
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro na API Groq. Verifique sua chave no Cloudflare."}];
+    }
     loading = false; renderMessages(); renderHistory(); return;
   }
 
   messages.push({type:"user", content:text}); renderMessages();
   
-  // Detectar agentes baseado na mensagem (modo automático)
-  let agentsList = [];
-  if(text.includes("descriptografar") || text.includes(".enc") || text.includes("criptografado")) agentsList.push("cipher");
-  if(text.includes("escalar") || text.includes("privilégio") || text.includes("privesc") || text.includes("root")) agentsList.push("privesc");
-  if(text.includes("python") || text.includes("script") || text.includes("scanner") || text.includes("código")) agentsList.push("syntax");
-  if(text.includes("github") || text.includes("writeup") || text.includes("documentar") || text.includes("markdown")) agentsList.push("gitops");
-  if(agentsList.length === 0) agentsList = ["dispatch"];
-  
-  const conversation = agentsList.map(id => ({
-    agent: id,
-    message: getLocalResponse(text, id)
-  }));
-  
-  const dispatchMsg = { type:"dispatch", agents: agentsList, conversation: conversation, raw: "" };
-  messages.push(dispatchMsg);
-  
-  const sessionData = { id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages] };
-  sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
-  localStorage.setItem("pf_sessions", JSON.stringify(sessions));
-  
+  const history = messages.filter(m => m.type === "user" || m.type === "dispatch").slice(-10).map(m => 
+    m.type === "user" ? {role:"user", content:m.content} : {role:"assistant", content: m.raw || "..."}
+  );
+
+  try {
+    const raw = await callGroq(history, DISPATCHER_SYSTEM);
+    let parsed;
+    let agentsList = [];
+    let conversationList = [];
+    
+    try {
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if(jsonMatch) {
+        parsed = JSON.parse(jsonMatch[0]);
+        agentsList = parsed.agents || [];
+        conversationList = parsed.conversation || [];
+      } else {
+        throw new Error("No JSON");
+      }
+    } catch(e) {
+      agentsList = ["dispatch"];
+      conversationList = [{agent:"dispatch", message: raw.substring(0, 2000)}];
+    }
+    
+    const validConversation = conversationList.map(conv => ({
+      agent: conv.agent || "dispatch",
+      message: conv.message || "Sem resposta"
+    }));
+    
+    const dispatchMsg = { type:"dispatch", agents: agentsList, conversation: validConversation, raw: raw };
+    messages.push(dispatchMsg);
+    
+    const sessionData = { id:currentSessionId, date:new Date().toLocaleDateString("pt-BR"), preview:text.slice(0,55), messages:[...messages] };
+    sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
+    localStorage.setItem("pf_sessions", JSON.stringify(sessions));
+    
+  } catch(e) {
+    messages.push({ type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro na API Groq. Verifique sua chave no Cloudflare."}], raw:"" });
+  }
   loading = false; renderMessages(); renderHistory();
 }
 
