@@ -405,7 +405,7 @@ function Squad() {
         type: "agent_conversation",
         agents: ["dispatch"],
         reasoning: "Erro",
-        conversation: [{ agent: "dispatch", message: "❌ Erro de conexão com a API. Verifique o worker e os créditos da conta Anthropic." }],
+        conversation: [{ agent: "dispatch", message: "❌ Erro de conexão. Verifique os créditos da conta." }],
       }];
       setMessages(errMessages);
     }
