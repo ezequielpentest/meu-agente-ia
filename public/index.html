@@ -28,98 +28,93 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   --text-hint:#605d58;
 }
 .app{display:flex;height:100vh;background:var(--bg)}
-.sidebar{width:260px;min-width:260px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .25s}
-.sidebar-header{padding:16px 12px 8px;display:flex;align-items:center;gap:8px}
+.sidebar{width:280px;min-width:280px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto;transition:transform .25s;flex-shrink:0}
+.sidebar-header{padding:16px 12px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
 .sidebar-logo{font-size:13px;font-weight:600;color:var(--text);flex:1}
-.new-chat-btn{width:100%;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:13px;text-align:left;transition:background .15s;font-family:inherit}
+.new-chat-btn{width:calc(100% - 24px);margin:12px;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;color:var(--text-muted);font-size:13px;font-family:inherit}
 .new-chat-btn:hover{background:var(--border)}
-.sidebar-section{padding:4px 8px 0}
-.sidebar-section-label{font-size:10px;font-weight:500;color:var(--text-hint);padding:8px 10px 3px;letter-spacing:.3px;text-transform:uppercase}
-.agent-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit}
+.sidebar-section{padding:8px 12px}
+.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:0 0 6px 0;letter-spacing:.5px;text-transform:uppercase}
+.agent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit;margin-bottom:2px}
 .agent-item:hover{background:rgba(0,0,0,.05)}
 .dark-mode .agent-item:hover{background:rgba(255,255,255,.05)}
 .agent-item.active{background:var(--bg-card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.dark-mode .agent-item.active{background:rgba(255,255,255,.07)}
-.agent-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.agent-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .agent-item-info{flex:1;min-width:0}
-.agent-item-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.agent-item-role{font-size:11px;color:var(--text-hint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.online-dot{width:6px;height:6px;border-radius:50%;background:#639922;flex-shrink:0}
-.history-section{flex:1;overflow-y:auto;padding:0 8px 8px}
-.history-item{padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
+.agent-item-name{font-size:13px;font-weight:500;color:var(--text)}
+.agent-item-role{font-size:10px;color:var(--text-hint)}
+.history-section{flex:1;overflow-y:auto;padding:0 12px 12px}
+.history-item{padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px}
 .history-item:hover{background:rgba(0,0,0,.05)}
-.dark-mode .history-item:hover{background:rgba(255,255,255,.05)}
 .history-item.active{background:var(--bg-card)}
-.history-date{font-size:10px;color:var(--text-hint);margin-bottom:1px}
-.history-preview{font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-date{font-size:10px;color:var(--text-hint);margin-bottom:2px}
+.history-preview{font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
 .topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;background:var(--bg)}
 .topbar-title{font-size:14px;font-weight:500;color:var(--text);flex:1}
 .topbar-agent{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:20px;background:var(--bg-sidebar);border:1px solid var(--border);font-size:12px;color:var(--text-muted)}
-.icon-btn{width:32px;height:32px;border-radius:8px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:background .15s;font-size:16px}
+.icon-btn{width:34px;height:34px;border-radius:8px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:background .15s;font-size:16px}
 .icon-btn:hover{background:var(--border)}
-.messages{flex:1;overflow-y:auto;padding:24px 0}
-.messages-inner{max-width:720px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:16px}
-.welcome{text-align:center;padding:48px 0 24px}
-.welcome-icon{font-size:36px;margin-bottom:12px}
-.welcome-title{font-size:22px;font-weight:500;color:var(--text);margin-bottom:6px}
-.welcome-sub{font-size:14px;color:var(--text-muted);max-width:440px;margin:0 auto}
+.messages{flex:1;overflow-y:auto;padding:20px 0}
+.messages-inner{max-width:800px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:16px}
+.welcome{text-align:center;padding:40px 0 20px}
+.welcome-icon{font-size:40px;margin-bottom:12px}
+.welcome-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:6px}
+.welcome-sub{font-size:13px;color:var(--text-muted);max-width:440px;margin:0 auto}
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
-.quick-card{padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;text-align:left;font-size:13px;color:var(--text-muted);font-family:inherit;transition:border-color .15s;line-height:1.5}
+.quick-card{padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;text-align:left;font-size:12px;color:var(--text-muted);font-family:inherit}
 .quick-card:hover{border-color:var(--text-hint)}
 .msg-user{display:flex;justify-content:flex-end}
-.msg-user-bubble{max-width:80%;background:var(--text);color:var(--bg);border-radius:18px 18px 4px 18px;padding:11px 16px;font-size:14px;line-height:1.6}
+.msg-user-bubble{max-width:80%;background:var(--text);color:var(--bg);border-radius:18px 18px 4px 18px;padding:10px 16px;font-size:14px;line-height:1.5}
 .msg-agent{display:flex;gap:12px;align-items:flex-start}
-.msg-agent-av{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px}
+.msg-agent-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px}
 .msg-agent-body{flex:1;min-width:0}
-.msg-agent-name{font-size:12px;font-weight:500;margin-bottom:5px}
-.msg-agent-text{font-size:14px;line-height:1.7;color:var(--text)}
+.msg-agent-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.msg-agent-name{font-size:12px;font-weight:600}
+.msg-agent-role{font-size:10px;color:var(--text-hint)}
+.copy-btn{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:10px;cursor:pointer;color:var(--text-muted);font-family:inherit;margin-left:auto}
+.copy-btn:hover{background:var(--border)}
+.msg-agent-text{font-size:14px;line-height:1.6;color:var(--text)}
 .msg-agent-text pre{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:8px;padding:12px;overflow-x:auto;font-size:12px;font-family:var(--font-mono);margin:8px 0;white-space:pre-wrap;word-break:break-word}
 .msg-agent-text code{background:var(--bg-sidebar);padding:2px 6px;border-radius:4px;font-size:12px;font-family:var(--font-mono)}
-.msg-agent-text strong{font-weight:600}
-.dispatch-row{display:flex;align-items:center;gap:8px;margin:4px 0 8px 44px;flex-wrap:wrap}
-.dispatch-badge{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:500}
-.typing{display:flex;gap:4px;padding:4px 0;align-items:center}
+.dispatch-row{display:flex;align-items:center;gap:8px;margin:4px 0 8px 46px;flex-wrap:wrap}
+.dispatch-badge{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:500}
+.typing{display:flex;gap:4px;padding:4px 0}
 .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-hint);animation:bounce 1.2s infinite}
 .typing-dot:nth-child(2){animation-delay:.2s}
 .typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 .system-msg{text-align:center}
 .system-badge{font-size:11px;color:var(--text-hint);background:var(--bg-sidebar);padding:3px 12px;border-radius:20px;border:1px solid var(--border)}
-.input-area{padding:16px 24px 20px;background:var(--bg);border-top:1px solid var(--border);flex-shrink:0}
-.input-wrap{max-width:720px;margin:0 auto;position:relative}
-.mode-banner{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;font-size:12px;color:var(--text-muted)}
-.mode-banner .close-btn{background:none;border:none;cursor:pointer;color:var(--text-hint);font-size:14px;padding:2px;margin-left:auto}
-.input-box{width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:14px 52px 14px 16px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;min-height:52px;max-height:160px;overflow-y:auto;transition:border-color .2s;line-height:1.5}
+.input-area{padding:12px 20px 16px;background:var(--bg);border-top:1px solid var(--border)}
+.input-wrap{max-width:800px;margin:0 auto;position:relative}
+.input-box{width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:12px 50px 12px 16px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;min-height:48px;max-height:140px;overflow-y:auto}
 .input-box:focus{border-color:var(--text-hint)}
-.input-box::placeholder{color:var(--text-hint)}
-.send-btn{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:10px;border:none;background:var(--text);color:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:opacity .2s}
+.send-btn{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:10px;border:none;background:var(--text);color:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px}
 .send-btn:disabled{opacity:.3;cursor:not-allowed}
-.input-hint{text-align:center;font-size:11px;color:var(--text-hint);margin-top:8px}
+.input-hint{text-align:center;font-size:10px;color:var(--text-hint);margin-top:6px}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:150}
-.mob-toggle{display:none;position:fixed;bottom:80px;left:16px;z-index:200;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;align-items:center;justify-content:center;font-size:18px;color:var(--text-muted)}
+.mob-toggle{display:none;position:fixed;bottom:20px;left:16px;z-index:200;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;align-items:center;justify-content:center;font-size:20px;color:var(--text-muted)}
 @media(max-width:680px){
-  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:160;transform:translateX(-100%)}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:160;transform:translateX(-100%);width:280px}
   .sidebar.open{transform:translateX(0)}
   .mob-toggle{display:flex}
   .overlay.show{display:block}
   .quick-grid{grid-template-columns:1fr}
 }
 .login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
-.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 32px;width:380px;max-width:90vw}
+.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;width:340px;max-width:90vw}
 .login-logo{font-size:32px;text-align:center;margin-bottom:12px}
-.login-title{font-size:18px;font-weight:600;text-align:center;color:var(--text);margin-bottom:4px}
-.login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:28px}
+.login-title{font-size:18px;font-weight:600;text-align:center;color:var(--text)}
+.login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:24px}
 .login-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:block;font-weight:500}
 .login-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px}
 .login-input:focus{border-color:var(--text-hint)}
-.login-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;margin-top:6px;font-family:inherit;transition:opacity .2s}
-.login-btn:hover{opacity:.85}
+.login-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit}
 .login-err{font-size:12px;color:#a32d2d;text-align:center;margin-top:12px;display:none}
 .login-err.show{display:block}
 .switch-form{text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted)}
-.switch-link{color:var(--text);cursor:pointer;text-decoration:underline;margin-left:4px}
-.switch-link:hover{opacity:.7}
+.switch-link{color:var(--text);cursor:pointer;text-decoration:underline}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -127,30 +122,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </head>
 <body>
 
-<!-- LOGIN/REGISTER -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card" id="loginCard">
     <div id="loginForm">
       <div class="login-logo">⚡</div>
       <div class="login-title">Pentest Forge</div>
-      <div class="login-sub">Cyber Squad — entre com sua conta</div>
+      <div class="login-sub">Entre com sua conta</div>
       <label class="login-label">E-mail</label>
-      <input class="login-input" id="loginEmail" type="email" placeholder="seu@email.com" autocomplete="off"/>
+      <input class="login-input" id="loginEmail" type="email" placeholder="seu@email.com"/>
       <label class="login-label">Senha</label>
       <input class="login-input" id="loginPassword" type="password" placeholder="••••••••"/>
       <button class="login-btn" id="loginBtn">Entrar</button>
       <div class="login-err" id="loginErr">Credenciais inválidas</div>
       <div class="switch-form">Não tem conta? <span class="switch-link" id="showRegister">Criar conta</span></div>
     </div>
-    
     <div id="registerForm" style="display:none">
       <div class="login-logo">⚡</div>
       <div class="login-title">Criar Conta</div>
-      <div class="login-sub">Cadastre-se para acessar o Pentest Forge</div>
+      <div class="login-sub">Cadastre-se para acessar</div>
       <label class="login-label">Nome</label>
-      <input class="login-input" id="regName" type="text" placeholder="Seu nome" autocomplete="off"/>
+      <input class="login-input" id="regName" type="text" placeholder="Seu nome"/>
       <label class="login-label">E-mail</label>
-      <input class="login-input" id="regEmail" type="email" placeholder="seu@email.com" autocomplete="off"/>
+      <input class="login-input" id="regEmail" type="email" placeholder="seu@email.com"/>
       <label class="login-label">Senha</label>
       <input class="login-input" id="regPassword" type="password" placeholder="••••••••"/>
       <button class="login-btn" id="registerBtn">Cadastrar</button>
@@ -160,28 +153,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app" style="display:none">
   <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span style="font-size:18px">⚡</span>
       <span class="sidebar-logo">Pentest Forge</span>
-      <button class="icon-btn" id="darkModeBtn" title="Tema">🌙</button>
+      <button class="icon-btn" id="darkModeBtn">🌙</button>
     </div>
-    <div style="padding:0 8px 8px">
-      <button class="new-chat-btn" id="newChatBtn">
-        <span style="font-size:18px">✏️</span> Novo chat
-      </button>
-    </div>
+    <button class="new-chat-btn" id="newChatBtn">✏️ Novo chat</button>
     <div class="sidebar-section">
       <div class="sidebar-section-label">Agentes</div>
       <div id="agentList"></div>
     </div>
-    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;min-height:0;margin-top:8px">
+    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;min-height:0">
       <div class="sidebar-section-label">Histórico</div>
       <div class="history-section" id="historyList">
-        <div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>
+        <div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>
       </div>
     </div>
   </div>
@@ -190,25 +178,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="topbar">
       <span class="topbar-title" id="topbarTitle">EZEIA — Chat Geral</span>
       <div class="topbar-agent" id="topbarAgent">🧬 EZEIA</div>
-      <button class="icon-btn" id="clearChatBtn" title="Limpar">🗑️</button>
-      <button class="icon-btn" id="logoutBtn" title="Sair">🚪</button>
+      <button class="icon-btn" id="clearChatBtn">🗑️</button>
+      <button class="icon-btn" id="logoutBtn">🚪</button>
     </div>
     <div class="messages" id="messagesDiv">
       <div class="messages-inner" id="messagesInner"></div>
     </div>
     <div class="input-area">
       <div class="input-wrap">
-        <div class="mode-banner" id="modeBanner" style="display:none">
-          <span id="bannerIcon"></span>
-          <span style="flex:1;margin-left:6px" id="bannerLabel"></span>
-          <button class="close-btn" id="exitAgentBtn">✕</button>
-        </div>
         <textarea class="input-box" id="inputBox" rows="1" placeholder="Mensagem..."></textarea>
-        <button class="send-btn" id="sendBtn" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
+        <button class="send-btn" id="sendBtn" disabled>➤</button>
       </div>
-      <div class="input-hint">Enter para enviar · Shift+Enter nova linha · apenas ambientes autorizados</div>
+      <div class="input-hint">Enter enviar · Shift+Enter nova linha</div>
     </div>
   </div>
 </div>
@@ -216,64 +197,56 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
+// Agentes
 const AGENTS = [
-  { id:"dispatch",   name:"EZEIA",     role:"Dispatcher",    team:"core", icon:"🧬", color:"#3b6d11", bg:"#eaf3de" },
-  { id:"password",   name:"Cipher",    role:"Hash cracking",  team:"red",  icon:"🔐", color:"#a32d2d", bg:"#fcebeb" },
-  { id:"privesc",    name:"Escalon",   role:"Privilege Escalation", team:"spec", icon:"🔑", color:"#854f0b", bg:"#faeeda" },
-  { id:"script",     name:"Syntax",    role:"Scripting",      team:"spec", icon:"💻", color:"#534ab7", bg:"#eeedfe" },
-  { id:"github",     name:"GitOps",    role:"Documentação",   team:"core", icon:"🐙", color:"#3c3489", bg:"#eeedfe" },
-  { id:"recon",      name:"Ghost",     role:"OSINT",          team:"red",  icon:"👁️", color:"#185fa5", bg:"#e6f1fb" },
-  { id:"web",        name:"Phantom",   role:"Web Exploitation", team:"red", icon:"🕸️", color:"#ba7517", bg:"#faeeda" },
-  { id:"post",       name:"Wraith",    role:"Pós-exploração",  team:"red",  icon:"💀", color:"#534ab7", bg:"#eeedfe" },
+  { id:"dispatch", name:"EZEIA", role:"Dispatcher", team:"core", icon:"🧬", color:"#3b6d11", bg:"#eaf3de" },
+  { id:"password", name:"Cipher", role:"Password/Cracking", team:"red", icon:"🔐", color:"#a32d2d", bg:"#fcebeb" },
+  { id:"privesc", name:"Escalon", role:"Privilege Escalation", team:"spec", icon:"🔑", color:"#854f0b", bg:"#faeeda" },
+  { id:"script", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#534ab7", bg:"#eeedfe" },
+  { id:"github", name:"GitOps", role:"GitHub/Docs", team:"core", icon:"🐙", color:"#3c3489", bg:"#eeedfe" },
+  { id:"recon", name:"Ghost", role:"OSINT/Recon", team:"red", icon:"👁️", color:"#185fa5", bg:"#e6f1fb" },
+  { id:"post", name:"Wraith", role:"Post-Exploitation", team:"red", icon:"💀", color:"#534ab7", bg:"#eeedfe" },
 ];
 
 const AGENT_MAP = {};
 AGENTS.forEach(a => AGENT_MAP[a.id] = a);
-const TEAM_LABELS = { core:"Core", red:"Red Team", spec:"Specialists" };
-
+const TEAM_LABELS = { core:"🔹 Core", red:"🔴 Red Team", spec:"🧠 Specialists" };
 const QUICK = [
-  "Preciso iniciar reconhecimento em um alvo web",
-  "Tenho acesso inicial — como escalar privilégio no Linux?",
-  "Recebi um shell — o que fazer na pós-exploração?",
-  "Escreve um writeup HTB completo para meu GitHub",
+  "Preciso descriptografar um arquivo .enc, escalar privilégio no Linux, criar um script Python e documentar no GitHub. Me ajuda!",
+  "Como escalar privilégio no Linux depois de ter acesso como www-data?",
+  "Cria um script Python para automatizar enumeração de portas",
+  "Escreve um writeup HTB completo para o GitHub"
 ];
 
-// ============================================================
-// PROMPT CORRIGIDO - AGORA EZEIA SÓ DELEGA
-// ============================================================
 const SYSTEM = {
   dispatch: `Você é EZEIA, dispatcher do Pentest Forge. Sua ÚNICA função é DELEGAR. NUNCA responda diretamente.
 
-REGRAS OBRIGATÓRIAS:
-- password (Cipher): para arquivos .enc, .zip, criptografia, hash, john, hashcat
-- privesc (Escalon): para escalar privilégio, root, sudo, SUID, linpeas
-- script (Syntax): para código Python, automação, script
-- github (GitOps): para writeup, documentar, markdown, GitHub
-- recon (Ghost): para nmap, enumeração, portas, SMB
-- web (Phantom): para SQL, XSS, Burp
-- post (Wraith): para shell, meterpreter, persistência
+Mapeamento de palavras:
+- .enc, .zip, criptografia, hash, john, hashcat → AGENTE password
+- escalar, privilégio, root, sudo, SUID, linpeas → AGENTE privesc
+- script, python, código, automatizar → AGENTE script
+- github, writeup, documentar, markdown → AGENTE github
+- enumeração, nmap, portas → AGENTE recon
+- shell, meterpreter, persistência → AGENTE post
 
-Se o usuário pedir várias coisas, acione MÚLTIPLOS agentes.
+Se o usuário pedir MÚLTIPLAS coisas, acione MÚLTIPLOS agentes.
 
-FORMATO DE RESPOSTA OBRIGATÓRIO (APENAS JSON):
+Responda SOMENTE com JSON:
 {
   "agents": ["password", "privesc", "script", "github"],
   "conversation": [
-    {"agent": "password", "message": "resposta técnica DETALHADA com comandos reais"},
-    {"agent": "privesc", "message": "resposta técnica DETALHADA com comandos reais"}
+    {"agent": "password", "message": "comandos reais detalhados"},
+    {"agent": "privesc", "message": "comandos reais detalhados"}
   ]
 }`,
-
-  password: `Você é Cipher, especialista em cracking. Responda com comandos COMPLETOS: file, xxd, zip2john, john, hashcat. Mostre os comandos exatos.`,
-  privesc: `Você é Escalon, especialista em escalação. Responda com: sudo -l, find / -perm -4000, linpeas.sh, comandos reais.`,
-  script: `Você é Syntax, especialista em scripts. Responda com código Python COMPLETO e funcional.`,
-  github: `Você é GitOps, especialista em GitHub. Responda com writeup MARKDOWN completo.`,
-  recon: `Você é Ghost, especialista em OSINT. Responda com comandos nmap reais.`,
-  web: `Você é Phantom, especialista em web. Responda com payloads reais.`,
-  post: `Você é Wraith, especialista em pós-exploração. Responda com comandos reais.`,
+  password: `Você é Cipher. Responda com comandos: file, xxd, zip2john, john, hashcat. Seja detalhado.`,
+  privesc: `Você é Escalon. Responda com: sudo -l, find / -perm -4000, linpeas.sh.`,
+  script: `Você é Syntax. Responda com código Python COMPLETO e funcional.`,
+  github: `Você é GitOps. Responda com writeup MARKDOWN completo estruturado.`,
+  recon: `Você é Ghost. Responda com comandos nmap reais.`,
+  post: `Você é Wraith. Responda com comandos de shell e persistência.`,
 };
 
-// ============= STATE =============
 let chatMode = "general";
 let selectedAgentId = "dispatch";
 let messages = [];
@@ -282,10 +255,13 @@ let agentChats = JSON.parse(localStorage.getItem("pf_agent_chats") || "{}");
 let currentSessionId = Date.now().toString();
 let loading = false;
 let darkMode = localStorage.getItem("pf_dark") === "1";
-let currentUser = null;
 
-// Helper functions
-function escapeHtml(t) { if(!t) return ''; return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escapeHtml(t) { return t?.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") || ''; }
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text);
+  alert("Copiado!");
+}
 
 function renderMD(text){
   if(!text) return "";
@@ -293,20 +269,10 @@ function renderMD(text){
   t = t.replace(/```[\w]*\n?([\s\S]*?)```/g, (_,c)=>`<pre>${c}</pre>`);
   t = t.replace(/`([^`]+)`/g,"<code>$1</code>");
   t = t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
-  t = t.replace(/^#{1,3} (.+)$/gm,"<div style='font-size:14px;font-weight:600;color:var(--text);margin:10px 0 4px'>$1</div>");
+  t = t.replace(/^#{1,3} (.+)$/gm,"<div style='font-size:15px;font-weight:600;margin:10px 0 4px'>$1</div>");
   t = t.replace(/^[-*] (.+)$/gm,"<div style='padding-left:14px;margin:3px 0'>▸ $1</div>");
   t = t.replace(/\n\n/g,"<br/><br/>").replace(/\n/g,"<br/>");
   return t;
-}
-
-// API Calls
-async function apiRequest(action, data) {
-  const response = await fetch('/api/auth', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, ...data })
-  });
-  return await response.json();
 }
 
 async function callGroq(history, system){
@@ -320,57 +286,13 @@ async function callGroq(history, system){
   return data.content?.[0]?.text || "";
 }
 
-// Login/Register UI
-document.getElementById("showRegister").onclick = () => {
-  document.getElementById("loginForm").style.display = "none";
-  document.getElementById("registerForm").style.display = "block";
-};
-document.getElementById("showLogin").onclick = () => {
-  document.getElementById("registerForm").style.display = "none";
-  document.getElementById("loginForm").style.display = "block";
-};
+// Login mock (para teste)
+document.getElementById("showRegister").onclick = () => { document.getElementById("loginForm").style.display = "none"; document.getElementById("registerForm").style.display = "block"; };
+document.getElementById("showLogin").onclick = () => { document.getElementById("registerForm").style.display = "none"; document.getElementById("loginForm").style.display = "block"; };
+document.getElementById("loginBtn").onclick = () => { document.getElementById("loginWrap").style.display = "none"; document.getElementById("app").style.display = "flex"; boot(); };
+document.getElementById("registerBtn").onclick = () => { alert("Conta criada! Faça login."); document.getElementById("registerForm").style.display = "none"; document.getElementById("loginForm").style.display = "block"; };
+document.getElementById("logoutBtn").onclick = () => { sessionStorage.clear(); location.reload(); };
 
-document.getElementById("loginBtn").onclick = async () => {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-  const result = await apiRequest('login', { email, password });
-  if(result.success) {
-    currentUser = result.user;
-    sessionStorage.setItem("pf_auth", "1");
-    document.getElementById("loginWrap").style.display = "none";
-    document.getElementById("app").style.display = "flex";
-    boot();
-  } else {
-    const errDiv = document.getElementById("loginErr");
-    errDiv.textContent = result.error || "Credenciais inválidas";
-    errDiv.classList.add("show");
-    setTimeout(() => errDiv.classList.remove("show"), 3000);
-  }
-};
-
-document.getElementById("registerBtn").onclick = async () => {
-  const name = document.getElementById("regName").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const password = document.getElementById("regPassword").value;
-  const result = await apiRequest('register', { email, password, name });
-  if(result.success) {
-    alert("Conta criada! Faça login.");
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-  } else {
-    const errDiv = document.getElementById("registerErr");
-    errDiv.textContent = result.error || "Erro ao cadastrar";
-    errDiv.classList.add("show");
-    setTimeout(() => errDiv.classList.remove("show"), 3000);
-  }
-};
-
-document.getElementById("logoutBtn").onclick = () => {
-  sessionStorage.clear();
-  location.reload();
-};
-
-// Boot
 function boot() {
   if(darkMode) document.body.classList.add("dark-mode");
   buildSidebar();
@@ -379,20 +301,12 @@ function boot() {
   document.getElementById("inputBox").focus();
 }
 
-if(sessionStorage.getItem("pf_auth") === "1") {
-  document.getElementById("loginWrap").style.display = "none";
-  document.getElementById("app").style.display = "flex";
-  boot();
-}
-
-// Dark mode
 document.getElementById("darkModeBtn").onclick = () => {
   darkMode = !darkMode;
   document.body.classList.toggle("dark-mode", darkMode);
   localStorage.setItem("pf_dark", darkMode ? "1" : "0");
 };
 
-// Sidebar
 function buildSidebar() {
   const list = document.getElementById("agentList");
   list.innerHTML = "";
@@ -400,7 +314,7 @@ function buildSidebar() {
     const agents = AGENTS.filter(a => a.team === team);
     if(!agents.length) return;
     const lbl = document.createElement("div");
-    lbl.style.cssText = "font-size:10px;color:var(--text-hint);padding:8px 10px 3px";
+    lbl.style.cssText = "font-size:10px;font-weight:600;color:var(--text-hint);padding:8px 0 4px";
     lbl.textContent = TEAM_LABELS[team];
     list.appendChild(lbl);
     agents.forEach(agent => {
@@ -411,8 +325,7 @@ function buildSidebar() {
         <div class="agent-item-info">
           <div class="agent-item-name">${agent.name}</div>
           <div class="agent-item-role">${agent.role}</div>
-        </div>
-        <div class="online-dot"></div>`;
+        </div>`;
       btn.onclick = () => selectAgent(agent.id);
       list.appendChild(btn);
     });
@@ -423,14 +336,14 @@ function buildSidebar() {
 function updateSidebarActive(){
   document.querySelectorAll(".agent-item").forEach(el => el.classList.remove("active"));
   const activeId = chatMode === "general" ? "dispatch" : selectedAgentId;
-  const btn = document.getElementById("agent-btn-" + (activeId === "dispatch" ? "dispatch" : activeId));
+  const btn = document.getElementById("agent-btn-" + activeId);
   if(btn) btn.classList.add("active");
 }
 
 function selectAgent(id){
   if(id === "dispatch"){ chatMode = "general"; selectedAgentId = "dispatch"; }
   else { chatMode = "agent"; selectedAgentId = id; }
-  updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); renderHistory(); closeSidebar();
+  updateTopbar(); updateSidebarActive(); renderMessages(); renderHistory(); closeSidebar();
 }
 
 function updateTopbar(){
@@ -439,30 +352,17 @@ function updateTopbar(){
   document.getElementById("topbarAgent").textContent = agent.icon + " " + agent.name;
 }
 
-function updateBanner(){
-  const banner = document.getElementById("modeBanner");
-  if(chatMode === "agent"){
-    const agent = AGENT_MAP[selectedAgentId];
-    document.getElementById("bannerIcon").textContent = agent.icon;
-    document.getElementById("bannerLabel").textContent = agent.name + " — chat individual";
-    banner.style.display = "flex";
-  } else { banner.style.display = "none"; }
-}
-
-function exitAgentMode(){ chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); }
-document.getElementById("exitAgentBtn").onclick = exitAgentMode;
-
 function renderHistory(){
   const el = document.getElementById("historyList");
   el.innerHTML = "";
-  if(!sessions.length && !Object.keys(agentChats).filter(k=>agentChats[k]?.length).length){
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>'; return;
+  if(!sessions.length){
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>'; return;
   }
   sessions.forEach(s => {
     const div = document.createElement("div");
     div.className = "history-item" + (s.id === currentSessionId && chatMode === "general" ? " active" : "");
     div.innerHTML = `<div class="history-date">${s.date}</div><div class="history-preview">${escapeHtml(s.preview)}</div>`;
-    div.onclick = () => { currentSessionId = s.id; messages = s.messages; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); };
+    div.onclick = () => { currentSessionId = s.id; messages = s.messages; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateSidebarActive(); renderMessages(); };
     el.appendChild(div);
   });
 }
@@ -476,8 +376,8 @@ function renderMessages(){
   if(!currentMsgs.length){
     const w = document.createElement("div"); w.className = "welcome";
     w.innerHTML = `<div class="welcome-icon">${chatMode === "agent" ? agent.icon : "🧬"}</div>
-      <div class="welcome-title">${chatMode === "agent" ? agent.name : "EZEIA Pentest Squad"}</div>
-      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — o dispatcher escolhe o agente certo."}</div>
+      <div class="welcome-title">${chatMode === "agent" ? agent.name : "Pentest Forge"}</div>
+      <div class="welcome-sub">${chatMode === "agent" ? agent.role : "Descreva sua situação — múltiplos agentes serão ativados"}</div>
       ${chatMode === "general" ? '<div class="quick-grid" id="quickGrid"></div>' : ""}`;
     inner.appendChild(w);
     if(chatMode === "general"){
@@ -493,10 +393,8 @@ function renderMessages(){
   if(loading){
     const row = document.createElement("div"); row.className = "msg-agent";
     row.innerHTML = `<div class="msg-agent-av" style="background:${agent.bg}">${agent.icon}</div>
-      <div class="msg-agent-body">
-        <div class="msg-agent-name" style="color:${agent.color}">${agent.name}</div>
-        <div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
-      </div>`;
+      <div class="msg-agent-body"><div class="msg-agent-name" style="color:${agent.color}">${agent.name}</div>
+      <div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
     inner.appendChild(row);
   }
   document.getElementById("messagesDiv").scrollTop = 999999;
@@ -516,7 +414,11 @@ function renderMsg(msg,i,container){
     const d = document.createElement("div"); d.className = "msg-agent";
     d.innerHTML = `<div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
       <div class="msg-agent-body">
-        <div class="msg-agent-name" style="color:${a.color}">${a.name} · ${a.role}</div>
+        <div class="msg-agent-header">
+          <span class="msg-agent-name" style="color:${a.color}">${a.name}</span>
+          <span class="msg-agent-role">${a.role}</span>
+          <button class="copy-btn" onclick="copyToClipboard(\`${escapeHtml(msg.content).replace(/`/g, '\\`')}\`)">📋 Copiar</button>
+        </div>
         <div class="msg-agent-text">${renderMD(msg.content)}</div>
       </div>`;
     container.appendChild(d); return;
@@ -524,7 +426,7 @@ function renderMsg(msg,i,container){
   if(msg.type === "dispatch"){
     if(msg.agents?.length){
       const row = document.createElement("div"); row.className = "dispatch-row";
-      row.innerHTML = msg.agents.map(id => { const a = AGENT_MAP[id]; if(!a) return ""; return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`; }).join("") + '<span style="font-size:11px;color:var(--text-hint);margin-left:4px">ativados</span>';
+      row.innerHTML = msg.agents.map(id => { const a = AGENT_MAP[id]; return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`; }).join("");
       container.appendChild(row);
     }
     (msg.conversation || []).forEach(conv => {
@@ -532,7 +434,11 @@ function renderMsg(msg,i,container){
       const d = document.createElement("div"); d.className = "msg-agent";
       d.innerHTML = `<div class="msg-agent-av" style="background:${a.bg}">${a.icon}</div>
         <div class="msg-agent-body">
-          <div class="msg-agent-name" style="color:${a.color}">${a.name} · ${a.role}</div>
+          <div class="msg-agent-header">
+            <span class="msg-agent-name" style="color:${a.color}">${a.name}</span>
+            <span class="msg-agent-role">${a.role}</span>
+            <button class="copy-btn" onclick="copyToClipboard(\`${escapeHtml(conv.message).replace(/`/g, '\\`')}\`)">📋 Copiar</button>
+          </div>
           <div class="msg-agent-text">${renderMD(conv.message)}</div>
         </div>`;
       container.appendChild(d);
@@ -554,11 +460,11 @@ async function sendMessage(){
     agentChats[selectedAgentId] = updated; renderMessages();
     const history = updated.map(m => ({role: m.type === "user" ? "user" : "assistant", content: m.content}));
     try {
-      const reply = await callGroq(history, SYSTEM[selectedAgentId] || "Você é um especialista em pentest. Responda em português com comandos reais.");
+      const reply = await callGroq(history, SYSTEM[selectedAgentId] || "Você é especialista. Responda em português.");
       agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
       localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
     } catch(e){
-      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro de conexão com a API Groq. Verifique sua chave API no Cloudflare."}];
+      agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:"dispatch", content:"❌ Erro API Groq"}];
     }
     loading = false; renderMessages(); renderHistory(); return;
   }
@@ -577,12 +483,12 @@ async function sendMessage(){
     sessions = [sessionData, ...sessions.filter(s => s.id !== currentSessionId)].slice(0,30);
     localStorage.setItem("pf_sessions", JSON.stringify(sessions));
   } catch(e){
-    messages.push({type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro de conexão com a API Groq. Verifique sua chave API no Cloudflare."}]});
+    messages.push({type:"dispatch", agents:["dispatch"], conversation:[{agent:"dispatch", message:"❌ Erro API Groq. Verifique sua chave."}]});
   }
   loading = false; renderMessages(); renderHistory();
 }
 
-function newChat(){ currentSessionId = Date.now().toString(); messages = []; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateBanner(); updateSidebarActive(); renderMessages(); }
+function newChat(){ currentSessionId = Date.now().toString(); messages = []; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateSidebarActive(); renderMessages(); }
 function clearChat(){
   if(!confirm("Limpar conversa?")) return;
   if(chatMode === "agent"){ agentChats[selectedAgentId] = []; localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats)); }
@@ -595,7 +501,7 @@ document.getElementById("clearChatBtn").onclick = clearChat;
 
 const inputBox = document.getElementById("inputBox");
 const sendBtn = document.getElementById("sendBtn");
-inputBox.addEventListener("input", function(){ sendBtn.disabled = !this.value.trim(); this.style.height = "auto"; this.style.height = Math.min(this.scrollHeight, 160) + "px"; });
+inputBox.addEventListener("input", function(){ sendBtn.disabled = !this.value.trim(); this.style.height = "auto"; this.style.height = Math.min(this.scrollHeight, 120) + "px"; });
 inputBox.addEventListener("keydown", e => { if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); sendMessage(); } });
 sendBtn.onclick = sendMessage;
 
@@ -603,6 +509,8 @@ function toggleSidebar(){ document.getElementById("sidebar").classList.toggle("o
 function closeSidebar(){ document.getElementById("sidebar").classList.remove("open"); document.getElementById("overlay").classList.remove("show"); }
 document.getElementById("mobToggle").onclick = toggleSidebar;
 document.getElementById("overlay").onclick = closeSidebar;
+
+window.copyToClipboard = copyToClipboard;
 </script>
 </body>
 </html>
