@@ -43,6 +43,7 @@ export async function onRequest(context) {
       },
       body: JSON.stringify({
         model: 'llama-3.1-70b-versatile',
+        
         messages: formattedMessages,
         temperature: 0.7,
         max_tokens: 1500
