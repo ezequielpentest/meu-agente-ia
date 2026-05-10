@@ -126,11 +126,12 @@ const REPOS = {
 const AGENT_MAP = AGENTS.reduce((acc, a) => { acc[a.id] = a; return acc; }, {});
 
 async function callClaude(messages, systemPrompt) {
+  // DeepSeek API via proxy seguro no Cloudflare Worker
   const res = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
+      model: "deepseek-chat",
       max_tokens: 1200,
       system: systemPrompt,
       messages,
@@ -138,7 +139,8 @@ async function callClaude(messages, systemPrompt) {
   });
   const data = await res.json();
   if (data.error) throw new Error(data.error);
-  return data.content?.[0]?.text || "Erro ao processar.";
+  // DeepSeek retorna no formato OpenAI: choices[0].message.content
+  return data.choices?.[0]?.message?.content || data.content?.[0]?.text || "Erro ao processar.";
 }
 
 const DISPATCHER_SYSTEM = `Você é NEXUS, o dispatcher de elite do squad de pentest de Ezequiel.
@@ -203,6 +205,7 @@ function App() {
   const [sidebarTab, setSidebarTab] = useState("agents");
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
   const [search, setSearch] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -309,6 +312,28 @@ function App() {
         code { background: #0a0f0a; color: #00ff88; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
         .quick-btn:hover { background: #001a00 !important; color: #00ff88 !important; border-color: #00ff8844 !important; }
         .agent-card:hover { border-color: inherit !important; background: rgba(255,255,255,0.03) !important; }
+        /* ── MOBILE ── */
+        * { -webkit-tap-highlight-color: transparent; }
+        textarea { font-size: 16px !important; } /* evita zoom no iOS */
+        .mob-input { font-size: 16px !important; }
+        .sidebar-overlay { position:fixed;inset:0;background:#000000aa;z-index:40; }
+        .sidebar-drawer {
+          position:fixed;top:0;left:0;bottom:0;width:260px;z-index:50;
+          background:#030306;border-right:1px solid #0a2a0a;
+          transform:translateX(-100%);transition:transform 0.25s ease;
+        }
+        .sidebar-drawer.open { transform:translateX(0); }
+        @media (max-width: 640px) {
+          .desktop-sidebar { display: none !important; }
+          .header-agents { display: none !important; }
+          .header-status { display: none !important; }
+          .quick-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (min-width: 641px) {
+          .mob-sidebar-btn { display: none !important; }
+          .sidebar-drawer { display: none !important; }
+          .sidebar-overlay { display: none !important; }
+        }
       `}</style>
 
       {/* Header */}
@@ -338,7 +363,8 @@ function App() {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {/* Agentes ativos — esconde no mobile */}
+        <div className="header-agents" style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {activeAgents.slice(0, 4).map(a => (
             <div key={a.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: a.color, boxShadow: `0 0 6px ${a.color}` }} className="pulse" />
@@ -348,14 +374,25 @@ function App() {
           {activeAgents.length > 4 && <span style={{ fontSize: 10, color: "#334" }}>+{activeAgents.length - 4}</span>}
         </div>
 
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>
-          🟢 SISTEMA OPERACIONAL
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="header-status" style={{ fontSize: 10, color: "#00ff88", letterSpacing: 1 }}>
+            🟢 SISTEMA OPERACIONAL
+          </div>
+          {/* Botão hamburger — só mobile */}
+          <button className="mob-sidebar-btn" onClick={() => setSidebarOpen(true)} style={{
+            background: "#0a1a0a", border: "1px solid #0a2a0a", borderRadius: 6,
+            color: "#00ff88", padding: "6px 10px", cursor: "pointer", fontSize: 16,
+            display: "flex", alignItems: "center",
+          }}>☰</button>
         </div>
       </div>
 
+      {/* Sidebar mobile drawer overlay */}
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        {/* Sidebar */}
-        <div style={{
+        {/* Sidebar desktop */}
+        <div className="desktop-sidebar" style={{
           width: 220, background: "#030306",
           borderRight: "1px solid #0a1a0a",
           display: "flex", flexDirection: "column", flexShrink: 0,
@@ -466,6 +503,73 @@ function App() {
           )}
         </div>
 
+        {/* Sidebar mobile drawer */}
+        <div className={`sidebar-drawer${sidebarOpen ? " open" : ""}`}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 12px 8px", borderBottom: "1px solid #0a1a0a" }}>
+            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: 2, fontFamily: "'Orbitron',monospace" }}>AGENTES</span>
+            <button onClick={() => setSidebarOpen(false)} style={{ background: "none", border: "none", color: "#334433", fontSize: 18, cursor: "pointer", lineHeight: 1 }}>✕</button>
+          </div>
+          <div style={{ display: "flex", borderBottom: "1px solid #0a1a0a" }}>
+            {["agents", "repos"].map(tab => (
+              <button key={tab} onClick={() => setSidebarTab(tab)} style={{
+                flex: 1, padding: "10px 0", border: "none", cursor: "pointer",
+                background: sidebarTab === tab ? "#0a1a0a" : "transparent",
+                color: sidebarTab === tab ? "#00ff88" : "#334",
+                fontSize: 10, letterSpacing: 1, textTransform: "uppercase",
+                borderBottom: sidebarTab === tab ? "2px solid #00ff88" : "2px solid transparent",
+                transition: "all 0.2s", fontFamily: "inherit",
+              }}>{tab}</button>
+            ))}
+          </div>
+          <div style={{ flex: 1, overflowY: "auto", height: "calc(100vh - 100px)" }}>
+            {sidebarTab === "agents" && (
+              <div style={{ padding: "8px" }}>
+                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="buscar agente..."
+                  style={{ width: "100%", background: "#0a0a0f", border: "1px solid #0a2a0a", borderRadius: 4, padding: "5px 8px", color: "#668866", fontSize: 10, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
+                {["core","red","specialist","blue"].map(team => {
+                  const agents = filteredAgents.filter(a => a.team === team);
+                  const tColors = { core: "#00ff88", red: "#ff4444", specialist: "#ffaa00", blue: "#0088ff" };
+                  const tLabels = { core: "◆ CORE", red: "◆ RED TEAM", specialist: "◆ SPECIALISTS", blue: "◆ BLUE TEAM" };
+                  if (!agents.length) return null;
+                  return (
+                    <div key={team}>
+                      <div style={{ padding: "8px 10px 4px", fontSize: 8, color: tColors[team], letterSpacing: 2, opacity: 0.7 }}>{tLabels[team]}</div>
+                      {agents.map(agent => {
+                        const isActive = activeAgents.some(a => a.id === agent.id);
+                        return (
+                          <div key={agent.id} onClick={() => setSidebarOpen(false)} style={{
+                            display: "flex", alignItems: "center", gap: 8, padding: "8px 10px",
+                            background: isActive ? agent.color + "10" : "transparent",
+                            borderLeft: isActive ? `2px solid ${agent.color}` : "2px solid transparent",
+                          }}>
+                            <div style={{ width: 24, height: 24, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>{agent.icon}</div>
+                            <div>
+                              <div style={{ fontSize: 12, color: isActive ? agent.color : "#667766", fontWeight: "bold" }}>{agent.name}</div>
+                              <div style={{ fontSize: 9, color: "#334433" }}>{agent.role}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {sidebarTab === "repos" && (
+              <div style={{ padding: 10 }}>
+                <div style={{ fontSize: 9, color: "#8844ee", letterSpacing: 2, marginBottom: 12 }}>◆ GITHUB REPOS</div>
+                {Object.values({ scripts: { name: "ezequielpentest/scripts", url: "https://github.com/ezequielpentest/scripts", desc: "Scripts de pentest" }, htb: { name: "ezequielpentest/htb-writeups", url: "https://github.com/ezequielpentest/htb-writeups", desc: "Writeups HTB" }, notas: { name: "ezequielpentest/pentest-notas", url: "https://github.com/ezequielpentest/pentest-notas", desc: "Notas de pentest" } }).map(repo => (
+                  <div key={repo.name} style={{ background: "#0a0a14", border: "1px solid #1a1a3a", borderRadius: 8, padding: 10, marginBottom: 8 }}>
+                    <div style={{ fontSize: 10, color: "#8844ee", fontWeight: "bold", marginBottom: 4 }}>🐙 {repo.name}</div>
+                    <div style={{ fontSize: 9, color: "#445", marginBottom: 6 }}>{repo.desc}</div>
+                    <a href={repo.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 9, color: "#8844ee", textDecoration: "none", border: "1px solid #8844ee44", borderRadius: 3, padding: "2px 6px" }}>↗ abrir</a>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Chat */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
           {/* Scanline overlay */}
@@ -483,7 +587,7 @@ function App() {
                     Descreva sua situação em linguagem natural. O sistema identificará o agente ideal e coordenará o time.
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
+                <div className="quick-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 640, margin: "0 auto" }}>
                   {quickPrompts.map(p => (
                     <button key={p} className="quick-btn" onClick={() => { setInput(p); inputRef.current?.focus(); }} style={{
                       background: "#08080e", border: "1px solid #0a2a0a", borderRadius: 8,
@@ -620,12 +724,13 @@ function App() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder="Descreva sua situação... NEXUS identificará o agente ideal"
+                  placeholder="Descreva sua situação..."
+                  className="mob-input"
                   style={{
                     width: "100%", background: "#08080e",
                     border: "1px solid #0a2a0a", borderRadius: 8,
                     padding: "11px 14px 11px 30px",
-                    color: "#aaccaa", fontSize: 12, fontFamily: "inherit",
+                    color: "#aaccaa", fontSize: 16, fontFamily: "inherit",
                     outline: "none", boxSizing: "border-box",
                     transition: "border-color 0.2s",
                   }}
