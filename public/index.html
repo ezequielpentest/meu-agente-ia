@@ -7,9 +7,9 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
+    /* Seu CSS existente - manter igual */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #050508; font-family: 'Share Tech Mono', monospace; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    
     .login-container {
       position: fixed;
       top: 0;
@@ -29,7 +29,7 @@
       border-radius: 16px;
       padding: 40px;
       width: 380px;
-      box-shadow: 0 0 60px rgba(0,255,136,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: 0 0 60px rgba(0,255,136,0.1);
       animation: fadeInUp 0.6s ease;
     }
     @keyframes fadeInUp {
@@ -41,9 +41,9 @@
     .login-sub { text-align: center; font-size: 10px; color: #334433; letter-spacing: 2px; margin-bottom: 30px; }
     .input-group { margin-bottom: 20px; }
     .input-group label { display: block; font-size: 10px; color: #00ff88; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
-    .input-group input { width: 100%; background: #0a0a0f; border: 1px solid #0a2a0a; border-radius: 8px; padding: 12px 14px; color: #aaccaa; font-size: 13px; font-family: 'Share Tech Mono', monospace; outline: none; transition: all 0.2s; }
+    .input-group input { width: 100%; background: #0a0a0f; border: 1px solid #0a2a0a; border-radius: 8px; padding: 12px 14px; color: #aaccaa; font-size: 13px; font-family: 'Share Tech Mono', monospace; outline: none; }
     .input-group input:focus { border-color: #00ff88; box-shadow: 0 0 12px rgba(0,255,136,0.2); }
-    .login-btn { width: 100%; background: linear-gradient(135deg, #001a00, #0a2a0a); border: 1px solid #00ff8840; border-radius: 8px; padding: 12px; color: #00ff88; font-family: 'Orbitron', monospace; font-size: 13px; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+    .login-btn { width: 100%; background: linear-gradient(135deg, #001a00, #0a2a0a); border: 1px solid #00ff8840; border-radius: 8px; padding: 12px; color: #00ff88; font-family: 'Orbitron', monospace; font-size: 13px; font-weight: bold; letter-spacing: 2px; cursor: pointer; margin-top: 10px; }
     .login-btn:hover:not(:disabled) { background: linear-gradient(135deg, #002a00, #0a3a0a); border-color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
     .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .error-msg { background: #330000; border: 1px solid #ff4444; border-radius: 6px; padding: 8px 12px; font-size: 10px; color: #ff8888; text-align: center; margin-top: 15px; display: none; }
@@ -51,16 +51,13 @@
     @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ff4444; animation: pulse 1.5s infinite; margin-right: 6px; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-    
     #root { display: none; height: 100vh; overflow: hidden; }
     body.app-loaded #root { display: block; }
     body.app-loaded .login-container { opacity: 0; visibility: hidden; pointer-events: none; }
-    
     .md-h { color:#00ff88; font-weight:bold; margin:10px 0 4px; font-size:13px; }
     .md-li { padding-left:14px; margin:3px 0; color:#aaccaa; }
-    pre { background: #0a0f0a; border: 1px solid #1a3a1a; border-radius: 6px; padding: 12px; overflow-x: auto; color: #00ff88; font-size: 11px; line-height: 1.6; margin: 8px 0; font-family: inherit; }
-    code { background: #0a0f0a; color: #00ff88; padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: inherit; }
-    .pulse { animation: pulse 2s infinite; }
+    pre { background: #0a0f0a; border: 1px solid #1a3a1a; border-radius: 6px; padding: 12px; overflow-x: auto; color: #00ff88; font-size: 11px; margin: 8px 0; white-space: pre-wrap; }
+    code { background: #0a0f0a; color: #00ff88; padding: 2px 5px; border-radius: 3px; font-size: 11px; }
     .quick-btn:hover { background: #001a00 !important; color: #00ff88 !important; border-color: #00ff8844 !important; }
   </style>
 </head>
@@ -71,21 +68,17 @@
     <div class="login-icon">⚡</div>
     <div class="login-title">PENTEST FORGE</div>
     <div class="login-sub">◆ CYBER SQUAD ◆</div>
-    
     <div class="input-group">
       <label>🔐 USER</label>
       <input type="text" id="username" placeholder="User" autocomplete="off">
     </div>
-    
     <div class="input-group">
       <label>🗝️ PASSWORD</label>
       <input type="password" id="password" placeholder="••••••••">
     </div>
-    
     <button class="login-btn" id="loginBtn">▶ System Access</button>
-    
     <div class="error-msg" id="errorMsg">
-      <span class="status-dot"></span> ACESSO NEGADO • Credenciais inválidas
+      <span class="status-dot"></span> ACCESS DENIED • Invalid credentials
     </div>
   </div>
 </div>
@@ -96,9 +89,21 @@
 import { createElement as h, useState, useRef, useEffect, Fragment } from 'https://esm.sh/react@18';
 import { createRoot } from 'https://esm.sh/react-dom@18/client';
 
-// ============= CREDENCIAIS LOCAIS (PARA TESTE) =============
-const VALID_USERNAME = "admin";
-const VALID_PASSWORD = "123456";
+// ============= SISTEMA DE LOGIN COM API =============
+async function authenticate(username, password) {
+  try {
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await response.json();
+    return { success: response.ok && data.success, data };
+  } catch (error) {
+    console.error('Erro na autenticação:', error);
+    return { success: false, data: null };
+  }
+}
 
 function initLogin() {
   const usernameInput = document.getElementById('username');
@@ -117,11 +122,17 @@ function initLogin() {
     }, 3000);
   }
   
-  function attemptLogin() {
+  async function attemptLogin() {
     const user = usernameInput.value.trim();
     const pass = passwordInput.value;
-    
-    if (user === VALID_USERNAME && pass === VALID_PASSWORD) {
+    if (!user || !pass) {
+      showError();
+      return;
+    }
+    loginBtn.disabled = true;
+    loginBtn.textContent = '▶ VERIFYING...';
+    const { success } = await authenticate(user, pass);
+    if (success) {
       sessionStorage.setItem('auth_user', user);
       sessionStorage.setItem('auth_time', Date.now().toString());
       document.body.classList.add('app-loaded');
@@ -131,6 +142,8 @@ function initLogin() {
       passwordInput.value = '';
       passwordInput.focus();
     }
+    loginBtn.disabled = false;
+    loginBtn.textContent = '▶ System Access';
   }
   
   loginBtn.addEventListener('click', attemptLogin);
@@ -143,7 +156,6 @@ function initLogin() {
     document.body.classList.add('app-loaded');
     initApp();
   }
-  
   usernameInput.focus();
 }
 
@@ -191,9 +203,9 @@ Responda SEMPRE em português brasileiro com formato JSON:
   "conversation": [{"agent": "agent_id", "message": "resposta técnica"}]
 }`;
 
-// ============= API GROQ (GRATUITA) =============
+// ============= API GROQ =============
 async function callAPI(messages) {
-  const res = await fetch("/api/groq", {  // ← MUDOU PARA /api/groq
+  const res = await fetch("/api/groq", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -265,7 +277,6 @@ function App() {
   const filteredAgents = AGENTS.filter(a => !search || [a.name, a.role, a.specialty].some(s => s.toLowerCase().includes(search.toLowerCase())));
 
   return h('div', { style: { height: '100vh', display: 'flex', flexDirection: 'column', background: '#050508', overflow: 'hidden' } },
-    // HEADER
     h('div', { style: { background: '#0a0a14', borderBottom: '1px solid #0a2a0a', padding: '0 20px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 } },
       h('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
         h('div', { style: { width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg,#00ff88,#0088ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 } }, '⚡'),
@@ -276,10 +287,7 @@ function App() {
       ),
       h('div', { style: { fontSize: 10, color: '#00ff88' } }, '🟢 OPERATIONAL')
     ),
-    
-    // SIDEBAR + CHAT
     h('div', { style: { display: 'flex', flex: 1, overflow: 'hidden' } },
-      // SIDEBAR
       h('div', { style: { width: 210, background: '#030306', borderRight: '1px solid #0a1a0a', display: 'flex', flexDirection: 'column', flexShrink: 0 } },
         h('div', { style: { display: 'flex', borderBottom: '1px solid #0a1a0a' } },
           ...['agents', 'repos'].map(tab => h('button', { key: tab, onClick: () => setSidebarTab(tab), style: { flex: 1, padding: '9px 0', background: sidebarTab === tab ? '#0a1a0a' : 'transparent', color: sidebarTab === tab ? '#00ff88' : '#334', fontSize: 10, borderBottom: sidebarTab === tab ? '2px solid #00ff88' : '2px solid transparent', cursor: 'pointer', fontFamily: 'inherit' } }, tab))
@@ -315,7 +323,6 @@ function App() {
           ))
         )
       ),
-      // CHAT
       h('div', { style: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' } },
         h('div', { style: { flex: 1, overflowY: 'auto', padding: '16px 20px' } },
           ...messages.map((msg, idx) => {
@@ -337,23 +344,15 @@ function App() {
             }
             return null;
           }),
-          
-          // ✅ BOTÕES RÁPIDOS
           messages.length === 1 && h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, maxWidth: 600, margin: '20px auto 0' } },
             ...QUICK_PROMPTS.map(p => 
-              h('button', { 
-                key: p, 
-                className: 'quick-btn',
-                onClick: () => { setInput(p); inputRef.current?.focus(); }, 
-                style: { background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 8, padding: '10px 12px', cursor: 'pointer', textAlign: 'left', fontSize: 11, color: '#556677', fontFamily: 'inherit', lineHeight: 1.5, transition: 'all 0.2s' } 
-              }, p.length > 50 ? p.slice(0, 50) + '...' : p)
+              h('button', { key: p, className: 'quick-btn', onClick: () => { setInput(p); inputRef.current?.focus(); }, style: { background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 8, padding: '10px 12px', cursor: 'pointer', textAlign: 'left', fontSize: 11, color: '#556677', fontFamily: 'inherit', lineHeight: 1.5 } }, p.length > 50 ? p.slice(0, 50) + '...' : p)
             )
           ),
-          
           loading && h('div', { style: { display: 'flex', gap: 10, alignItems: 'center' } },
             h('div', { style: { width: 34, height: 34, borderRadius: 8, background: '#00ff8815', border: '1px solid #00ff8840', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 } }, '🧬'),
             h('div', { style: { background: '#08080e', border: '1px solid #00ff8820', borderRadius: 10, padding: '10px 14px' } },
-              h('div', { style: { fontSize: 10, color: '#00ff88' } }, 'NEXUS processando...')
+              h('div', { style: { fontSize: 10, color: '#00ff88' } }, 'NEXUS processing...')
             )
           ),
           h('div', { ref: bottomRef })
