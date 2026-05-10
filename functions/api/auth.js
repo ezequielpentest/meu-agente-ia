@@ -22,7 +22,6 @@ export async function onRequest(context) {
   try {
     const { username, password } = await request.json();
     
-    // Usando as variáveis de ambiente configuradas
     const VALID_USERNAME = env.ADMIN_USERNAME;
     const VALID_PASSWORD = env.ADMIN_PASSWORD;
     
