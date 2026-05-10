@@ -28,69 +28,280 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   --text-hint:#605d58;
 }
 .app{display:flex;height:100vh;background:var(--bg)}
-.sidebar{width:260px;min-width:260px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .25s}
-.sidebar-header{padding:16px 12px 8px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.sidebar{
+  width:260px;
+  min-width:260px;
+  background:var(--bg-sidebar);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;
+  transition:transform .25s;
+}
+.sidebar-header{
+  padding:16px 12px 8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
 .sidebar-logo{font-size:13px;font-weight:600;color:var(--text);flex:1}
-.new-chat-btn{width:100%;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:13px;text-align:left;transition:background .15s;font-family:inherit}
+.new-chat-btn{
+  margin:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  color:var(--text-muted);
+  font-size:13px;
+  font-family:inherit;
+  flex-shrink:0;
+}
 .new-chat-btn:hover{background:var(--border)}
-.sidebar-section{padding:4px 8px 0}
-.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:8px 10px 3px;letter-spacing:.3px;text-transform:uppercase}
-.agent-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit;margin-bottom:2px}
+.sidebar-section{
+  flex:1;
+  overflow-y:auto;
+  padding:4px 8px;
+}
+.sidebar-section-label{
+  font-size:10px;
+  font-weight:600;
+  color:var(--text-hint);
+  padding:8px 10px 3px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.agent-list{
+  padding:0 4px;
+}
+.agent-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  border:none;
+  background:transparent;
+  width:100%;
+  text-align:left;
+  transition:background .15s;
+  font-family:inherit;
+  margin-bottom:2px;
+}
 .agent-item:hover{background:rgba(0,0,0,.05)}
 .dark-mode .agent-item:hover{background:rgba(255,255,255,.05)}
 .agent-item.active{background:var(--bg-card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .agent-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.agent-item-info{flex:1;min-width:0}
-.agent-item-name{font-size:13px;font-weight:500;color:var(--text)}
-.agent-item-role{font-size:11px;color:var(--text-hint)}
-.history-section{flex:1;overflow-y:auto;padding:0 8px 8px}
-.history-item{padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:2px}
+.agent-info{flex:1;min-width:0}
+.agent-name{font-size:13px;font-weight:500;color:var(--text)}
+.agent-role{font-size:10px;color:var(--text-hint)}
+.history-section{
+  flex-shrink:0;
+  max-height:200px;
+  overflow-y:auto;
+  padding:0 8px 8px;
+  border-top:1px solid var(--border);
+  margin-top:4px;
+}
+.history-item{
+  padding:7px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .15s;
+  margin-bottom:2px;
+}
 .history-item:hover{background:rgba(0,0,0,.05)}
 .history-item.active{background:var(--bg-card)}
 .history-date{font-size:10px;color:var(--text-hint)}
 .history-preview{font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-.topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;background:var(--bg)}
+.topbar{
+  height:52px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:12px;
+  flex-shrink:0;
+  background:var(--bg);
+}
 .topbar-title{font-size:14px;font-weight:500;color:var(--text);flex:1}
-.topbar-agent{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:20px;background:var(--bg-sidebar);border:1px solid var(--border);font-size:12px;color:var(--text-muted)}
-.icon-btn{width:32px;height:32px;border-radius:8px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:16px}
+.topbar-agent{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:5px 12px;
+  border-radius:20px;
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  font-size:12px;
+  color:var(--text-muted);
+}
+.icon-btn{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-muted);
+  font-size:16px;
+}
 .icon-btn:hover{background:var(--border)}
-.messages{flex:1;overflow-y:auto;padding:20px 0}
-.messages-inner{max-width:720px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:16px}
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 0;
+}
+.messages-inner{
+  max-width:720px;
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
 .welcome{text-align:center;padding:40px 0 20px}
 .welcome-icon{font-size:40px;margin-bottom:12px}
 .welcome-title{font-size:20px;font-weight:500;color:var(--text)}
 .welcome-sub{font-size:13px;color:var(--text-muted);max-width:440px;margin:8px auto 0}
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
-.quick-card{padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;text-align:left;font-size:12px;color:var(--text-muted);font-family:inherit}
+.quick-card{
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  cursor:pointer;
+  text-align:left;
+  font-size:12px;
+  color:var(--text-muted);
+  font-family:inherit;
+}
 .quick-card:hover{border-color:var(--text-hint)}
 .msg-user{display:flex;justify-content:flex-end}
-.msg-user-bubble{max-width:80%;background:var(--text);color:var(--bg);border-radius:18px 18px 4px 18px;padding:10px 16px;font-size:14px}
+.msg-user-bubble{
+  max-width:80%;
+  background:var(--text);
+  color:var(--bg);
+  border-radius:18px 18px 4px 18px;
+  padding:10px 16px;
+  font-size:14px;
+}
 .msg-agent{display:flex;gap:12px;align-items:flex-start}
-.msg-agent-av{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg-agent-av{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  flex-shrink:0;
+}
 .msg-agent-body{flex:1}
-.msg-agent-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.msg-agent-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:6px;
+}
 .msg-agent-name{font-size:12px;font-weight:600}
 .msg-agent-role{font-size:10px;color:var(--text-hint)}
-.copy-btn{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:10px;cursor:pointer;color:var(--text-muted);margin-left:auto}
+.copy-btn{
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:3px 10px;
+  font-size:10px;
+  cursor:pointer;
+  color:var(--text-muted);
+  margin-left:auto;
+}
 .copy-btn:hover{background:var(--border)}
 .msg-agent-text{font-size:14px;line-height:1.6;color:var(--text)}
-.msg-agent-text pre{background:var(--bg-sidebar);border:1px solid var(--border);border-radius:8px;padding:12px;overflow-x:auto;font-size:12px;font-family:var(--font-mono);margin:8px 0}
+.msg-agent-text pre{
+  background:var(--bg-sidebar);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  overflow-x:auto;
+  font-size:12px;
+  font-family:var(--font-mono);
+  margin:8px 0;
+}
 .msg-agent-text code{background:var(--bg-sidebar);padding:2px 6px;border-radius:4px;font-size:12px;font-family:var(--font-mono)}
-.dispatch-row{display:flex;align-items:center;gap:8px;margin:4px 0 8px 46px;flex-wrap:wrap}
-.dispatch-badge{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:500}
+.dispatch-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:4px 0 8px 46px;
+  flex-wrap:wrap;
+}
+.dispatch-badge{
+  font-size:10px;
+  padding:2px 10px;
+  border-radius:20px;
+  font-weight:500;
+}
 .typing{display:flex;gap:4px;padding:8px 0}
-.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-hint);animation:bounce 1.2s infinite}
+.typing-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--text-hint);
+  animation:bounce 1.2s infinite;
+}
 .typing-dot:nth-child(2){animation-delay:.2s}
 .typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 .system-msg{text-align:center}
-.system-badge{font-size:11px;color:var(--text-hint);background:var(--bg-sidebar);padding:3px 12px;border-radius:20px}
+.system-badge{
+  font-size:11px;
+  color:var(--text-hint);
+  background:var(--bg-sidebar);
+  padding:3px 12px;
+  border-radius:20px;
+}
 .input-area{padding:12px 20px 16px;border-top:1px solid var(--border)}
 .input-wrap{max-width:720px;margin:0 auto;position:relative}
-.input-box{width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:12px 50px 12px 16px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;min-height:48px;max-height:140px}
+.input-box{
+  width:100%;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:12px 50px 12px 16px;
+  font-size:14px;
+  font-family:inherit;
+  color:var(--text);
+  outline:none;
+  resize:none;
+  min-height:48px;
+  max-height:140px;
+}
 .input-box:focus{border-color:var(--text-hint)}
-.send-btn{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:10px;border:none;background:var(--text);color:var(--bg);cursor:pointer}
+.send-btn{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:none;
+  background:var(--text);
+  color:var(--bg);
+  cursor:pointer;
+}
 .send-btn:disabled{opacity:.3}
 .input-hint{text-align:center;font-size:10px;color:var(--text-hint);margin-top:6px}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:150}
@@ -108,19 +319,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .login-title{font-size:18px;font-weight:600;text-align:center;color:var(--text);margin:8px 0 4px}
 .login-sub{font-size:12px;color:var(--text-hint);text-align:center;margin-bottom:24px}
 .login-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:block}
-.login-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px}
+.login-input{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:14px;
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+  margin-bottom:14px;
+}
 .login-input:focus{border-color:var(--text-hint)}
-.login-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:500;cursor:pointer}
+.login-btn{
+  width:100%;
+  background:var(--text);
+  color:var(--bg);
+  border:none;
+  border-radius:10px;
+  padding:11px;
+  font-size:14px;
+  font-weight:500;
+  cursor:pointer;
+}
 .login-err{font-size:12px;color:#a32d2d;text-align:center;margin-top:12px;display:none}
 .login-err.show{display:block}
 .switch-form{text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted)}
 .switch-link{color:var(--text);cursor:pointer;text-decoration:underline}
-.history-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;max-width:90vw;max-height:500px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.2);z-index:300;flex-direction:column;overflow:hidden}
-.history-modal.show{display:flex}
-.history-modal-header{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.history-modal-title{font-size:14px;font-weight:600;color:var(--text)}
-.close-history{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted)}
-.history-list{overflow-y:auto;max-height:400px;padding:8px}
 </style>
 </head>
 <body>
@@ -164,19 +389,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <span class="sidebar-logo">Pentest Forge</span>
       <button class="icon-btn" id="darkModeBtn">🌙</button>
     </div>
-    <div style="padding:0 8px 8px">
-      <button class="new-chat-btn" id="newChatBtn">
-        <span style="font-size:18px">✏️</span> Novo chat
-      </button>
-    </div>
+    <button class="new-chat-btn" id="newChatBtn">✏️ Novo chat</button>
+    
     <div class="sidebar-section">
-      <div class="sidebar-section-label">Agentes</div>
-      <div id="agentList"></div>
+      <div class="sidebar-section-label">Agentes IA</div>
+      <div class="agent-list" id="agentList"></div>
     </div>
-    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;min-height:0;margin-top:8px">
-      <div class="sidebar-section-label">Histórico</div>
-      <div class="history-section" id="historyList">
-        <div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>
+    
+    <div class="history-section">
+      <div class="sidebar-section-label" style="padding:8px 10px 3px">Histórico</div>
+      <div id="historyList">
+        <div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>
       </div>
     </div>
   </div>
@@ -204,9 +427,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <button class="mob-toggle" id="mobToggle">☰</button>
 
 <script>
-// ============= AGENTES =============
+// ============= AGENTES COMPLETOS =============
 const AGENTS = [
   { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de" },
+  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb" },
   { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe" },
   { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb" },
   { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda" },
@@ -219,37 +443,42 @@ const AGENTS = [
   { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb" },
   { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda" },
   { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de" },
-  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe" },
-  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb" }
+  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe" }
 ];
 
 const AGENT_MAP = {};
 AGENTS.forEach(a => AGENT_MAP[a.id] = a);
-const TEAM_LABELS = { core:"◆ CORE", red:"◆ RED TEAM", spec:"◆ SPECIALISTS" };
-const TEAM_COLORS = { core:"#00ff88", red:"#ff4444", spec:"#ffaa00" };
+const TEAM_LABELS = { core:"CORE", red:"RED TEAM", spec:"SPECIALISTS" };
+const TEAM_ORDER = ["core", "red", "spec"];
 
 const QUICK = [
   "Preciso descriptografar um arquivo .enc, escalar privilégio no Linux, criar um script Python e documentar no GitHub",
-  "Como fazer Buffer Overflow no Windows?",
   "Enumera Active Directory com BloodHound",
-  "Cria um script Python para scanner de portas"
+  "Cria um script Python para scanner de portas",
+  "Escreve um relatório de pentest completo"
 ];
 
 // ============= DISPATCHER SYSTEM =============
-const DISPATCHER_SYSTEM = `Você é NEXUS, dispatcher do Pentest Forge. Analise a situação e chame os agentes corretos.
+const DISPATCHER_SYSTEM = `Você é NEXUS, dispatcher do Pentest Forge. Analise a situação do usuário e ative os agentes corretos.
 
-Mapeamento de palavras para agentes:
-- .enc, criptografia, hash, john, hashcat, descriptografar → cipher
-- escalar, privilégio, root, sudo, SUID, privesc → privesc
-- python, script, código, automatizar → syntax
-- github, writeup, documentar, markdown → gitops
+Mapeamento de palavras para agentes (use os IDs exatos):
+- .enc, criptografia, hash, john, hashcat, descriptografar, quebrar senha → cipher
+- escalar, privilégio, root, sudo, SUID, privesc, linpeas → privesc
+- python, script, código, automatizar, scanner → syntax
+- github, writeup, documentar, markdown, repositório → gitops
 - active directory, ad, bloodhound, kerberoasting → dominator
-- nmap, porta, scan, rede → shadow
-- buffer overflow, bof, fuzzing → bof
+- nmap, porta, scan, rede, portas → shadow
+- buffer overflow, bof, fuzzing, shellcode → bof
+- relatório, relatorio, report, documentar resultado, escrever relatório → scribe
+- osint, reconhecimento, shodan → ghost
+- sql, xss, web, burp → phantom
+- shell, meterpreter, persistência → wraith
 
-Responda SOMENTE com JSON:
+Se o usuário pedir MÚLTIPLAS coisas, acione MÚLTIPLOS agentes.
+
+Responda SOMENTE com JSON válido neste formato:
 {
-  "agents": ["cipher", "privesc", "syntax", "gitops"],
+  "agents": ["cipher", "privesc", "syntax", "gitops", "scribe"],
   "conversation": [
     {"agent": "cipher", "message": "resposta detalhada com comandos reais"},
     {"agent": "privesc", "message": "resposta detalhada com comandos reais"}
@@ -257,20 +486,44 @@ Responda SOMENTE com JSON:
 }`;
 
 const AGENT_SYSTEMS = {
-  cipher: "Você é Cipher, especialista em cracking. Responda com comandos: file, xxd, zip2john, john, hashcat. Seja detalhado.",
-  privesc: "Você é Escalon, especialista em escalação. Responda com: sudo -l, find / -perm -4000, linpeas.sh. Seja detalhado.",
-  syntax: "Você é Syntax, especialista em scripts. Responda com código Python COMPLETO e funcional.",
-  gitops: "Você é GitOps. Responda com writeup MARKDOWN completo.",
-  dominator: "Você é Dominator. Responda com comandos BloodHound: SharpHound.exe, bloodhound-python, coleta de dados.",
-  shadow: "Você é Shadow. Responda com comandos nmap: nmap -sV -sC -p- target.com",
-  bof: "Você é B0F. Responda com código Python para fuzzing e exploit.",
-  ghost: "Você é Ghost. Responda com comandos OSINT.",
-  scribe: "Você é Scribe. Responda com estrutura de relatório profissional.",
-  wraith: "Você é Wraith. Responda com comandos de shell e persistência.",
-  phantom: "Você é Phantom. Responda com SQLi e XSS.",
-  tux: "Você é Tux. Responda com comandos Linux.",
-  viper: "Você é Viper. Responda com busca de exploits.",
-  commander: "Você é Rex. Responda com estratégia ofensiva."
+  scribe: `Você é Scribe, especialista em relatórios técnicos de pentest. Gere um relatório profissional completo.
+
+ESTRUTURA OBRIGATÓRIA DO RELATÓRIO:
+
+# RELATÓRIO DE PENTEST
+
+## 1. RESUMO EXECUTIVO
+- Data do teste
+- Escopo avaliado
+- Resumo dos achados
+
+## 2. METODOLOGIA
+Ferramentas utilizadas e abordagem
+
+## 3. VULNERABILIDADES ENCONTRADAS
+
+### 3.1 [Nome da vulnerabilidade]
+- **Severidade:** Crítica/Alta/Média/Baixa
+- **Descrição:** ...
+- **Evidência:** ...
+- **Impacto:** ...
+- **Remediação:** ...
+
+## 4. CONCLUSÃO E RECOMENDAÇÕES
+
+Use markdown com código, tabelas e formatação profissional.`,
+
+  cipher: `Você é Cipher. Responda com comandos: file, xxd, zip2john, john, hashcat.`,
+  privesc: `Você é Escalon. Responda com: sudo -l, find / -perm -4000, linpeas.sh.`,
+  syntax: `Você é Syntax. Responda com código Python COMPLETO.`,
+  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo.`,
+  dominator: `Você é Dominator. Responda com comandos BloodHound.`,
+  shadow: `Você é Shadow. Responda com comandos nmap detalhados.`,
+  bof: `Você é B0F. Responda com código Python para fuzzing.`,
+  ghost: `Você é Ghost. Responda com comandos OSINT.`,
+  phantom: `Você é Phantom. Responda com SQLi e XSS.`,
+  wraith: `Você é Wraith. Responda com shells e persistência.`,
+  tux: `Você é Tux. Responda com comandos Linux.`
 };
 
 async function callGroq(messages, system) {
@@ -341,21 +594,18 @@ document.getElementById("darkModeBtn").onclick = () => {
 function buildSidebar() {
   const list = document.getElementById("agentList");
   list.innerHTML = "";
-  ["core","red","spec"].forEach(team => {
+  
+  TEAM_ORDER.forEach(team => {
     const agents = AGENTS.filter(a => a.team === team);
     if(!agents.length) return;
-    const lbl = document.createElement("div");
-    lbl.style.cssText = "font-size:10px;color:var(--text-hint);padding:8px 10px 3px;font-weight:600;letter-spacing:.5px;text-transform:uppercase";
-    lbl.textContent = TEAM_LABELS[team];
-    list.appendChild(lbl);
     agents.forEach(agent => {
       const btn = document.createElement("button");
       btn.className = "agent-item";
       btn.id = "agent-btn-" + agent.id;
       btn.innerHTML = `<div class="agent-icon" style="background:${agent.bg}">${agent.icon}</div>
-        <div class="agent-item-info">
-          <div class="agent-item-name">${agent.name}</div>
-          <div class="agent-item-role">${agent.role}</div>
+        <div class="agent-info">
+          <div class="agent-name">${agent.name}</div>
+          <div class="agent-role">${agent.role}</div>
         </div>`;
       btn.onclick = () => selectAgent(agent.id);
       list.appendChild(btn);
@@ -372,9 +622,6 @@ function updateSidebarActive(){
 }
 
 function selectAgent(id){
-  const agent = AGENT_MAP[id];
-  if(!agent) return;
-  
   if(id === "dispatch"){ 
     chatMode = "general"; 
     selectedAgentId = "dispatch"; 
@@ -398,10 +645,10 @@ function renderHistory(){
   const el = document.getElementById("historyList");
   el.innerHTML = "";
   if(!sessions.length){
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão ainda.</div>'; 
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>'; 
     return;
   }
-  sessions.forEach(s => {
+  sessions.slice().reverse().forEach(s => {
     const div = document.createElement("div");
     div.className = "history-item" + (s.id === currentSessionId && chatMode === "general" ? " active" : "");
     div.innerHTML = `<div class="history-date">${s.date}</div><div class="history-preview">${escapeHtml(s.preview)}</div>`;
@@ -526,7 +773,7 @@ async function sendMessage(){
     const history = updated.map(m => ({role: m.type === "user" ? "user" : "assistant", content: m.content}));
     
     try {
-      const reply = await callGroq(history, AGENT_SYSTEMS[selectedAgentId] || "Você é um especialista em pentest. Responda em português com comandos reais e detalhados.");
+      const reply = await callGroq(history, AGENT_SYSTEMS[selectedAgentId] || "Você é um especialista em pentest. Responda em português com comandos reais.");
       agentChats[selectedAgentId] = [...updated, {type:"agent", agentId:selectedAgentId, content:reply}];
       localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
     } catch(e) {
