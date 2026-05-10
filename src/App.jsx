@@ -829,7 +829,7 @@ function App() {
   );
 }
 
-export default function AppWithLogin() {
+export default function App() {
   const [auth, setAuth] = useState(() => sessionStorage.getItem("squad_auth") === "1");
   if (!auth) return <LoginScreen onLogin={() => setAuth(true)} />;
   return <App />;
