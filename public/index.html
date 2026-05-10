@@ -28,13 +28,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   --text-hint:#605d58;
 }
 .app{display:flex;height:100vh;background:var(--bg)}
-.sidebar{width:280px;min-width:280px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto;transition:transform .25s;flex-shrink:0}
-.sidebar-header{padding:16px 12px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.sidebar{width:300px;min-width:300px;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .25s;flex-shrink:0}
+.sidebar-header{padding:16px 12px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);flex-shrink:0}
 .sidebar-logo{font-size:13px;font-weight:600;color:var(--text);flex:1}
 .new-chat-btn{width:calc(100% - 24px);margin:12px;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;color:var(--text-muted);font-size:13px;font-family:inherit}
 .new-chat-btn:hover{background:var(--border)}
-.sidebar-section{padding:8px 12px}
-.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:0 0 6px;letter-spacing:.5px;text-transform:uppercase}
+.sidebar-section{padding:8px 12px;flex-shrink:0}
+.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text-hint);padding:0 0 6px;letter-spacing:.5px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.toggle-history-btn{background:none;border:none;cursor:pointer;font-size:10px;color:var(--text-hint);padding:0 4px}
+.toggle-history-btn:hover{color:var(--text)}
+.agents-container{max-height:300px;overflow-y:auto}
 .agent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;transition:background .15s;font-family:inherit}
 .agent-item:hover{background:rgba(0,0,0,.05)}
 .dark-mode .agent-item:hover{background:rgba(255,255,255,.05)}
@@ -43,7 +46,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .agent-item-info{flex:1;min-width:0}
 .agent-item-name{font-size:13px;font-weight:500;color:var(--text)}
 .agent-item-role{font-size:10px;color:var(--text-hint)}
-.history-section{flex:1;overflow-y:auto;padding:0 12px 12px}
+.history-section{flex:1;overflow-y:auto;padding:0 12px 12px;min-height:100px}
 .history-item{padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px}
 .history-item:hover{background:rgba(0,0,0,.05)}
 .history-item.active{background:var(--bg-card)}
@@ -96,7 +99,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:150}
 .mob-toggle{display:none;position:fixed;bottom:20px;left:16px;z-index:200;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;align-items:center;justify-content:center;font-size:20px}
 @media(max-width:680px){
-  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:160;transform:translateX(-100%);width:280px}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:160;transform:translateX(-100%);width:300px}
   .sidebar.open{transform:translateX(0)}
   .mob-toggle{display:flex}
   .overlay.show{display:block}
@@ -159,21 +162,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="icon-btn" id="darkModeBtn">🌙</button>
     </div>
     <button class="new-chat-btn" id="newChatBtn">✏️ Novo chat</button>
+    
     <div class="sidebar-section">
-      <div class="sidebar-section-label">Core</div>
-      <div id="coreAgents"></div>
-      <div class="sidebar-section-label">Red Team</div>
-      <div id="redAgents"></div>
-      <div class="sidebar-section-label">Specialists</div>
-      <div id="specAgents"></div>
-      <div class="sidebar-section-label">Blue Team</div>
-      <div id="blueAgents"></div>
-    </div>
-    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;min-height:0">
-      <div class="sidebar-section-label">Histórico</div>
-      <div class="history-section" id="historyList">
-        <div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>
+      <div class="sidebar-section-label">
+        Agentes IA
+        <button class="toggle-history-btn" id="toggleAgentsBtn" title="Esconder/Mostrar agentes">−</button>
       </div>
+      <div id="agentsContainer" class="agents-container" style="max-height:300px;overflow-y:auto"></div>
+    </div>
+    
+    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;min-height:0">
+      <div class="sidebar-section-label">
+        Histórico
+        <button class="toggle-history-btn" id="toggleHistoryBtn" title="Esconder/Mostrar histórico">−</button>
+      </div>
+      <div id="historyContainer" class="history-section" style="flex:1;overflow-y:auto;min-height:80px"></div>
     </div>
   </div>
 
@@ -181,8 +184,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="topbar">
       <span class="topbar-title" id="topbarTitle">NEXUS — Chat Geral</span>
       <div class="topbar-agent" id="topbarAgent">🧬 NEXUS</div>
-      <button class="icon-btn" id="clearChatBtn">🗑️</button>
-      <button class="icon-btn" id="logoutBtn">🚪</button>
+      <button class="icon-btn" id="clearChatBtn" title="Limpar conversa">🗑️</button>
+      <button class="icon-btn" id="logoutBtn" title="Sair">Sair</button>
     </div>
     <div class="messages" id="messagesDiv">
       <div class="messages-inner" id="messagesInner"></div>
@@ -202,30 +205,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 // ============= TODOS OS AGENTES =============
 const AGENTS = [
-  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de" },
-  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe" },
-  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb" },
-  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda" },
-  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda" },
-  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda" },
-  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb" },
-  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb" },
-  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb" },
-  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0" },
-  { id:"echo", name:"Echo", role:"SocialEng", team:"red", icon:"🎭", color:"#ff3300", bg:"#fcebeb" },
-  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb" },
-  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda" },
-  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de" },
-  { id:"hydra_m", name:"Hydra", role:"Metasploit", team:"spec", icon:"💣", color:"#ff8800", bg:"#faeeda" },
-  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe" },
-  { id:"airwave", name:"Airwave", role:"Wireless", team:"spec", icon:"📡", color:"#00ffcc", bg:"#eaf3de" },
-  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb" },
-  { id:"scholar", name:"Scholar", role:"Study", team:"spec", icon:"📅", color:"#00ffaa", bg:"#eaf3de" },
-  { id:"flaghunter", name:"FlagHunter", role:"CTF", team:"spec", icon:"🚩", color:"#ffaa00", bg:"#faeeda" },
-  { id:"oscarp", name:"OscarP", role:"CertCoach", team:"spec", icon:"🏆", color:"#ff88aa", bg:"#fcebeb" },
-  { id:"forge", name:"Forge", role:"AppSec", team:"blue", icon:"⚙️", color:"#0055cc", bg:"#e6f1fb" },
-  { id:"atlas", name:"Atlas", role:"IR", team:"blue", icon:"🚨", color:"#0077ee", bg:"#e6f1fb" },
-  { id:"sentinel", name:"Sentinel", role:"Defense", team:"blue", icon:"🛡️", color:"#0088ff", bg:"#e6f1fb" }
+  { id:"dispatch", name:"NEXUS", role:"Dispatcher", team:"core", icon:"🧬", color:"#00ff88", bg:"#eaf3de", specialty:"Analisa situações e despacha o agente especialista correto" },
+  { id:"gitops", name:"GitOps", role:"GitHub", team:"core", icon:"🐙", color:"#8844ee", bg:"#eeedfe", specialty:"Gerencia writeups, markdown e repositórios GitHub" },
+  { id:"commander", name:"Rex", role:"Commander", team:"red", icon:"⚔️", color:"#ff4444", bg:"#fcebeb", specialty:"Estratégia ofensiva, metodologias PTES/OWASP" },
+  { id:"ghost", name:"Ghost", role:"OSINT", team:"red", icon:"👁️", color:"#ff6600", bg:"#faeeda", specialty:"OSINT, Shodan, theHarvester, Maltego" },
+  { id:"phantom", name:"Phantom", role:"Web", team:"red", icon:"🕸️", color:"#ff8800", bg:"#faeeda", specialty:"SQLi, XSS, LFI, Burp Suite" },
+  { id:"shadow", name:"Shadow", role:"Network", team:"red", icon:"🌐", color:"#ff5500", bg:"#faeeda", specialty:"Nmap, enumeração de serviços, pivoting" },
+  { id:"viper", name:"Viper", role:"Exploits", team:"red", icon:"🐍", color:"#dd2200", bg:"#fcebeb", specialty:"CVEs, Searchsploit, adaptação de exploits" },
+  { id:"cipher", name:"Cipher", role:"Cracking", team:"red", icon:"🔐", color:"#cc3300", bg:"#fcebeb", specialty:"Hashcat, John, Hydra, cracking" },
+  { id:"wraith", name:"Wraith", role:"Post-Exp", team:"red", icon:"💀", color:"#ff1100", bg:"#fcebeb", specialty:"Meterpreter, shells, persistência" },
+  { id:"dominator", name:"Dominator", role:"AD", team:"red", icon:"🏛️", color:"#ee3300", bg:"#fbeaf0", specialty:"Active Directory, BloodHound" },
+  { id:"echo", name:"Echo", role:"SocialEng", team:"red", icon:"🎭", color:"#ff3300", bg:"#fcebeb", specialty:"Phishing, SET framework" },
+  { id:"bof", name:"B0F", role:"Buffer Overflow", team:"spec", icon:"🧠", color:"#ff44aa", bg:"#fcebeb", specialty:"Buffer Overflow, shellcode" },
+  { id:"privesc", name:"Escalon", role:"Privesc", team:"spec", icon:"🔑", color:"#ffcc00", bg:"#faeeda", specialty:"Escalação Linux/Windows" },
+  { id:"tux", name:"Tux", role:"Linux", team:"spec", icon:"🐧", color:"#00cc44", bg:"#eaf3de", specialty:"Linux avançado, bash" },
+  { id:"hydra_m", name:"Hydra", role:"Metasploit", team:"spec", icon:"💣", color:"#ff8800", bg:"#faeeda", specialty:"Metasploit Framework" },
+  { id:"syntax", name:"Syntax", role:"Scripting", team:"spec", icon:"💻", color:"#aa44ff", bg:"#eeedfe", specialty:"Python, Bash, automação" },
+  { id:"airwave", name:"Airwave", role:"Wireless", team:"spec", icon:"📡", color:"#00ffcc", bg:"#eaf3de", specialty:"Wi-Fi hacking" },
+  { id:"scribe", name:"Scribe", role:"Reports", team:"spec", icon:"📝", color:"#88aaff", bg:"#e6f1fb", specialty:"Relatórios DCPT/OSCP" }
 ];
 
 const AGENT_MAP = {};
@@ -240,95 +237,21 @@ const QUICK = [
 
 // ============= SYSTEM PROMPTS =============
 const SYSTEM = {
-  dispatch: `Você é NEXUS, dispatcher do Pentest Forge. Sua ÚNICA função é DELEGAR para agentes especialistas. NUNCA responda diretamente.
+  dispatch: `Você é NEXUS, dispatcher. Sua ÚNICA função é DELEGAR. NUNCA responda diretamente.
 
-Mapeamento de palavras para agentes (use os IDs exatos):
-- .enc, .zip, criptografia, hash, john, hashcat, quebrar senha, descriptografar → cipher
-- escalar privilégio, root, sudo, SUID, linpeas, privesc → privesc
-- script, python, código, automatizar, programa, scanner → syntax
-- github, writeup, documentar, markdown, repositório → gitops
-- buffer overflow, bof, fuzzing, shellcode → bof
-- active directory, ad, kerberoasting, bloodhound → dominator
-- metasploit, msfvenom, meterpreter → hydra_m
-- relatório, relatorio, writeup, documentar → scribe
-- osint, shodan, reconhecimento → ghost
-- sql injection, xss, burp, web → phantom
-- nmap, porta, rede, scanning → shadow
-- shell, meterpreter, pós-exploração → wraith
+Mapeamento: .enc,hash,john → cipher; escalar,root,privesc → privesc; python,script → syntax; github,writeup → gitops; buffer overflow → bof; active directory → dominator; nmap,porta,scan → shadow.
 
-Se o usuário pedir MÚLTIPLAS coisas, acione MÚLTIPLOS agentes.
-
-Responda SOMENTE com JSON no formato:
-{
-  "agents": ["cipher", "privesc", "syntax", "gitops"],
-  "conversation": [
-    {"agent": "cipher", "message": "resposta MUITO detalhada com comandos reais"},
-    {"agent": "privesc", "message": "resposta MUITO detalhada com comandos reais"}
-  ]
-}`,
-
-  cipher: `Você é Cipher, especialista em cracking. Responda SOMENTE com comandos REAIS:
-
-1. Identificar: file arquivo.enc
-2. Verificar: xxd arquivo.enc | head -20
-3. Para ZIP: zip2john arquivo.zip > hash.txt
-4. Quebrar: john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
-5. OpenSSL: openssl enc -d -aes-256-cbc -in arquivo.enc -out dec.zip -k senha`,
-
-  privesc: `Você é Escalon. Responda com comandos REAIS:
-- whoami; id; uname -a
-- sudo -l
-- find / -perm -4000 -type f 2>/dev/null
-- curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh`,
-
-  syntax: `Você é Syntax. Responda com código Python COMPLETO:
-
-#!/usr/bin/env python3
-import socket
-import sys
-
-def scan_port(ip, port):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(1)
-    result = sock.connect_ex((ip, port))
-    sock.close()
-    return result == 0
-
-def main():
-    if len(sys.argv) < 2:
-        print("Uso: python3 scanner.py <IP>")
-        sys.exit(1)
-    ip = sys.argv[1]
-    print(f"Escaneando {ip}...")
-    for port in range(1, 1025):
-        if scan_port(ip, port):
-            print(f"Porta {port} ABERTA")
-
-if __name__ == "__main__":
-    main()`,
-
-  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo com seções: Resumo, Enumeração, Exploitation, Privesc, Flags, Lições, Comandos git.`,
-
-  shadow: `Você é Shadow. Responda com comandos nmap: nmap -sV -sC -p- target.com, gobuster dir -u https://target.com -w wordlist.txt`,
-
-  bof: `Você é B0F. Responda com código Python completo para fuzzing.`,
-  dominator: `Você é Dominator. Responda com comandos BloodHound.`,
-  ghost: `Você é Ghost. Responda com comandos OSINT.`,
-  phantom: `Você é Phantom. Responda com SQLi manual.`,
-  wraith: `Você é Wraith. Responda com comandos de shell.`,
-  scribe: `Você é Scribe. Responda com relatório completo.`,
-  tux: `Você é Tux. Responda com comandos Linux.`,
-  hydra_m: `Você é Hydra. Responda com Metasploit.`,
-  viper: `Você é Viper. Responda com exploits.`,
-  commander: `Você é Rex. Responda com estratégia.`,
-  airwave: `Você é Airwave. Responda com Wi-Fi.`,
-  forge: `Você é Forge. Responda com AppSec.`,
-  atlas: `Você é Atlas. Responda com forensics.`,
-  sentinel: `Você é Sentinel. Responda com defesa.`,
-  echo: `Você é Echo. Responda com phishing.`,
-  scholar: `Você é Scholar. Responda com estudos.`,
-  flaghunter: `Você é FlagHunter. Responda com CTF.`,
-  oscarp: `Você é OscarP. Responda com certificações.`
+Responda SOMENTE JSON: {"agents":["cipher","privesc"],"conversation":[{"agent":"cipher","message":"comandos"},{"agent":"privesc","message":"comandos"}]}`,
+  cipher: `Você é Cipher. Responda com comandos: file, xxd, zip2john, john, hashcat.`,
+  privesc: `Você é Escalon. Responda com: sudo -l, find / -perm -4000, linpeas.sh.`,
+  syntax: `Você é Syntax. Responda com código Python COMPLETO.`,
+  gitops: `Você é GitOps. Responda com writeup MARKDOWN completo.`,
+  shadow: `Você é Shadow. Responda com nmap: nmap -sV -sC -p- target.com`,
+  bof: `Você é B0F. Responda com código Python para fuzzing.`,
+  dominator: `Você é Dominator. Responda comandos BloodHound.`,
+  ghost: `Você é Ghost. Responda comandos OSINT.`,
+  scribe: `Você é Scribe. Responda relatório técnico.`,
+  wraith: `Você é Wraith. Responda comandos de shell.`
 };
 
 let chatMode = "general";
@@ -339,12 +262,14 @@ let agentChats = JSON.parse(localStorage.getItem("pf_agent_chats") || "{}");
 let currentSessionId = Date.now().toString();
 let loading = false;
 let darkMode = localStorage.getItem("pf_dark") === "1";
+let historyVisible = true;
+let agentsVisible = true;
 
 function escapeHtml(t) { return t?.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") || ''; }
 
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text);
-  alert("✅ Copiado!");
+  // Sem popup - cópia silenciosa
 }
 
 function renderMD(text){
@@ -391,27 +316,42 @@ document.getElementById("darkModeBtn").onclick = () => {
   localStorage.setItem("pf_dark", darkMode ? "1" : "0");
 };
 
+// Toggle histórico e agentes
+document.getElementById("toggleHistoryBtn").onclick = () => {
+  const container = document.getElementById("historyContainer");
+  const btn = document.getElementById("toggleHistoryBtn");
+  historyVisible = !historyVisible;
+  container.style.display = historyVisible ? "block" : "none";
+  btn.textContent = historyVisible ? "−" : "+";
+};
+
+document.getElementById("toggleAgentsBtn").onclick = () => {
+  const container = document.getElementById("agentsContainer");
+  const btn = document.getElementById("toggleAgentsBtn");
+  agentsVisible = !agentsVisible;
+  container.style.display = agentsVisible ? "block" : "none";
+  btn.textContent = agentsVisible ? "−" : "+";
+};
+
 function buildSidebar() {
-  document.getElementById("coreAgents").innerHTML = "";
-  document.getElementById("redAgents").innerHTML = "";
-  document.getElementById("specAgents").innerHTML = "";
-  document.getElementById("blueAgents").innerHTML = "";
+  const container = document.getElementById("agentsContainer");
+  container.innerHTML = "";
   
-  AGENTS.forEach(agent => {
-    const btn = document.createElement("button");
-    btn.className = "agent-item";
-    btn.id = "agent-btn-" + agent.id;
-    btn.innerHTML = `<div class="agent-icon" style="background:${agent.bg}">${agent.icon}</div>
-      <div class="agent-item-info">
-        <div class="agent-item-name">${agent.name}</div>
-        <div class="agent-item-role">${agent.role}</div>
-      </div>`;
-    btn.onclick = () => selectAgent(agent.id);
-    
-    if(agent.team === "core") document.getElementById("coreAgents").appendChild(btn);
-    else if(agent.team === "red") document.getElementById("redAgents").appendChild(btn);
-    else if(agent.team === "spec") document.getElementById("specAgents").appendChild(btn);
-    else if(agent.team === "blue") document.getElementById("blueAgents").appendChild(btn);
+  ["core","red","spec"].forEach(team => {
+    const agents = AGENTS.filter(a => a.team === team);
+    if(!agents.length) return;
+    agents.forEach(agent => {
+      const btn = document.createElement("button");
+      btn.className = "agent-item";
+      btn.id = "agent-btn-" + agent.id;
+      btn.innerHTML = `<div class="agent-icon" style="background:${agent.bg}">${agent.icon}</div>
+        <div class="agent-item-info">
+          <div class="agent-item-name">${agent.name}</div>
+          <div class="agent-item-role">${agent.role}</div>
+        </div>`;
+      btn.onclick = () => selectAgent(agent.id);
+      container.appendChild(btn);
+    });
   });
   updateSidebarActive();
 }
@@ -424,9 +364,27 @@ function updateSidebarActive(){
 }
 
 function selectAgent(id){
-  if(id === "dispatch"){ chatMode = "general"; selectedAgentId = "dispatch"; }
-  else { chatMode = "agent"; selectedAgentId = id; }
-  updateTopbar(); updateSidebarActive(); renderMessages(); renderHistory(); closeSidebar();
+  const agent = AGENT_MAP[id];
+  if(!agent) return;
+  
+  // Mostrar mensagem de especialidade do agente no chat
+  const specialtyMsg = `🎯 **${agent.name}** (${agent.role})\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 **Especialidade:** ${agent.specialty}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nAgora conversando diretamente com ${agent.name}. Descreva sua situação para receber ajuda especializada.`;
+  
+  if(id === "dispatch"){ 
+    chatMode = "general"; 
+    selectedAgentId = "dispatch"; 
+  } else { 
+    chatMode = "agent"; 
+    selectedAgentId = id;
+    // Adiciona mensagem de boas-vindas do agente no chat
+    messages.push({ type: "system", content: specialtyMsg });
+    renderMessages();
+  }
+  updateTopbar(); 
+  updateSidebarActive(); 
+  renderMessages(); 
+  renderHistory(); 
+  closeSidebar();
 }
 
 function updateTopbar(){
@@ -436,18 +394,28 @@ function updateTopbar(){
 }
 
 function renderHistory(){
-  const el = document.getElementById("historyList");
+  const el = document.getElementById("historyContainer");
   el.innerHTML = "";
   if(!sessions.length){
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>'; return;
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-hint);padding:8px 10px">Nenhuma sessão</div>'; 
+    return;
   }
   sessions.forEach(s => {
     const div = document.createElement("div");
     div.className = "history-item" + (s.id === currentSessionId && chatMode === "general" ? " active" : "");
     div.innerHTML = `<div class="history-date">${s.date}</div><div class="history-preview">${escapeHtml(s.preview)}</div>`;
-    div.onclick = () => { currentSessionId = s.id; messages = s.messages; chatMode = "general"; selectedAgentId = "dispatch"; updateTopbar(); updateSidebarActive(); renderMessages(); };
+    div.onclick = () => { 
+      currentSessionId = s.id; 
+      messages = s.messages; 
+      chatMode = "general"; 
+      selectedAgentId = "dispatch"; 
+      updateTopbar(); 
+      updateSidebarActive(); 
+      renderMessages(); 
+    };
     el.appendChild(div);
   });
+  if(sessions.length > 0) el.style.display = historyVisible ? "block" : "none";
 }
 
 function renderMessages(){
@@ -471,7 +439,9 @@ function renderMessages(){
         grid.appendChild(btn);
       });
     }
-  } else { currentMsgs.forEach((msg,i) => renderMsg(msg,i,inner)); }
+  } else { 
+    currentMsgs.forEach((msg,i) => renderMsg(msg,i,inner)); 
+  }
   
   if(loading){
     const row = document.createElement("div"); row.className = "msg-agent";
@@ -486,11 +456,15 @@ function renderMessages(){
 function renderMsg(msg, i, container){
   if(msg.type === "system"){
     const d = document.createElement("div"); d.className = "system-msg";
-    d.innerHTML = `<span class="system-badge">${escapeHtml(msg.content)}</span>`; container.appendChild(d); return;
+    d.innerHTML = `<span class="system-badge">${escapeHtml(msg.content)}</span>`; 
+    container.appendChild(d); 
+    return;
   }
   if(msg.type === "user"){
     const d = document.createElement("div"); d.className = "msg-user";
-    d.innerHTML = `<div class="msg-user-bubble">${escapeHtml(msg.content)}</div>`; container.appendChild(d); return;
+    d.innerHTML = `<div class="msg-user-bubble">${escapeHtml(msg.content)}</div>`; 
+    container.appendChild(d); 
+    return;
   }
   if(msg.type === "agent"){
     const a = AGENT_MAP[msg.agentId] || AGENT_MAP["dispatch"];
@@ -504,12 +478,17 @@ function renderMsg(msg, i, container){
         </div>
         <div class="msg-agent-text">${renderMD(msg.content)}</div>
       </div>`;
-    container.appendChild(d); return;
+    container.appendChild(d); 
+    return;
   }
   if(msg.type === "dispatch"){
     if(msg.agents && msg.agents.length){
       const row = document.createElement("div"); row.className = "dispatch-row";
-      row.innerHTML = msg.agents.map(id => { const a = AGENT_MAP[id]; if(!a) return ""; return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`; }).join("");
+      row.innerHTML = msg.agents.map(id => { 
+        const a = AGENT_MAP[id]; 
+        if(!a) return ""; 
+        return `<span class="dispatch-badge" style="background:${a.bg};color:${a.color}">${a.icon} ${a.name}</span>`; 
+      }).join("");
       container.appendChild(row);
     }
     if(msg.conversation && msg.conversation.length){
@@ -562,7 +541,6 @@ async function sendMessage(){
 
   try {
     const raw = await callGroq(history, SYSTEM.dispatch);
-    
     let parsed;
     let agentsList = [];
     let conversationList = [];
