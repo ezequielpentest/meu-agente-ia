@@ -1,5 +1,95 @@
 import { useState, useRef, useEffect } from "react";
 
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
+const ACCESS_PASSWORD = "Ray@1997"; // Troque para sua senha
+
+function LoginScreen({ onLogin }) {
+  const [pwd, setPwd] = useState("");
+  const [error, setError] = useState("");
+  const [shake, setShake] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [blocked, setBlocked] = useState(false);
+  const inputRef = useRef(null);
+  useEffect(() => { inputRef.current?.focus(); }, []);
+
+  const handleLogin = () => {
+    if (blocked) return;
+    if (pwd === ACCESS_PASSWORD) {
+      sessionStorage.setItem("squad_auth", "1");
+      onLogin();
+    } else {
+      const next = attempts + 1;
+      setAttempts(next);
+      setError(next >= 5 ? "Muitas tentativas. Aguarde 30s." : "Acesso negado. Senha incorreta.");
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      setPwd("");
+      if (next >= 5) {
+        setBlocked(true);
+        setTimeout(() => { setBlocked(false); setAttempts(0); setError(""); }, 30000);
+      }
+    }
+  };
+
+  return (
+    <div style={{
+      height:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
+      background:"#050508",fontFamily:"'Share Tech Mono','Courier New',monospace",
+      position:"relative",overflow:"hidden",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+        @keyframes scanmove{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+        @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+        @keyframes fadein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes glow{0%,100%{opacity:1}50%{opacity:0.3}}
+        .lbox{animation:fadein 0.6s ease}
+        .shake{animation:shake 0.4s ease}
+      `}</style>
+      <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:"linear-gradient(#00ff88 1px,transparent 1px),linear-gradient(90deg,#00ff88 1px,transparent 1px)",backgroundSize:"40px 40px"}}/>
+      <div style={{position:"absolute",top:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg,transparent,#00ff8844,transparent)",animation:"scanmove 4s linear infinite",pointerEvents:"none"}}/>
+      <div className={`lbox${shake?" shake":""}`} style={{
+        width:380,padding:"40px 36px",background:"#08080e",
+        border:"1px solid #00ff8830",borderRadius:12,
+        boxShadow:"0 0 60px #00ff8810,0 0 120px #00ff8806",position:"relative",
+      }}>
+        <div style={{position:"absolute",top:0,left:20,right:20,height:1,background:"linear-gradient(90deg,transparent,#00ff8866,transparent)"}}/>
+        <div style={{textAlign:"center",marginBottom:32}}>
+          <div style={{width:56,height:56,borderRadius:14,margin:"0 auto 16px",background:"linear-gradient(135deg,#00ff8820,#0088ff20)",border:"1px solid #00ff8840",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,boxShadow:"0 0 30px #00ff8820"}}>⚡</div>
+          <div style={{fontSize:16,fontWeight:900,color:"#00ff88",letterSpacing:4,fontFamily:"'Orbitron',monospace",marginBottom:4}}>PENTEST SQUAD</div>
+          <div style={{fontSize:9,color:"#334433",letterSpacing:3}}>ACESSO RESTRITO • AUTORIZADO APENAS</div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:24,padding:"8px 12px",background:"#0a1a0a",borderRadius:6,border:"1px solid #0a2a0a"}}>
+          <div style={{width:6,height:6,borderRadius:"50%",background:"#00ff88",boxShadow:"0 0 6px #00ff88",animation:"glow 2s infinite"}}/>
+          <span style={{fontSize:10,color:"#334433",letterSpacing:1}}>SISTEMA OPERACIONAL • AGUARDANDO AUTENTICAÇÃO</span>
+        </div>
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:9,color:"#334433",letterSpacing:2,marginBottom:8}}>SENHA DE ACESSO</div>
+          <input
+            ref={inputRef} type="password" value={pwd}
+            onChange={e=>{setPwd(e.target.value);setError("");}}
+            onKeyDown={e=>e.key==="Enter"&&handleLogin()}
+            placeholder="••••••••" disabled={blocked}
+            style={{width:"100%",background:"#050508",border:`1px solid ${error?"#ff444440":"#0a2a0a"}`,borderRadius:8,padding:"12px 14px",color:"#aaccaa",fontSize:14,fontFamily:"inherit",outline:"none",boxSizing:"border-box",letterSpacing:4,opacity:blocked?0.5:1}}
+          />
+        </div>
+        {error&&<div style={{fontSize:10,color:"#ff4444",background:"#ff000010",border:"1px solid #ff444420",borderRadius:6,padding:"8px 12px",marginBottom:16,letterSpacing:1}}>⚠ {error}</div>}
+        <button onClick={handleLogin} disabled={blocked||!pwd} style={{
+          width:"100%",padding:"13px",borderRadius:8,border:"1px solid #00ff8840",
+          background:(blocked||!pwd)?"#08080e":"linear-gradient(135deg,#001a00,#0a2a0a)",
+          color:(blocked||!pwd)?"#334433":"#00ff88",
+          cursor:(blocked||!pwd)?"not-allowed":"pointer",
+          fontSize:12,fontFamily:"'Orbitron',monospace",fontWeight:"bold",letterSpacing:3,
+          boxShadow:(blocked||!pwd)?"none":"0 0 20px #00ff8815",transition:"all 0.2s",
+        }}>{blocked?"AGUARDE...":"AUTENTICAR"}</button>
+        <div style={{marginTop:24,textAlign:"center",fontSize:9,color:"#1a2a1a",letterSpacing:1}}>EZEQUIEL CYBER SQUAD v3.0 • USO EXCLUSIVO DO OPERADOR</div>
+      </div>
+    </div>
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+
 const AGENTS = [
   { id: "dispatch", name: "NEXUS", role: "Mission Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto. Coordena handoffs e conversas entre agentes." },
   { id: "commander", name: "Rex", role: "Squad Commander", team: "red", icon: "⚔️", color: "#ff4444", specialty: "Estratégia ofensiva, metodologias PTES/OWASP/OSSTMM, coordenação de operações complexas de pentest." },
@@ -36,7 +126,7 @@ const REPOS = {
 const AGENT_MAP = AGENTS.reduce((acc, a) => { acc[a.id] = a; return acc; }, {});
 
 async function callClaude(messages, systemPrompt) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  const res = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -47,6 +137,7 @@ async function callClaude(messages, systemPrompt) {
     }),
   });
   const data = await res.json();
+  if (data.error) throw new Error(data.error);
   return data.content?.[0]?.text || "Erro ao processar.";
 }
 
@@ -102,7 +193,7 @@ REGRAS:
 - Ética: apenas ambientes autorizados, CTFs e labs
 - Para GitHub: gere conteúdo markdown profissional pronto para copiar`;
 
-export default function App() {
+function App() {
   const [messages, setMessages] = useState([{
     type: "system",
     content: "NEXUS online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
@@ -563,4 +654,10 @@ export default function App() {
       </div>
     </div>
   );
+}
+
+export default function AppWithLogin() {
+  const [auth, setAuth] = useState(() => sessionStorage.getItem("squad_auth") === "1");
+  if (!auth) return <LoginScreen onLogin={() => setAuth(true)} />;
+  return <App />;
 }
