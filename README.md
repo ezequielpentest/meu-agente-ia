@@ -35,6 +35,9 @@
 
 **Blue Team:** Forge, Atlas, Sentinel
 
+<img width="1097" height="902" alt="image" src="https://github.com/user-attachments/assets/df844498-5167-42f1-b2e1-a7da908377d9" />
+
+
 ## 📝 License
 
 MIT
