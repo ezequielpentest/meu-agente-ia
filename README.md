@@ -1,27 +1,45 @@
-# ⚡ Ezequiel Pentest Squad v3
+# ⚡ Pentest Forge
 
-## Estrutura do repositório
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare)](https://pages.cloudflare.com)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org)
 
-```
-meu-agente-ia/
-├── functions/
-│   └── api/
-│       └── claude.js   ← Proxy seguro para API Anthropic
-├── public/
-│   └── index.html      ← App completo
+**AI-powered cybersecurity assistant with 24 specialized agents**
+
+## 🎯 Quick Start
+
+1. Fork this repository
+2. Deploy on Cloudflare Pages
+3. Add `ANTHROPIC_API_KEY` as environment variable
+4. Access your AI squad at `your-project.pages.dev`
+
+## 📁 Structure
+├── functions/api/claude.js
+
+├── public/index.html 
+
 └── README.md
-```
 
-## Configurar API Key no Cloudflare
 
-1. dash.cloudflare.com → Workers & Pages → meu-agente-ia
-2. Settings → Environment variables
-3. Add variable:
-   - Nome: `ANTHROPIC_API_KEY`
-   - Valor: sua chave `sk-ant-...`
-   - Marcar como **Encrypted** ✓
-4. Save → Redeploy
 
-## Agentes
+## 🔧 Environment Variables
 
-24 agentes especializados em pentest, red team, blue team e suporte a estudos.
+| Variable | Required |
+|----------|----------|
+| `ANTHROPIC_API_KEY` | ✅ Yes |
+
+## 🤖 Agents
+
+**Red Team:** Rex, Ghost, Phantom, Shadow, Viper, Cipher, Wraith, Dominator, Echo
+
+**Specialists:** B0F, Escalon, Tux, Syntax, Airwave, Scribe, Scholar, FlagHunter, OscarP
+
+**Blue Team:** Forge, Atlas, Sentinel
+
+## 📝 License
+
+MIT
+
+---
+
+**Author:** [Ezequiel Amorim](https://github.com/ezequielamorim)
+**Linkedin:** [Ezequiel Amorim](https://br.linkedin.com/in/ezequiel-amorim)
