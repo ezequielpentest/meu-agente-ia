@@ -1,256 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pentest Forge</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #050508; font-family: 'Share Tech Mono', monospace; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    
-    .login-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, #0a0a14 0%, #020204 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      transition: opacity 0.5s ease;
-    }
-    .login-box {
-      background: #08080e;
-      border: 1px solid #0a2a0a;
-      border-radius: 16px;
-      padding: 40px;
-      width: 380px;
-      box-shadow: 0 0 60px rgba(0,255,136,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
-      animation: fadeInUp 0.6s ease;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .login-icon { text-align: center; font-size: 56px; margin-bottom: 20px; }
-    .login-title { text-align: center; font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; letter-spacing: 3px; color: #00ff88; margin-bottom: 8px; }
-    .login-sub { text-align: center; font-size: 10px; color: #334433; letter-spacing: 2px; margin-bottom: 30px; }
-    .input-group { margin-bottom: 20px; }
-    .input-group label { display: block; font-size: 10px; color: #00ff88; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
-    .input-group input { width: 100%; background: #0a0a0f; border: 1px solid #0a2a0a; border-radius: 8px; padding: 12px 14px; color: #aaccaa; font-size: 13px; font-family: 'Share Tech Mono', monospace; outline: none; transition: all 0.2s; }
-    .input-group input:focus { border-color: #00ff88; box-shadow: 0 0 12px rgba(0,255,136,0.2); }
-    .login-btn { width: 100%; background: linear-gradient(135deg, #001a00, #0a2a0a); border: 1px solid #00ff8840; border-radius: 8px; padding: 12px; color: #00ff88; font-family: 'Orbitron', monospace; font-size: 13px; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
-    .login-btn:hover:not(:disabled) { background: linear-gradient(135deg, #002a00, #0a3a0a); border-color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-    .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .error-msg { background: #330000; border: 1px solid #ff4444; border-radius: 6px; padding: 8px 12px; font-size: 10px; color: #ff8888; text-align: center; margin-top: 15px; display: none; }
-    .error-msg.show { display: block; animation: shake 0.3s ease; }
-    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ff4444; animation: pulse 1.5s infinite; margin-right: 6px; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-    
-    #root { display: none; height: 100vh; overflow: hidden; }
-    body.app-loaded #root { display: block; }
-    body.app-loaded .login-container { opacity: 0; visibility: hidden; pointer-events: none; }
-    
-    .md-h { color:#00ff88; font-weight:bold; margin:10px 0 4px; font-size:13px; }
-    .md-li { padding-left:14px; margin:3px 0; color:#aaccaa; }
-    pre { background: #0a0f0a; border: 1px solid #1a3a1a; border-radius: 6px; padding: 12px; overflow-x: auto; color: #00ff88; font-size: 11px; line-height: 1.6; margin: 8px 0; font-family: inherit; }
-    code { background: #0a0f0a; color: #00ff88; padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: inherit; }
-    .pulse { animation: pulse 2s infinite; }
-    .quick-btn:hover { background: #001a00 !important; color: #00ff88 !important; border-color: #00ff8844 !important; }
-  </style>
-</head>
-<body>
-
-<div class="login-container" id="loginContainer">
-  <div class="login-box">
-    <div class="login-icon">⚡</div>
-    <div class="login-title">PENTEST FORGE</div>
-    <div class="login-sub">◆ CYBER SQUAD ◆</div>
-    
-    <div class="input-group">
-      <label>🔐 USER</label>
-      <input type="text" id="username" placeholder="User" autocomplete="off">
-    </div>
-    
-    <div class="input-group">
-      <label>🗝️ PASSWORD</label>
-      <input type="password" id="password" placeholder="••••••••">
-    </div>
-    
-    <button class="login-btn" id="loginBtn">▶ System Access</button>
-    
-    <div class="error-msg" id="errorMsg">
-      <span class="status-dot"></span> ACESSO NEGADO • Credenciais inválidas
-    </div>
-  </div>
-</div>
-
-<div id="root"></div>
-
-<script type="module">
-import { createElement as h, useState, useRef, useEffect, Fragment } from 'https://esm.sh/react@18';
-import { createRoot } from 'https://esm.sh/react-dom@18/client';
-
-// ============= SISTEMA DE LOGIN COM API =============
-async function authenticate(username, password) {
-  try {
-    const response = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    
-    const data = await response.json();
-    return { success: response.ok && data.success, data };
-  } catch (error) {
-    console.error('Erro na autenticação:', error);
-    return { success: false, data: null };
-  }
-}
-
-function initLogin() {
-  const usernameInput = document.getElementById('username');
-  const passwordInput = document.getElementById('password');
-  const loginBtn = document.getElementById('loginBtn');
-  const errorMsg = document.getElementById('errorMsg');
-  
-  function showError() {
-    errorMsg.classList.add('show');
-    usernameInput.style.borderColor = '#ff4444';
-    passwordInput.style.borderColor = '#ff4444';
-    setTimeout(() => {
-      errorMsg.classList.remove('show');
-      usernameInput.style.borderColor = '';
-      passwordInput.style.borderColor = '';
-    }, 3000);
-  }
-  
-  async function attemptLogin() {
-    const user = usernameInput.value.trim();
-    const pass = passwordInput.value;
-    
-    if (!user || !pass) {
-      showError();
-      return;
-    }
-    
-    loginBtn.disabled = true;
-    loginBtn.textContent = '▶ VERIFICANDO...';
-    
-    const { success } = await authenticate(user, pass);
-    
-    if (success) {
-      sessionStorage.setItem('auth_user', user);
-      sessionStorage.setItem('auth_time', Date.now().toString());
-      document.body.classList.add('app-loaded');
-      initApp();
-    } else {
-      showError();
-      passwordInput.value = '';
-      passwordInput.focus();
-    }
-    
-    loginBtn.disabled = false;
-    loginBtn.textContent = '▶ System Access';
-  }
-  
-  loginBtn.addEventListener('click', attemptLogin);
-  
-  usernameInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') passwordInput.focus();
-  });
-  
-  passwordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') attemptLogin();
-  });
-  
-  const authUser = sessionStorage.getItem('auth_user');
-  const authTime = sessionStorage.getItem('auth_time');
-  if (authUser && authTime && (Date.now() - parseInt(authTime) < 28800000)) {
-    document.body.classList.add('app-loaded');
-    initApp();
-  }
-  
-  usernameInput.focus();
-}
-
-// ============= AGENTS DATA =============
-const AGENTS = [
-  { id: "dispatch", name: "NEXUS", role: "Mission Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto." },
-  { id: "commander", name: "Rex", role: "Squad Commander", team: "red", icon: "⚔️", color: "#ff4444", specialty: "Estratégia ofensiva, metodologias PTES/OWASP." },
-  { id: "ghost", name: "Ghost", role: "Recon & OSINT", team: "red", icon: "👁️", color: "#ff6600", specialty: "OSINT avançado, Shodan, theHarvester, Maltego." },
-  { id: "phantom", name: "Phantom", role: "Web Exploitation", team: "red", icon: "🕸️", color: "#ff8800", specialty: "SQLi, XSS, LFI, Burp Suite, OWASP Top 10." },
-  { id: "shadow", name: "Shadow", role: "Network Pentester", team: "red", icon: "🌐", color: "#ff5500", specialty: "Nmap, enumeração de serviços, pivoting." },
-  { id: "viper", name: "Viper", role: "Exploit Dev", team: "red", icon: "🐍", color: "#dd2200", specialty: "Desenvolvimento de exploits, CVEs, Searchsploit." },
-  { id: "cipher", name: "Cipher", role: "Password Attacks", team: "red", icon: "🔐", color: "#cc3300", specialty: "Hydra, Hashcat, John the Ripper." },
-  { id: "wraith", name: "Wraith", role: "Post-Exploitation", team: "red", icon: "💀", color: "#ff1100", specialty: "Meterpreter, shells, persistência." },
-  { id: "dominator", name: "Dominator", role: "Active Directory", team: "red", icon: "🏛️", color: "#ee3300", specialty: "Kerberoasting, BloodHound, DCSync." },
-  { id: "bof", name: "B0F", role: "Buffer Overflow", team: "specialist", icon: "🧠", color: "#ff44aa", specialty: "Buffer Overflow, fuzzing, shellcode." },
-  { id: "privesc", name: "Escalon", role: "Privilege Escalation", team: "specialist", icon: "🔑", color: "#ffcc00", specialty: "Linux/Windows privesc, LinPEAS, WinPEAS." },
-  { id: "tux", name: "Tux", role: "Linux Expert", team: "specialist", icon: "🐧", color: "#00cc44", specialty: "Linux avançado, bash, Kali Linux." },
-  { id: "syntax", name: "Syntax", role: "Scripting & Dev", team: "specialist", icon: "💻", color: "#aa44ff", specialty: "Python3, Bash, PowerShell, automação." },
-  { id: "scribe", name: "Scribe", role: "Report Writer", team: "specialist", icon: "📝", color: "#88aaff", specialty: "Relatórios DCPT/OSCP, CVSS scoring." },
-  { id: "gitops", name: "GitOps", role: "GitHub Agent", team: "core", icon: "🐙", color: "#8844ee", specialty: "Markdown para GitHub." },
-];
-
-const REPOS = [
-  { name: "ezequielpentest/scripts", url: "https://github.com/ezequielpentest/scripts", desc: "Scripts de pentest", prompt: "Cria um script Python para meu repositório scripts" },
-  { name: "ezequielpentest/htb-writeups", url: "https://github.com/ezequielpentest/htb-writeups", desc: "Writeups HTB", prompt: "Escreve um writeup HTB formatado" },
-  { name: "ezequielpentest/pentest-notas", url: "https://github.com/ezequielpentest/pentest-notas", desc: "Notas de pentest", prompt: "Gera notas de módulo Desec" },
-];
-
-const AGENT_MAP = AGENTS.reduce((acc, a) => { acc[a.id] = a; return acc; }, {});
-const TEAM_ORDER = ["core", "red", "specialist"];
-const TEAM_LABELS = { core: "◆ CORE", red: "◆ RED TEAM", specialist: "◆ SPECIALISTS" };
-const TEAM_COLORS = { core: "#00ff88", red: "#ff4444", specialist: "#ffaa00" };
-const QUICK_PROMPTS = [
-  "Web application reconnaissance: best approach?",
-  "Linux privilege escalation after initial foothold",
-  "Manual SQL injection exploitation deep dive",
-  "Writing professional HTB writeups for portfolio",
-  "Post-exploitation checklist after shell access",
-];
-
-const DISPATCHER_SYSTEM = `Você é NEXUS, dispatcher de elite do squad de pentest.
-Responda SEMPRE em português brasileiro com formato JSON:
-{
-  "agents": ["agent_id"],
-  "conversation": [{"agent": "agent_id", "message": "resposta técnica"}]
-}`;
-
-async function callAPI(messages) {
-  const res = await fetch("/api/claude", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1500,
-      system: DISPATCHER_SYSTEM,
-      messages,
-    }),
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message || data.error);
-  return data.content?.[0]?.text || "";
-}
-
-function renderMD(text) {
-  if (!text) return '';
-  let t = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  t = t.replace(/```[\w]*\n?([\s\S]*?)```/g, (_,c) => '<pre>' + c + '</pre>');
-  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
-  t = t.replace(/\*\*(.+?)\*\*/g, '<b style="color:#00ff88">$1</b>');
-  t = t.replace(/^#{1,3} (.+)$/gm, '<div class="md-h">$1</div>');
-  t = t.replace(/^- (.+)$/gm, '<div class="md-li">▸ $1</div>');
-  t = t.replace(/\n\n/g,'<br/><br/>').replace(/\n/g,'<br/>');
-  return t;
-}
-
 function App() {
   const [messages, setMessages] = useState([{ type: "system", content: "NEXUS online. Describe your situation." }]);
   const [input, setInput] = useState("");
@@ -264,35 +11,7 @@ function App() {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
   async function sendMessage() {
-    if (!input.trim() || loading) return;
-    const userText = input.trim();
-    setInput("");
-    setMessages(prev => [...prev, { type: "user", content: userText }]);
-    setLoading(true);
-
-    try {
-      const history = messages.filter(m => m.type === "user" || m.type === "agent_conversation").map(m => 
-        m.type === "user" ? { role: "user", content: m.content } : { role: "assistant", content: JSON.stringify(m.raw || "") }
-      );
-      history.push({ role: "user", content: userText });
-
-      const raw = await callAPI(history);
-      let parsed;
-      try {
-        const match = raw.match(/\{[\s\S]*\}/);
-        parsed = JSON.parse(match ? match[0] : raw);
-      } catch {
-        parsed = { agents: ["dispatch"], conversation: [{ agent: "dispatch", message: raw }] };
-      }
-
-      const involved = (parsed.agents || []).map(id => AGENT_MAP[id]).filter(Boolean);
-      if (involved.length > 0) setActiveAgents(involved);
-      setMessages(prev => [...prev, { type: "agent_conversation", agents: parsed.agents || [], conversation: parsed.conversation || [], raw: parsed }]);
-    } catch (err) {
-      setMessages(prev => [...prev, { type: "agent_conversation", agents: ["dispatch"], conversation: [{ agent: "dispatch", message: `Erro: ${err.message}` }], raw: {} }]);
-    }
-    setLoading(false);
-    inputRef.current?.focus();
+    // ... seu código existente
   }
 
   const filteredAgents = AGENTS.filter(a => !search || [a.name, a.role, a.specialty].some(s => s.toLowerCase().includes(search.toLowerCase())));
@@ -308,18 +27,6 @@ function App() {
         )
       ),
       h('div', { style: { fontSize: 10, color: '#00ff88' } }, '🟢 OPERATIONAL')
-    ),
-    
-    // BOTÕES RÁPIDOS (corrigido - fora do header)
-    h('div', { style: { padding: '12px 20px', display: 'flex', gap: 8, flexWrap: 'wrap', borderBottom: '1px solid #0a2a0a', background: '#050508' } },
-      ...QUICK_PROMPTS.map(p => 
-        h('button', { 
-          key: p, 
-          className: 'quick-btn',
-          onClick: () => { setInput(p); inputRef.current?.focus(); }, 
-          style: { background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 20, padding: '6px 14px', fontSize: 10, color: '#667766', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' } 
-        }, p.length > 45 ? p.slice(0, 45) + '...' : p)
-      )
     ),
     
     // SIDEBAR + CHAT
@@ -380,6 +87,19 @@ function App() {
             }
             return null;
           }),
+          
+          // ✅ BOTÕES RÁPIDOS - Aparecem apenas quando não há mensagens do usuário
+          messages.length === 1 && h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, maxWidth: 600, margin: '20px auto 0' } },
+            ...QUICK_PROMPTS.map(p => 
+              h('button', { 
+                key: p, 
+                className: 'quick-btn',
+                onClick: () => { setInput(p); inputRef.current?.focus(); }, 
+                style: { background: '#08080e', border: '1px solid #0a2a0a', borderRadius: 8, padding: '10px 12px', cursor: 'pointer', textAlign: 'left', fontSize: 11, color: '#556677', fontFamily: 'inherit', lineHeight: 1.5, transition: 'all 0.2s' } 
+              }, p.length > 50 ? p.slice(0, 50) + '...' : p)
+            )
+          ),
+          
           loading && h('div', { style: { display: 'flex', gap: 10, alignItems: 'center' } },
             h('div', { style: { width: 34, height: 34, borderRadius: 8, background: '#00ff8815', border: '1px solid #00ff8840', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 } }, '🧬'),
             h('div', { style: { background: '#08080e', border: '1px solid #00ff8820', borderRadius: 10, padding: '10px 14px' } },
@@ -398,12 +118,3 @@ function App() {
     )
   );
 }
-
-function initApp() {
-  createRoot(document.getElementById('root')).render(h(App));
-}
-
-initLogin();
-</script>
-</body>
-</html>
