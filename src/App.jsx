@@ -195,6 +195,76 @@ REGRAS:
 - Ética: apenas ambientes autorizados, CTFs e labs
 - Para GitHub: gere conteúdo markdown profissional pronto para copiar`;
 
+// ── Renderizador de Markdown simples ─────────────────────────────────────────
+function renderMarkdown(text) {
+  if (!text) return null;
+  const lines = text.split("\n");
+  const elements = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // Bloco de código ```
+    if (line.trim().startsWith("```")) {
+      const lang = line.trim().slice(3).trim();
+      const codeLines = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      elements.push(
+        <div key={i} style={{ position: "relative", margin: "10px 0" }}>
+          {lang && <div style={{ fontSize: 9, color: "#00ff8888", background: "#0a1a0a", padding: "3px 10px", borderRadius: "6px 6px 0 0", borderTop: "1px solid #1a3a1a", borderLeft: "1px solid #1a3a1a", borderRight: "1px solid #1a3a1a", fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{lang}</div>}
+          <pre style={{ margin: 0, borderRadius: lang ? "0 0 6px 6px" : "6px" }}>{codeLines.join("\n")}</pre>
+        </div>
+      );
+    }
+    // Título ##
+    else if (line.startsWith("## ")) {
+      elements.push(<div key={i} style={{ fontSize: 13, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(3)}</div>);
+    }
+    else if (line.startsWith("# ")) {
+      elements.push(<div key={i} style={{ fontSize: 14, color: "#00ff88", fontWeight: "bold", marginTop: 12, marginBottom: 4, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>{line.slice(2)}</div>);
+    }
+    // Linha horizontal ---
+    else if (line.trim() === "---") {
+      elements.push(<div key={i} style={{ height: 1, background: "#0a2a0a", margin: "10px 0" }} />);
+    }
+    // Item de lista - ou *
+    else if (line.match(/^[\-\*] /)) {
+      elements.push(
+        <div key={i} style={{ display: "flex", gap: 8, marginBottom: 3 }}>
+          <span style={{ color: "#00ff88", flexShrink: 0 }}>▸</span>
+          <span>{inlineFormat(line.slice(2))}</span>
+        </div>
+      );
+    }
+    // Linha vazia
+    else if (line.trim() === "") {
+      elements.push(<div key={i} style={{ height: 6 }} />);
+    }
+    // Texto normal
+    else {
+      elements.push(<div key={i} style={{ marginBottom: 2 }}>{inlineFormat(line)}</div>);
+    }
+    i++;
+  }
+  return elements;
+}
+
+function inlineFormat(text) {
+  // **bold** e `code` inline
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("`") && part.endsWith("`"))
+      return <code key={i}>{part.slice(1, -1)}</code>;
+    if (part.startsWith("**") && part.endsWith("**"))
+      return <strong key={i} style={{ color: "#00ff88" }}>{part.slice(2, -2)}</strong>;
+    return part;
+  });
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function App() {
   const [messages, setMessages] = useState([{
     type: "system",
@@ -668,8 +738,8 @@ function App() {
                               <span style={{ fontSize: 9, color: "#445" }}>{agent.role}</span>
                               <div style={{ width: 4, height: 4, borderRadius: "50%", background: agent.color, marginLeft: "auto", boxShadow: `0 0 4px ${agent.color}` }} />
                             </div>
-                            <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>
-                              {conv.message}
+                            <div style={{ fontSize: 12, color: "#b0c0b0", lineHeight: 1.8 }}>
+                              {renderMarkdown(conv.message)}
                             </div>
                           </div>
                         </div>
