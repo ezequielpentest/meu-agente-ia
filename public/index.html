@@ -521,6 +521,24 @@ function renderMsg(msg, i, container){
   }
 }
 
+// ============= API GROQ (CORRIGIDO) =============
+async function callGroq(history, system){
+  const res = await fetch("/api/groq", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: history,
+      system: system,
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+      max_tokens: 1200
+    })
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
+  return data.content?.[0]?.text || "";
+}
+
 // SEND
 async function sendMessage(){
   const input = document.getElementById("inputBox");
@@ -538,11 +556,12 @@ async function sendMessage(){
     renderMessages();
     const history = updated.map(m => ({ role:m.type==="user"?"user":"assistant", content:m.content }));
     try {
-      const reply = await callClaude(history, SYSTEM[selectedAgentId] || SYSTEM.dispatch);
+      const reply = await callGroq(history, SYSTEM[selectedAgentId] || SYSTEM.dispatch);
       agentChats[selectedAgentId] = [...updated, { type:"agent", agentId:selectedAgentId, content:reply }];
       localStorage.setItem("pf_agent_chats", JSON.stringify(agentChats));
     } catch(e) {
-      agentChats[selectedAgentId] = [...updated, { type:"agent", agentId:"dispatch", content:"❌ Erro de conexão com a API. Verifique o worker /api/claude e os créditos Anthropic." }];
+      console.error(e);
+      agentChats[selectedAgentId] = [...updated, { type:"agent", agentId:"dispatch", content:"❌ Erro de conexão com a API Groq. Verifique o worker /api/groq e a chave GROQ_API_KEY." }];
     }
     loading = false;
     renderMessages();
@@ -559,7 +578,7 @@ async function sendMessage(){
     .map(m => m.type==="user" ? { role:"user", content:m.content } : { role:"assistant", content:m.raw||"..." });
 
   try {
-    const raw = await callClaude(history, SYSTEM.dispatch);
+    const raw = await callGroq(history, SYSTEM.dispatch);
     let parsed;
     try {
       const match = raw.match(/\{[\s\S]*\}/);
@@ -573,22 +592,12 @@ async function sendMessage(){
     sessions = [sessionData, ...sessions.filter(s=>s.id!==currentSessionId)].slice(0,30);
     localStorage.setItem("pf_sessions", JSON.stringify(sessions));
   } catch(e) {
-    messages.push({ type:"dispatch", agents:["dispatch"], conversation:[{ agent:"dispatch", message:"❌ Erro de conexão. Verifique o worker /api/claude e os créditos da conta Anthropic." }] });
+    console.error(e);
+    messages.push({ type:"dispatch", agents:["dispatch"], conversation:[{ agent:"dispatch", message:"❌ Erro de conexão com a API Groq. Verifique o worker /api/groq e a chave GROQ_API_KEY." }] });
   }
   loading = false;
   renderMessages();
   renderHistory();
-}
-
-async function callClaude(history, system){
-  const res = await fetch("/api/claude", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1200, system, messages:history })
-  });
-  const data = await res.json();
-  if(data.error) throw new Error(JSON.stringify(data.error));
-  return data.content?.[0]?.text || "";
 }
 
 function newChat(){
