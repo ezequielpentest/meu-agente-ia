@@ -91,7 +91,7 @@ function LoginScreen({ onLogin }) {
 
 
 const AGENTS = [
-  { id: "dispatch", name: "NEXUS", role: "Mission Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto. Coordena handoffs e conversas entre agentes." },
+  { id: "dispatch", name: "EZEIA", role: "Command Dispatcher", team: "core", icon: "🧬", color: "#00ff88", specialty: "Analisa situações e despacha o agente especialista correto. Coordena handoffs e conversas entre agentes." },
   { id: "commander", name: "Rex", role: "Squad Commander", team: "red", icon: "⚔️", color: "#ff4444", specialty: "Estratégia ofensiva, metodologias PTES/OWASP/OSSTMM, coordenação de operações complexas de pentest." },
   { id: "ghost", name: "Ghost", role: "Recon & OSINT", team: "red", icon: "👁️", color: "#ff6600", specialty: "OSINT avançado, reconhecimento passivo/ativo, Shodan, theHarvester, Maltego, Google Dorks, subfinder, amass." },
   { id: "phantom", name: "Phantom", role: "Web Exploitation", team: "red", icon: "🕸️", color: "#ff8800", specialty: "SQLi manual (error/blind/time-based), XSS stored/reflected, LFI/RFI, File Upload bypass, Burp Suite, OWASP Top 10, WordPress/Joomla/PHP." },
@@ -141,7 +141,7 @@ async function callClaude(messages, systemPrompt) {
   return data.content?.[0]?.text || "Erro ao processar.";
 }
 
-const DISPATCHER_SYSTEM = `Você é NEXUS, o dispatcher de elite do squad de pentest de Ezequiel.
+const DISPATCHER_SYSTEM = `Você é EZEIA, o núcleo de coordenação e automação do squad de pentest de Ezequiel.
 
 Sua função:
 1. Analisar a mensagem do usuário
@@ -266,7 +266,7 @@ function inlineFormat(text) {
 function Squad() {
   const [messages, setMessages] = useState([{
     type: "system",
-    content: "NEXUS online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
+    content: "EZEIA online. Descreva sua situação — identificarei o agente ideal e coordenarei o time necessário."
   }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -274,6 +274,7 @@ function Squad() {
   const [activeAgents, setActiveAgents] = useState([AGENT_MAP["dispatch"]]);
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [pinnedAgent, setPinnedAgent] = useState(null); // agente fixado pelo usuário
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -298,7 +299,14 @@ function Squad() {
 
       history.push({ role: "user", content: userText });
 
-      const raw = await callClaude(history, DISPATCHER_SYSTEM);
+      // Se tem agente fixado, manda direto para ele sem passar pelo dispatcher
+      let raw;
+      if (pinnedAgent && pinnedAgent.id !== "dispatch") {
+        const agentSystem = `Você é ${pinnedAgent.name}, ${pinnedAgent.role} do squad de pentest de Ezequiel.\n\nSua especialidade: ${pinnedAgent.specialty}\n\nREGRAS:\n- Responda SEMPRE em português brasileiro\n- Seja EXTREMAMENTE técnico e detalhado\n- Mostre comandos reais com explicação\n- Ética: apenas ambientes autorizados, CTFs e labs\n\nFORMATO OBRIGATÓRIO — responda EXATAMENTE neste JSON:\n{\n  "agents": ["${pinnedAgent.id}"],\n  "reasoning": "agente fixado pelo usuário",\n  "conversation": [{"agent": "${pinnedAgent.id}", "message": "sua resposta técnica aqui"}]\n}`;
+        raw = await callClaude(history, agentSystem);
+      } else {
+        raw = await callClaude(history, DISPATCHER_SYSTEM);
+      }
 
       let parsed;
       try {
@@ -504,11 +512,11 @@ function Squad() {
                       {agents.map(agent => {
                         const isActive = activeAgents.some(a => a.id === agent.id);
                         return (
-                          <div key={agent.id} className="agent-card" style={{
+                          <div key={agent.id} className="agent-card" onClick={() => setPinnedAgent(pinnedAgent?.id === agent.id ? null : agent)} style={{
                             display: "flex", alignItems: "center", gap: 8,
-                            padding: "7px 10px", cursor: "default",
-                            background: isActive ? agent.color + "10" : "transparent",
-                            borderLeft: isActive ? `2px solid ${agent.color}` : "2px solid transparent",
+                            padding: "7px 10px", cursor: "pointer",
+                            background: pinnedAgent?.id === agent.id ? agent.color + "25" : isActive ? agent.color + "10" : "transparent",
+                            borderLeft: pinnedAgent?.id === agent.id ? `2px solid ${agent.color}` : isActive ? `2px solid ${agent.color}` : "2px solid transparent",
                             transition: "all 0.15s",
                           }}>
                             <div style={{ width: 22, height: 22, borderRadius: 4, background: agent.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, flexShrink: 0 }}>{agent.icon}</div>
@@ -516,7 +524,10 @@ function Squad() {
                               <div style={{ fontSize: 11, color: isActive ? agent.color : "#667766", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.name}</div>
                               <div style={{ fontSize: 9, color: "#334433", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{agent.role}</div>
                             </div>
-                            {isActive && <div style={{ width: 5, height: 5, borderRadius: "50%", background: agent.color, marginLeft: "auto", flexShrink: 0, boxShadow: `0 0 4px ${agent.color}` }} className="pulse" />}
+                            {pinnedAgent?.id === agent.id
+                              ? <div style={{ fontSize: 9, color: agent.color, marginLeft: "auto", flexShrink: 0, letterSpacing: 1 }}>📌</div>
+                              : isActive && <div style={{ width: 5, height: 5, borderRadius: "50%", background: agent.color, marginLeft: "auto", flexShrink: 0, boxShadow: `0 0 4px ${agent.color}` }} className="pulse" />
+                            }
                           </div>
                         );
                       })}
@@ -650,7 +661,7 @@ function Squad() {
               <div style={{ marginTop: 20 }}>
                 <div style={{ textAlign: "center", marginBottom: 24 }}>
                   <div style={{ fontSize: 32, marginBottom: 8 }}>🧬</div>
-                  <div style={{ fontSize: 14, color: "#00ff88", fontFamily: "'Orbitron', monospace", letterSpacing: 2, marginBottom: 4 }}>NEXUS DISPATCHER</div>
+                  <div style={{ fontSize: 14, color: "#00ff88", fontFamily: "'Orbitron', monospace", letterSpacing: 2, marginBottom: 4 }}>EZEIA</div>
                   <div style={{ fontSize: 11, color: "#445", maxWidth: 400, margin: "0 auto", lineHeight: 1.8 }}>
                     Descreva sua situação em linguagem natural. O sistema identificará o agente ideal e coordenará o time.
                   </div>
@@ -698,7 +709,7 @@ function Squad() {
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <div style={{ height: 1, flex: 1, background: "linear-gradient(90deg, transparent, #0a2a0a)" }} />
                         <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                          <span style={{ fontSize: 9, color: "#334433" }}>NEXUS → </span>
+                          <span style={{ fontSize: 9, color: "#334433" }}>EZEIA → </span>
                           {convAgents.map(a => (
                             <span key={a.id} style={{
                               fontSize: 9, padding: "2px 8px", borderRadius: 10,
@@ -760,7 +771,7 @@ function Squad() {
                   background: "#08080e", border: "1px solid #00ff8820",
                   borderRadius: "2px 10px 10px 10px", padding: "10px 14px",
                 }}>
-                  <div style={{ fontSize: 10, color: "#00ff88", marginBottom: 6, fontFamily: "'Orbitron', monospace", letterSpacing: 1 }}>NEXUS</div>
+                  <div style={{ fontSize: 10, color: "#00ff88", marginBottom: 6, fontFamily: "'Orbitron', monospace", letterSpacing: 1 }}>EZEIA</div>
                   <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
                     {[0, 1, 2].map(i => (
                       <div key={i} style={{
@@ -783,6 +794,25 @@ function Squad() {
             borderTop: "1px solid #0a2a0a",
             position: "relative", zIndex: 1,
           }}>
+            {/* Banner agente fixado */}
+            {pinnedAgent && pinnedAgent.id !== "dispatch" && (
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8,
+                background: pinnedAgent.color + "15",
+                border: `1px solid ${pinnedAgent.color}40`,
+                borderRadius: 6, padding: "6px 12px", marginBottom: 10,
+              }}>
+                <span style={{ fontSize: 14 }}>{pinnedAgent.icon}</span>
+                <span style={{ fontSize: 10, color: pinnedAgent.color, fontFamily: "'Orbitron',monospace", letterSpacing: 1 }}>
+                  📌 {pinnedAgent.name} fixado
+                </span>
+                <span style={{ fontSize: 9, color: "#445", flex: 1 }}>{pinnedAgent.role}</span>
+                <button onClick={() => setPinnedAgent(null)} style={{
+                  background: "none", border: "none", color: "#445",
+                  cursor: "pointer", fontSize: 12, padding: "0 4px",
+                }} title="Soltar agente">✕</button>
+              </div>
+            )}
             <div style={{ position: "absolute", top: 0, left: 20, right: 20, height: 1, background: "linear-gradient(90deg, transparent, #00ff8822, transparent)" }} />
             <div style={{ display: "flex", gap: 10 }}>
               <div style={{ position: "relative", flex: 1 }}>
@@ -792,7 +822,7 @@ function Squad() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder="Descreva sua situação..."
+                  placeholder={pinnedAgent && pinnedAgent.id !== "dispatch" ? `Fale direto com ${pinnedAgent.name}...` : "Descreva sua situação... EZEIA escolhe o agente"}
                   className="mob-input"
                   style={{
                     width: "100%", background: "#08080e",
